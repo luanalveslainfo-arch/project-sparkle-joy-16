@@ -494,7 +494,7 @@ function RootComponent() {
   }, []);
 
   const copyCoupon = () => {
-    navigator.clipboard.writeText("ARCANE5");
+    navigator.clipboard.writeText("ARCANES");
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000);
   };
@@ -631,39 +631,46 @@ function RootComponent() {
       {/* Welcome Pop-up */}
       {showModal && (
         <div className="fixed inset-0 z-[10002] flex items-center justify-center p-4 pointer-events-auto">
-          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={handleCloseModal} />
-          <div className="relative bg-zinc-950 border border-zinc-800 p-8 md:p-12 max-w-lg w-full text-center space-y-8 animate-in fade-in zoom-in duration-300">
+          <div className="absolute inset-0 bg-black/90 backdrop-blur-md" onClick={handleCloseModal} />
+          <div className="relative bg-zinc-950 border border-zinc-800 border-t-2 border-t-red-600 max-w-md w-full p-8 shadow-2xl shadow-red-950/20 animate-in fade-in zoom-in duration-300">
             <button 
               onClick={handleCloseModal}
-              className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors"
+              className="absolute top-4 right-4 text-zinc-500 hover:text-red-500 transition-colors cursor-pointer"
+              aria-label="Fechar"
             >
               <X size={20} />
             </button>
-            <div className="space-y-4">
-              <h2 className="text-4xl md:text-5xl font-black tracking-widest text-white font-sans uppercase">
-                BEM-VINDO AO DROP ARCANO
-              </h2>
-              <p className="text-zinc-400 text-sm uppercase tracking-widest leading-relaxed">
-                Garanta 5% de desconto na sua primeira compra usando o cupom abaixo:
-              </p>
-            </div>
             
-            <div className="flex items-center justify-between bg-zinc-900 border border-zinc-800 p-4 rounded-sm group">
-              <span className="font-mono text-xl font-bold tracking-widest text-white">ARCANE5</span>
+            <div className="text-center">
+              <span className="text-[10px] text-red-600 tracking-[0.3em] font-mono uppercase mb-2 block">
+                [ PRIMEIRO DROP /// ARCANE ]
+              </span>
+              
+              <h2 className="text-2xl md:text-3xl font-extrabold tracking-[0.2em] text-zinc-100 uppercase font-serif mb-3">
+                BEM-VINDO À ARCANE
+              </h2>
+              
+              <p className="text-xs text-zinc-400 tracking-wider uppercase font-sans leading-relaxed mb-6">
+                GARANTA 5% DE DESCONTO NA SUA PRIMEIRA ARMADURA USANDO O CÓDIGO ABAIXO:
+              </p>
+              
+              <div className="flex items-center justify-between bg-zinc-900/90 border border-zinc-800 p-2 pl-4 my-4">
+                <span className="font-mono text-xl font-black text-red-500 tracking-[0.25em]">ARCANES</span>
+                <button 
+                  onClick={copyCoupon}
+                  className="bg-zinc-100 text-black font-bold uppercase text-xs tracking-widest px-5 py-2.5 hover:bg-red-700 hover:text-white transition-all duration-200"
+                >
+                  {isCopied ? "COPIADO" : "COPIAR"}
+                </button>
+              </div>
+
               <button 
-                onClick={copyCoupon}
-                className="bg-white text-black px-4 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-zinc-200 transition-colors"
+                onClick={handleCloseModal}
+                className="w-full text-[11px] text-zinc-500 hover:text-zinc-300 uppercase tracking-[0.2em] pt-4 transition-colors"
               >
-                {isCopied ? "COPIADO" : "COPIAR"}
+                CONTINUAR PARA A LOJA
               </button>
             </div>
-
-            <button 
-              onClick={handleCloseModal}
-              className="w-full border border-zinc-700 text-zinc-400 py-4 text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-black hover:border-white transition-all duration-300"
-            >
-              FECHAR E EXPLORAR
-            </button>
           </div>
         </div>
       )}
