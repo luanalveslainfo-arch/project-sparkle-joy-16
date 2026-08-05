@@ -123,32 +123,75 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function GlobalCartDrawer() {
-  const { cart, isCartOpen, setIsCartOpen, removeFromCart, updateQuantity, cartTotal, remainingForFreeShipping, freeShippingProgress, activeCoupon, discountValue, applyCoupon, removeCoupon } = useCartStore();
+  const { 
+    cart, 
+    isCartOpen, 
+    setIsCartOpen, 
+    removeFromCart, 
+    updateQuantity, 
+    cartTotal, 
+    remainingForFreeShipping, 
+    freeShippingProgress, 
+    activeCoupon, 
+    discountValue, 
+    applyCoupon, 
+    removeCoupon,
+    savedCep,
+    savedShippingCost,
+    setSavedCep,
+    setSavedShippingCost
+  } = useCartStore();
+  
   const [couponInput, setCouponInput] = useState("");
-  const [cep, setCep] = useState('');
-  const [shippingCost, setShippingCost] = useState<number | null>(null);
   const [cepError, setCepError] = useState<string | null>(null);
+  const [isCalculating, setIsCalculating] = useState(false);
 
-  const calculateShipping = (value: string) => {
+  // Mask and Normalize CEP
+  const formatCep = (value: string) => {
+    const digits = value.replace(/\D/g, '').slice(0, 8);
+    if (digits.length <= 5) return digits;
+    return `${digits.slice(0, 5)}-${digits.slice(5)}`;
+  };
+
+  const calculateShipping = async (value: string) => {
     const cleanCep = value.replace(/\D/g, '');
+    
     if (cleanCep.length === 8) {
-      // Simulação de validação e cálculo
-      // CEPs começando com 0 são considerados "inválidos" para fins de teste de erro
+      setIsCalculating(true);
+      setCepError(null);
+      
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 800));
+
       if (cleanCep.startsWith('000')) {
-        setCepError('CEP NÃO ENCONTRADO');
-        setShippingCost(null);
+        setCepError('CEP INVÁLIDO OU NÃO ENCONTRADO');
+        setSavedShippingCost(null);
+      } else if (cleanCep === '99999999') {
+        setCepError('ERRO NA CONSULTA. TENTE NOVAMENTE');
+        setSavedShippingCost(null);
       } else {
         setCepError(null);
         const cost = freeShippingProgress >= 100 ? 0 : 25;
-        setShippingCost(cost);
+        setSavedShippingCost(cost);
       }
+      setIsCalculating(false);
     } else {
-      setShippingCost(null);
+      setSavedShippingCost(null);
       if (cleanCep.length > 0 && cleanCep.length < 8) {
-        setCepError(null); // Limpa erro enquanto digita
+        setCepError(null);
       }
     }
   };
+
+  // Recalculate if subtotal changes (e.g. item removed or qty changed)
+  useEffect(() => {
+    if (savedCep.replace(/\D/g, '').length === 8) {
+      const cost = freeShippingProgress >= 100 ? 0 : 25;
+      if (savedShippingCost !== null) {
+        setSavedShippingCost(cost);
+      }
+    }
+  }, [freeShippingProgress, savedCep]);
 
   if (!isCartOpen) return null;
 
@@ -263,26 +306,32 @@ function GlobalCartDrawer() {
                   <div className="flex gap-2">
                     <input 
                       type="text"
-                      value={cep}
+                      value={savedCep}
                       onChange={e => {
-                        const val = e.target.value.replace(/\D/g, '').slice(0, 8);
-                        setCep(val);
-                        calculateShipping(val);
+                        const formatted = formatCep(e.target.value);
+                        setSavedCep(formatted);
+                        calculateShipping(formatted);
                       }}
                       placeholder="00000-000"
-                      className={`flex-1 bg-transparent border-b ${cepError ? 'border-red-900' : 'border-zinc-800'} text-white text-xs py-2 focus:outline-none focus:border-zinc-500 transition-colors`}
+                      className={`flex-1 bg-transparent border-b ${cepError ? 'border-red-900' : 'border-zinc-800'} text-white text-xs py-2 focus:outline-none focus:border-zinc-500 transition-colors ${isCalculating ? 'opacity-50' : ''}`}
+                      disabled={isCalculating}
                     />
+                    {isCalculating && (
+                      <div className="absolute right-0 bottom-2">
+                        <div className="w-3 h-3 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+                      </div>
+                    )}
                   </div>
                   {cepError && (
                     <span className="text-[8px] text-red-900 uppercase font-bold tracking-widest">{cepError}</span>
                   )}
                 </div>
                 
-                {shippingCost !== null && (
+                {savedShippingCost !== null && !cepError && !isCalculating && (
                   <div className="flex justify-between items-center text-[10px] uppercase tracking-widest text-zinc-400">
                     <span>Envio Estimado</span>
                     <span className="text-white">
-                      {shippingCost === 0 ? 'GRÁTIS' : shippingCost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                      {savedShippingCost === 0 ? 'GRÁTIS' : savedShippingCost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </span>
                   </div>
                 )}
@@ -323,7 +372,7 @@ function GlobalCartDrawer() {
                   </span>
                 )}
                 <span className={`text-lg font-bold ${activeCoupon ? 'text-[#8B0000]' : 'text-white'}`}>
-                  {(cartTotal + (shippingCost || 0)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                  {(cartTotal + (savedShippingCost || 0)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                 </span>
               </div>
             </div>
@@ -336,10 +385,10 @@ function GlobalCartDrawer() {
             )}
 
             <p className="text-[10px] text-zinc-500 mt-2 mb-6 text-center uppercase tracking-wider italic">
-              Envio {shippingCost === 0 ? 'grátis' : 'calculado'} para sua região
+              Envio {savedShippingCost === 0 ? 'grátis' : 'calculado'} para sua região
             </p>
             <button 
-              disabled={shippingCost === null && cartTotal < 299}
+              disabled={savedShippingCost === null && cartTotal < 299}
               className="w-full bg-white text-black hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors py-4 font-bold tracking-[0.2em] text-xs uppercase"
             >
               FINALIZAR COMPRA

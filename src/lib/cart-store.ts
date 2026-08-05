@@ -27,6 +27,12 @@ interface CartStore {
   freeShippingProgress: number;
   activeCoupon: string | null;
   discountValue: number;
+  // CEP persistência
+  savedCep: string;
+  savedShippingCost: number | null;
+  setSavedCep: (cep: string) => void;
+  setSavedShippingCost: (cost: number | null) => void;
+  
   applyCoupon: (code: string) => boolean;
   removeCoupon: () => void;
   addToCart: (product: Product, size?: string) => void;
@@ -56,6 +62,11 @@ export const useCartStore = create<CartStore>()(
       freeShippingProgress: 0,
       activeCoupon: null,
       discountValue: 0,
+      savedCep: '',
+      savedShippingCost: null,
+
+      setSavedCep: (cep) => set({ savedCep: cep }),
+      setSavedShippingCost: (cost) => set({ savedShippingCost: cost }),
 
       calculateTotals: (cart: CartItem[], discountValue = get()?.discountValue || 0) => {
         const subtotal = cart.reduce((acc, item) => {
