@@ -69,7 +69,12 @@ function Index() {
         {/* Background Image using Native <img> for Vite optimization */}
         <img 
           src="/hero.png" 
-          alt="Memento Mori" 
+          alt="Arcane | Memento Mori - Dark Fitness & Streetwear" 
+          width="1920"
+          height="1080"
+          fetchpriority="high"
+          loading="eager"
+          decoding="async"
           className="absolute inset-0 w-full h-full object-cover object-top z-0" 
         />
         

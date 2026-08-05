@@ -33,6 +33,10 @@ export function ProductCard({ product }: { product: Product }) {
             <motion.img 
               src={product.image} 
               alt={product.name} 
+              width="300"
+              height="400"
+              loading="lazy"
+              decoding="async"
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.7, ease: [0.33, 1, 0.68, 1] }}
               className="w-full h-full object-cover brightness-75 transition-all duration-700" 

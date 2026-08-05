@@ -85,12 +85,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Arcane | Memento Mori" },
-      { name: "description", content: "Premium Dark Fitness Streetwear" },
-      { property: "og:title", content: "Arcane | Streetwear & Fitness" },
-      { property: "og:description", content: "Premium Dark Fitness Streetwear" },
+      { title: "Arcane | Memento Mori - Dark Fitness & Streetwear" },
+      { name: "description", content: "Explore a Arcane. Roupas fitness e streetwear com estética dark gótica. Memento Mori - Onde a disciplina encontra a mortalidade. Alta qualidade e design exclusivo." },
+      { property: "og:title", content: "Arcane | Memento Mori - Dark Fitness & Streetwear" },
+      { property: "og:description", content: "Explore a Arcane. Roupas fitness e streetwear com estética dark gótica. Memento Mori - Onde a disciplina encontra a mortalidade." },
+      { property: "og:image", content: "https://project-sparkle-joy-16.lovable.app/hero.png" },
+      { property: "og:url", content: "https://project-sparkle-joy-16.lovable.app/" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://project-sparkle-joy-16.lovable.app/hero.png" },
     ],
     links: [
       {
