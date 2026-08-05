@@ -14,6 +14,7 @@ import { X, ShoppingBag, Minus, Plus, Trash2, Menu, ShieldCheck, CreditCard, Tru
 import { useCartStore } from "@/lib/cart-store";
 import { Toaster, toast as sonnerToast } from "sonner";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { TrustBadges } from "@/components/TrustBadges";
 
 
 import appCss from "../styles.css?url";
@@ -409,19 +410,8 @@ function GlobalCartDrawer() {
             </button>
 
             {/* Trust Badges */}
-            <div className="grid grid-cols-1 gap-3 pt-4 border-t border-zinc-900">
-              <div className="flex items-center gap-3 text-zinc-500 hover:text-white transition-colors">
-                <ShieldCheck size={14} className="text-[#8B0000]" />
-                <span className="text-[9px] uppercase tracking-[0.2em] font-bold">Compra 100% Segura</span>
-              </div>
-              <div className="flex items-center gap-3 text-zinc-500 hover:text-white transition-colors">
-                <CreditCard size={14} className="text-[#8B0000]" />
-                <span className="text-[9px] uppercase tracking-[0.2em] font-bold">Parcele em até 6x no Cartão / Desconto no PIX</span>
-              </div>
-              <div className="flex items-center gap-3 text-zinc-500 hover:text-white transition-colors">
-                <Truck size={14} className="text-[#8B0000]" />
-                <span className="text-[9px] uppercase tracking-[0.2em] font-bold">Entrega Garantida via Correios</span>
-              </div>
+            <div className="pt-6 border-t border-zinc-900">
+              <TrustBadges />
             </div>
           </div>
         )}

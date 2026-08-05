@@ -160,6 +160,10 @@ function ProductDetail() {
               </button>
             </div>
 
+            <div className="pt-4 border-t border-zinc-900">
+              <TrustBadges />
+            </div>
+
 
             <div className="pt-8">
               <Accordion title="Descrição da Peça">
