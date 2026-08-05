@@ -612,7 +612,7 @@ function RootComponent() {
 
       {/* Welcome Pop-up */}
       {showModal && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 pointer-events-auto">
+        <div className="fixed inset-0 z-[10002] flex items-center justify-center p-4 pointer-events-auto">
           <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={handleCloseModal} />
           <div className="relative bg-zinc-950 border border-zinc-800 p-8 md:p-12 max-w-lg w-full text-center space-y-8 animate-in fade-in zoom-in duration-300">
             <button 
