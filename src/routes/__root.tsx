@@ -183,17 +183,17 @@ function GlobalCartDrawer() {
     }
   };
 
-  // Recalculate if subtotal changes (e.g. item removed or qty changed)
+  // Debounced calculation
   useEffect(() => {
-    if (savedCep.replace(/\D/g, '').length === 8) {
-      const cost = freeShippingProgress >= 100 ? 0 : 25;
-      if (savedShippingCost !== null) {
-        setSavedShippingCost(cost);
-      }
-    }
-  }, [freeShippingProgress, savedCep]);
+    const timer = setTimeout(() => {
+      calculateShipping(savedCep);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [savedCep, freeShippingProgress]);
 
   if (!isCartOpen) return null;
+
+  const isCheckoutDisabled = isCalculating || !!cepError || savedShippingCost === null;
 
   return (
     <>
@@ -216,11 +216,18 @@ function GlobalCartDrawer() {
           
           {/* Free Shipping Progress */}
           <div className="space-y-2">
-            <p className="text-[10px] uppercase tracking-wider text-zinc-400">
-              {remainingForFreeShipping > 0 
-                ? `Faltam ${remainingForFreeShipping.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} para Frete Grátis`
-                : "Você ganhou Frete Grátis! 🩸"}
-            </p>
+            <div className="flex justify-between items-end">
+              <p className="text-[10px] uppercase tracking-wider text-zinc-400">
+                {remainingForFreeShipping > 0 
+                  ? `Faltam ${remainingForFreeShipping.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} para Frete Grátis`
+                  : "Você ganhou Frete Grátis! 🩸"}
+              </p>
+              {savedShippingCost !== null && !cepError && !isCalculating && (
+                <span className="text-[8px] uppercase tracking-widest text-zinc-500 font-bold">
+                  {savedShippingCost === 0 ? "BÔNUS APLICADO" : "ENVIO EXPRESSO"}
+                </span>
+              )}
+            </div>
             <div className="h-1 bg-zinc-800 w-full rounded-full overflow-hidden">
               <div 
                 className="h-full transition-all duration-500"
@@ -310,7 +317,6 @@ function GlobalCartDrawer() {
                       onChange={e => {
                         const formatted = formatCep(e.target.value);
                         setSavedCep(formatted);
-                        calculateShipping(formatted);
                       }}
                       placeholder="00000-000"
                       className={`flex-1 bg-transparent border-b ${cepError ? 'border-red-900' : 'border-zinc-800'} text-white text-xs py-2 focus:outline-none focus:border-zinc-500 transition-colors ${isCalculating ? 'opacity-50' : ''}`}
@@ -328,11 +334,18 @@ function GlobalCartDrawer() {
                 </div>
                 
                 {savedShippingCost !== null && !cepError && !isCalculating && (
-                  <div className="flex justify-between items-center text-[10px] uppercase tracking-widest text-zinc-400">
-                    <span>Envio Estimado</span>
-                    <span className="text-white">
-                      {savedShippingCost === 0 ? 'GRÁTIS' : savedShippingCost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </span>
+                  <div className="bg-zinc-900/50 p-3 rounded border border-zinc-800/50 flex flex-col gap-1">
+                    <div className="flex justify-between items-center text-[10px] uppercase tracking-widest text-zinc-400">
+                      <span>Frete ({savedCep})</span>
+                      <span className={savedShippingCost === 0 ? "text-[#8B0000] font-bold" : "text-white"}>
+                        {savedShippingCost === 0 ? 'GRÁTIS' : savedShippingCost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                      </span>
+                    </div>
+                    <p className="text-[8px] text-zinc-600 uppercase tracking-tighter leading-none italic">
+                      {savedShippingCost === 0 
+                        ? "CONDIÇÃO ESPECIAL: VALOR DE CARRINHO SUPERIOR A R$ 299,00" 
+                        : "ENTREGA ESTIMADA EM ATÉ 5 DIAS ÚTEIS APÓS A POSTAGEM"}
+                    </p>
                   </div>
                 )}
               </div>
@@ -388,10 +401,10 @@ function GlobalCartDrawer() {
               Envio {savedShippingCost === 0 ? 'grátis' : 'calculado'} para sua região
             </p>
             <button 
-              disabled={savedShippingCost === null && cartTotal < 299}
-              className="w-full bg-white text-black hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors py-4 font-bold tracking-[0.2em] text-xs uppercase"
+              disabled={isCheckoutDisabled}
+              className={`w-full ${isCheckoutDisabled ? 'bg-zinc-800 text-zinc-500 grayscale cursor-not-allowed' : 'bg-white text-black hover:bg-zinc-200'} transition-all duration-300 py-4 font-bold tracking-[0.2em] text-xs uppercase shadow-lg`}
             >
-              FINALIZAR COMPRA
+              {isCalculating ? 'CALCULANDO...' : 'FINALIZAR COMPRA'}
             </button>
           </div>
         )}
