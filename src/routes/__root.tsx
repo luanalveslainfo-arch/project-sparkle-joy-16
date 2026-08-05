@@ -378,14 +378,30 @@ function GlobalCartDrawer() {
               </button>
             </div>
 
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs uppercase tracking-widest text-zinc-400">Total</span>
-              <div className="flex flex-col items-end">
-                {activeCoupon && (
-                  <span className="text-[10px] text-zinc-500 line-through mb-1">
-                    {(cartTotal / (1 - discountValue)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+            <div className="space-y-3 bg-zinc-900/30 p-4 rounded-sm border border-zinc-900 mb-6">
+              <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-zinc-500">
+                <span>Subtotal</span>
+                <span>{cartTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+              </div>
+              
+              {savedShippingCost !== null && (
+                <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-zinc-500">
+                  <span>Frete Estimado</span>
+                  <span className={savedShippingCost === 0 ? "text-[#8B0000] font-bold" : ""}>
+                    {savedShippingCost === 0 ? 'GRÁTIS' : savedShippingCost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                   </span>
-                )}
+                </div>
+              )}
+
+              {activeCoupon && (
+                <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-[#8B0000]">
+                  <span>Desconto Cupom</span>
+                  <span>-{(cartTotal * discountValue).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+                </div>
+              )}
+
+              <div className="pt-3 border-t border-zinc-800 flex items-center justify-between">
+                <span className="text-xs uppercase tracking-[0.2em] font-bold text-white">Total Final</span>
                 <span className={`text-lg font-bold ${activeCoupon ? 'text-[#8B0000]' : 'text-white'}`}>
                   {(cartTotal + (savedShippingCost || 0)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                 </span>
