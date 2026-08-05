@@ -2,9 +2,12 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Truck, Shield, Star, Phone } from "lucide-react";
 import { useMemo } from "react";
 import { toast as sonnerToast } from "sonner";
+import { motion } from "framer-motion";
 
 import { useCartStore } from "@/lib/cart-store";
 import { mockProducts } from "@/lib/products-data";
+import { AshParticles } from "@/components/AshParticles";
+import { ProductCard } from "@/components/ProductCard";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -70,23 +73,42 @@ function Index() {
           className="absolute inset-0 w-full h-full object-cover object-top z-0" 
         />
         
+        {/* Ash Particles Canvas */}
+        <AshParticles />
+
         {/* Overlay */}
         <div className="absolute inset-0 bg-black/85 z-10" />
 
         {/* Content */}
         <div className="relative z-20 flex flex-col items-center justify-center h-full text-center px-4 cursor-default">
-          <h2 className="text-7xl md:text-[11rem] tracking-tight leading-[0.85] mb-8 font-madness text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
-            MEMENTO <br /> <span className="text-red-700 drop-shadow-[0_0_50px_rgba(185,28,28,0.6)]">MORI</span>
-          </h2>
-          <p className="text-zinc-200 tracking-[0.5em] uppercase text-[10px] md:text-xs max-w-xl mx-auto font-light mb-10">
-            BEYOND THE SHADOWS OF MORTALITY LIES THE PATH OF DISCIPLINE
-          </p>
-          <Link 
-            to="/manifesto" 
-            className="relative z-50 pointer-events-auto border border-white bg-black/50 text-white px-10 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 ease-in-out hover:bg-white hover:text-black hover:scale-[1.02] active:scale-[0.98] mt-8 cursor-pointer"
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="text-7xl md:text-[11rem] tracking-tight leading-[0.85] mb-8 font-madness text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]"
           >
-            LER O MANIFESTO
-          </Link>
+            MEMENTO <br /> <span className="text-red-700 drop-shadow-[0_0_50px_rgba(185,28,28,0.6)]">MORI</span>
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+            className="text-zinc-200 tracking-[0.5em] uppercase text-[10px] md:text-xs max-w-xl mx-auto font-light mb-10"
+          >
+            BEYOND THE SHADOWS OF MORTALITY LIES THE PATH OF DISCIPLINE
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeOut", delay: 0.4 }}
+          >
+            <Link 
+              to="/manifesto" 
+              className="relative z-50 pointer-events-auto border border-white bg-black/50 text-white px-10 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 ease-in-out hover:bg-white hover:text-black hover:scale-[1.02] active:scale-[0.98] mt-8 cursor-pointer"
+            >
+              LER O MANIFESTO
+            </Link>
+          </motion.div>
         </div>
       </section>
 
@@ -113,22 +135,20 @@ function Index() {
       <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 space-y-32">
         {Object.entries(productsByCategory).map(([category, items]) => (
           <section key={category} className="py-20 md:py-32">
-            <div className="flex items-center justify-center mb-10 border-b border-zinc-800 pb-8">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="flex items-center justify-center mb-10 border-b border-zinc-800 pb-8"
+            >
               <h3 className="text-2xl md:text-3xl font-sans font-bold tracking-[0.2em] uppercase text-white mb-8 text-center">
                 {category === 'arcane' ? 'Drop Arcane' : category === 'oversized' ? 'Camisas Oversized' : 'Moletons e Calças'}
               </h3>
-            </div>
+            </motion.div>
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
               {items.map((p) => (
-                <div key={p.id} className="relative z-10">
-                  <Link 
-                    to="/produto/$productId" 
-                    params={{ productId: p.id.toString() }} 
-                    className="block cursor-pointer relative z-10 pointer-events-auto"
-                  >
-                    <ProductCard product={p} />
-                  </Link>
-                </div>
+                <ProductCard key={p.id} product={p} />
               ))}
             </div>
           </section>
@@ -152,25 +172,7 @@ function Index() {
   );
 }
 
-function ProductCard({ product }: { product: Product }) {
-  return (
-    <div className="group flex flex-col items-start text-left relative z-10">
-      <div className="relative w-full aspect-[3/4] bg-zinc-950 flex items-center justify-center overflow-hidden mb-4">
-        <img 
-          src={product.image} 
-          alt={product.name} 
-          className="w-full h-full object-cover brightness-75 group-hover:scale-105 transition-all duration-700" 
-        />
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
-      </div>
-      
-      <div className="flex flex-col gap-1">
-        <h4 className="text-sm font-bold uppercase tracking-[0.1em] text-zinc-300">{product.name}</h4>
-        <span className="text-base font-semibold text-white">{product.price}</span>
-      </div>
-    </div>
-  );
-}
+// ProductCard removed from here and moved to src/components/ProductCard.tsx
 
 function Footer() {
   const handleNewsletter = (e: React.FormEvent<HTMLFormElement>) => {

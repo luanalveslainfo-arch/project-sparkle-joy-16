@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { motion } from "framer-motion";
 import { useCartStore } from "@/lib/cart-store";
 import { toast as sonnerToast } from "sonner";
 
