@@ -511,6 +511,8 @@ function RootComponent() {
             <nav className="hidden md:flex gap-6 text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-bold">
               <Link to="/" className="hover:text-white transition-colors duration-300">Home</Link>
               <Link to="/produtos" className="hover:text-white transition-colors duration-300">Produtos</Link>
+              <Link to="/manifesto" className="hover:text-white transition-colors duration-300">Manifesto</Link>
+              <a href="mailto:contato@arcanestreet.com" className="hover:text-white transition-colors duration-300">Contato</a>
             </nav>
             <button 
               className="md:hidden text-zinc-400 hover:text-white"
@@ -569,6 +571,20 @@ function RootComponent() {
                 >
                   Produtos
                 </Link>
+                <Link 
+                  to="/manifesto" 
+                  onClick={() => setIsMenuOpen(false)}
+                  className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
+                >
+                  Manifesto
+                </Link>
+                <a 
+                  href="mailto:contato@arcanestreet.com" 
+                  onClick={() => setIsMenuOpen(false)}
+                  className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
+                >
+                  Contato
+                </a>
                 <button 
                   onClick={() => {
                     setIsMenuOpen(false);
