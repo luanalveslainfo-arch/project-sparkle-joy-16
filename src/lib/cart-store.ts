@@ -85,18 +85,18 @@ export const useCartStore = create<CartStore>()(
       setIsCartOpen: (isOpen) => set({ isCartOpen: isOpen }),
 
       applyCoupon: (code) => {
-        if (code.toUpperCase() === "ARCANES") {
+        if (code.toUpperCase() === "ARCANE5") {
           const discount = 0.05; // 5%
           const { cart, calculateTotals } = get();
           const totals = calculateTotals(cart, discount);
           set({ 
-            activeCoupon: "ARCANES", 
+            activeCoupon: "ARCANE5", 
             discountValue: discount,
             cartTotal: totals.total,
             remainingForFreeShipping: totals.remaining,
             freeShippingProgress: totals.progress
           });
-          toast.success("Cupom ARCANES aplicado! 5% de desconto ativado.");
+          toast.success("Cupom ARCANE5 aplicado! 5% de desconto ativado.");
           return true;
         }
         toast.error("Cupom inválido");

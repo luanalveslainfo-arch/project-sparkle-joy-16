@@ -2,9 +2,11 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Truck, Shield, Star, Phone } from "lucide-react";
 import { useMemo } from "react";
 import { toast as sonnerToast } from "sonner";
+import { motion } from "framer-motion";
 
 import { useCartStore } from "@/lib/cart-store";
 import { mockProducts } from "@/lib/products-data";
+import { HeroParticles } from "@/components/HeroParticles";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -63,6 +65,9 @@ function Index() {
 
       {/* Hero */}
       <section className="relative w-full h-screen overflow-hidden">
+        {/* Particles */}
+        <HeroParticles />
+        
         {/* Background Image using Native <img> for Vite optimization */}
         <img 
           src="/hero.png" 
@@ -74,7 +79,13 @@ function Index() {
         <div className="absolute inset-0 bg-black/85 z-10" />
 
         {/* Content */}
-        <div className="relative z-20 flex flex-col items-center justify-center h-full text-center px-4 cursor-default">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="relative z-20 flex flex-col items-center justify-center h-full text-center px-4 cursor-default"
+        >
           <h2 className="text-7xl md:text-[11rem] tracking-tight leading-[0.85] mb-8 font-madness text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
             MEMENTO <br /> <span className="text-red-700 drop-shadow-[0_0_50px_rgba(185,28,28,0.6)]">MORI</span>
           </h2>
@@ -87,7 +98,7 @@ function Index() {
           >
             LER O MANIFESTO
           </Link>
-        </div>
+        </motion.div>
       </section>
 
       {/* Trust Badges Section */}
@@ -113,12 +124,24 @@ function Index() {
       <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 space-y-32">
         {Object.entries(productsByCategory).map(([category, items]) => (
           <section key={category} className="py-20 md:py-32">
-            <div className="flex items-center justify-center mb-10 border-b border-zinc-800 pb-8">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="flex items-center justify-center mb-10 border-b border-zinc-800 pb-8"
+            >
               <h3 className="text-2xl md:text-3xl font-sans font-bold tracking-[0.2em] uppercase text-white mb-8 text-center">
                 {category === 'arcane' ? 'Drop Arcano' : category === 'oversized' ? 'Camisas Oversized' : 'Moletons e Calças'}
               </h3>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
+            </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12"
+            >
               {items.map((p) => (
                 <div key={p.id} className="relative z-10">
                   <Link 
@@ -130,7 +153,7 @@ function Index() {
                   </Link>
                 </div>
               ))}
-            </div>
+            </motion.div>
           </section>
         ))}
       </main>
@@ -154,21 +177,30 @@ function Index() {
 
 function ProductCard({ product }: { product: Product }) {
   return (
-    <div className="group flex flex-col items-start text-left relative z-10">
-      <div className="relative w-full aspect-[3/4] bg-zinc-950 flex items-center justify-center overflow-hidden mb-4">
-        <img 
+    <motion.div 
+      whileHover={{ y: -8 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      className="group flex flex-col items-start text-left relative z-10"
+    >
+      <div className="relative w-full aspect-[3/4] bg-zinc-950 flex items-center justify-center overflow-hidden mb-4 rounded-sm shadow-none group-hover:shadow-[0_10px_25px_rgba(185,28,28,0.2)] transition-shadow duration-300">
+        <motion.img 
           src={product.image} 
           alt={product.name} 
-          className="w-full h-full object-cover brightness-75 group-hover:scale-105 transition-all duration-700" 
+          className="w-full h-full object-cover brightness-75 transition-all duration-700" 
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.7 }}
         />
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
       </div>
       
       <div className="flex flex-col gap-1">
         <h4 className="text-sm font-bold uppercase tracking-[0.1em] text-zinc-300">{product.name}</h4>
-        <span className="text-base font-semibold text-white">por 12x</span>
+        <div className="flex flex-col">
+          <span className="text-base font-semibold text-white">{product.price}</span>
+          <span className="text-[10px] text-zinc-500 uppercase tracking-widest mt-0.5">ATÉ 6X S/ JUROS OU PIX</span>
+        </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

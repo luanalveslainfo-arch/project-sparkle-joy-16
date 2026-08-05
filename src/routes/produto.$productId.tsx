@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useMemo, useEffect } from "react";
 import { X, Minus, Plus, ShoppingBag, ChevronDown, ChevronUp, ArrowLeft, Loader2, ShieldCheck, CreditCard, Truck } from "lucide-react";
 import { TrustBadges } from "@/components/TrustBadges";
+import { motion } from "framer-motion";
 
 import { useCartStore, type Product } from "@/lib/cart-store";
 import { Toaster, toast as sonnerToast } from "sonner";
@@ -100,7 +101,12 @@ function ProductDetail() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Left Column: Photos */}
-          <div className="w-full">
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            className="w-full"
+          >
             <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide md:flex-col gap-4 pb-4 md:pb-0">
               <div className="min-w-full md:min-w-0 snap-center">
                 <ProductImage src={product.image} alt={product.name} />
@@ -112,16 +118,24 @@ function ProductDetail() {
                  <span className="text-[10px] uppercase tracking-widest text-zinc-700 font-bold">ARCANE VISUALS III</span>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Right Column: Info & Checkout */}
-          <div className="lg:sticky lg:top-24 h-fit space-y-8">
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="lg:sticky lg:top-24 h-fit space-y-8"
+          >
             <div className="space-y-4">
               <h1 className="text-4xl md:text-5xl font-black tracking-widest leading-tight uppercase font-sans">
                 {product.name}
               </h1>
               <div className="flex items-center gap-4">
-                <span className="text-2xl font-bold tracking-wider">por 12x</span>
+                <div className="flex flex-col gap-1">
+                  <span className="text-2xl font-bold tracking-wider">{product.price}</span>
+                  <span className="text-[10px] text-zinc-500 uppercase tracking-widest">ATÉ 6X S/ JUROS OU PIX</span>
+                </div>
                 <span className="px-2 py-1 bg-red-950/30 text-red-700 text-[10px] font-bold uppercase tracking-widest border border-red-900/30">
                   7% OFF
                 </span>
@@ -182,7 +196,7 @@ function ProductDetail() {
                 </div>
               </Accordion>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>
