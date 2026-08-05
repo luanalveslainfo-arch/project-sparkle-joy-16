@@ -86,12 +86,12 @@ export const useCartStore = create<CartStore>()(
       },
       get remainingForFreeShipping() {
         const total = get().cartTotal;
-        return Math.max(0, 299 - total);
+        return Math.max(0, 299 - Number(total));
       },
       get freeShippingProgress() {
         const total = get().cartTotal;
         // Task 2 logic: Math.min((cartTotal / 299) * 100, 100)
-        return Math.min((total / 299) * 100, 100);
+        return Math.min((Number(total) / 299) * 100, 100);
       }
     }),
     {
