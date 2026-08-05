@@ -159,13 +159,16 @@ function ProductDetail() {
                 Concebida para a elite. Tecido de alta compressão que esculpe o corpo enquanto permite máxima mobilidade. Estampa gótica exclusiva em serigrafia de alta densidade. Durabilidade extrema para treinos intensos.
               </Accordion>
               <Accordion title="Tabela de Medidas">
-                P: Altura 68cm | Largura 48cm<br />
-                M: Altura 70cm | Largura 50cm<br />
-                G: Altura 72cm | Largura 52cm<br />
-                GG: Altura 74cm | Largura 54cm
+                "Nossas peças possuem modelagem OVERSIZED e de COMPRESSÃO intencionais. Para o caimento perfeito, escolha seu tamanho habitual. Se busca um visual ainda mais amplo, opte por um tamanho acima."
+                <div className="mt-4">
+                  <Link to="/medidas" className="text-white underline decoration-zinc-700 hover:decoration-white transition-colors">Ver tabela completa</Link>
+                </div>
               </Accordion>
               <Accordion title="Envios e Prazos">
-                Despacho em até 48h úteis após confirmação do pagamento. Entrega via Sedex ou Transportadora Premium. Rastreamento em tempo real disponível.
+                Nosso arsenal é forjado internacionalmente. O tempo de processamento é de 1 a 3 dias úteis. O prazo de entrega estimado para o Brasil é de 7 a 15 dias úteis. Todas as remessas possuem código de rastreio enviado diretamente para o seu e-mail.
+                <div className="mt-4">
+                  <Link to="/envios" className="text-white underline decoration-zinc-700 hover:decoration-white transition-colors">Mais detalhes sobre envios</Link>
+                </div>
               </Accordion>
             </div>
           </div>

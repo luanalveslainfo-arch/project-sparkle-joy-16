@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCartStore } from "@/lib/cart-store";
+import { toast as sonnerToast } from "sonner";
 
 export const Route = createFileRoute("/manifesto")({
   component: Manifesto,
@@ -65,11 +66,84 @@ function Manifesto() {
 }
 
 function Footer() {
+  const handleNewsletter = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const input = form.querySelector('input');
+    
+    sonnerToast("Bem-vindo à Seita. Aguarde nossas instruções nas sombras.", {
+      style: {
+        background: '#09090b',
+        border: '1px solid #18181b',
+        color: 'white',
+        letterSpacing: '0.1em',
+        textTransform: 'uppercase',
+        fontSize: '10px',
+        fontWeight: 'bold',
+        fontFamily: THEME.FONTS.SANS
+      }
+    });
+
+    if (input) input.value = '';
+  };
+
   return (
-    <footer className="bg-black border-t border-zinc-900 pt-16 pb-12">
-      <div className="max-w-7xl mx-auto px-4 text-center">
-        <h2 className="text-3xl select-none tracking-widest font-black uppercase mb-8" style={{ fontFamily: THEME.FONTS.DISPLAY }}>ARCANE</h2>
-        <p className="text-xs text-zinc-600 uppercase tracking-widest italic">Est. 2024 — Beyond the shadows</p>
+    <footer className="bg-black border-t border-zinc-800 pt-16 pb-12 mt-32">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-16 mb-20">
+          {/* Column 1 */}
+          <div className="space-y-6 text-left">
+            <h2 className="text-4xl select-none tracking-widest font-black uppercase" style={{ fontFamily: THEME.FONTS.DISPLAY }}>ARCANE</h2>
+            <p className="text-zinc-500 text-xs uppercase tracking-widest leading-relaxed max-w-xs">
+              Beyond the shadows of mortality lies the path of discipline.
+            </p>
+          </div>
+
+          {/* Column 2 */}
+          <div className="space-y-6 text-left">
+            <h4 className="text-white text-xs font-bold uppercase tracking-[0.2em]">Links Úteis</h4>
+            <ul className="space-y-4 text-[10px] uppercase tracking-widest text-zinc-400">
+              <li><Link to="/manifesto" className="transition-colors duration-200 hover:text-white">Nossa Visão (Manifesto)</Link></li>
+              <li><Link to="/medidas" className="transition-colors duration-200 hover:text-white">Tabela de Medidas</Link></li>
+              <li><Link to="/envios" className="transition-colors duration-200 hover:text-white">Prazos e Envios</Link></li>
+              <li>
+                <a 
+                  href="https://wa.me/5521965226593" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="transition-colors duration-200 hover:text-white"
+                >
+                  Contato
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 3 */}
+          <div className="space-y-6 text-left">
+            <h4 className="text-white text-xs font-bold uppercase tracking-[0.2em]">JUNTE-SE À SEITA</h4>
+            <form className="flex flex-col space-y-4" onSubmit={handleNewsletter}>
+              <div className="flex items-center border-b border-zinc-600 pb-2 focus-within:border-white transition-colors duration-300 w-full md:w-2/3">
+                <input 
+                  type="email" 
+                  required
+                  placeholder="SEU MELHOR E-MAIL" 
+                  className="bg-transparent w-full text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-0 border-none p-0 tracking-widest"
+                />
+                <button 
+                  type="submit"
+                  className="text-xs font-bold tracking-widest uppercase text-white hover:text-zinc-400 transition-colors bg-transparent border-none p-0 ml-4 whitespace-nowrap"
+                >
+                  ASSINAR
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div className="border-t border-zinc-900 pt-10 text-center">
+          <p className="text-xs text-zinc-500 uppercase tracking-widest">© 2024 Arcane. Todos os direitos reservados.</p>
+        </div>
       </div>
     </footer>
   );
