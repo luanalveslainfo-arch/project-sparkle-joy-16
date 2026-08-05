@@ -265,27 +265,15 @@ function GlobalCartDrawer() {
                 
                 {/* Product Info */}
                 <div className="flex-1 flex flex-col justify-between py-1">
-                  <div>
-                    <h3 className="text-xs font-bold text-white uppercase tracking-wider">{item.name}</h3>
-                    {item.selectedSize && (
-                      <div className="space-y-0.5 mt-1">
-                        <p className="text-[10px] text-zinc-400 uppercase tracking-tighter">
-                          {item.isCombo ? "Tamanhos Selecionados:" : "Tamanho:"} {item.selectedSize}
+                    <div>
+                      <h3 className="text-xs font-bold text-white uppercase tracking-wider">{item.name}</h3>
+                      {item.selectedSize && (
+                        <p className="text-[10px] text-zinc-400 uppercase tracking-tighter mt-1">
+                          Tamanho: {item.selectedSize}
                         </p>
-                        {item.isCombo && item.comboItems && (
-                          <div className="flex flex-col gap-0.5 mt-1 pl-2 border-l border-zinc-800">
-                            {item.comboItems.map((subItem, sIdx) => (
-                              <div key={sIdx} className="flex justify-between text-[8px] uppercase tracking-widest text-zinc-500">
-                                <span>{subItem.name} ({item.selectedSize?.split('/')[sIdx]?.split(':')[1]?.trim() || 'P'})</span>
-                                <span>{subItem.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    )}
-                    <p className="text-xs font-bold text-white mt-1">{item.price}</p>
-                  </div>
+                      )}
+                      <p className="text-xs font-bold text-white mt-1">{item.price}</p>
+                    </div>
                   
                   {/* Controls */}
                   <div className="flex items-center justify-between mt-2">
