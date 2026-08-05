@@ -102,7 +102,7 @@ function ProductDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white pt-24 pb-20 px-4 md:px-8" style={{ fontFamily: THEME.FONTS.SANS }}>
+    <div className="min-h-screen bg-zinc-950 text-white pt-24 pb-40 md:pb-20 px-4 md:px-8" style={{ fontFamily: THEME.FONTS.SANS }}>
       <div className="max-w-7xl mx-auto">
         {/* Back Button */}
         <button 
