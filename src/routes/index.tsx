@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import heroAsset from "@/assets/hero-bg.png.asset.json";
 import { Search, ShoppingBag, User, Menu, Mail, Instagram, Twitter, X, Phone, MessageSquare, Truck, Shield, Star, ArrowRight, Minus, Plus, Trash2 } from "lucide-react";
 import { useState, useEffect, useMemo, useCallback } from "react";
@@ -313,16 +313,20 @@ function Index() {
       {/* Hero */}
       <section className="relative min-h-[80vh] flex items-center justify-center bg-cover bg-center bg-no-repeat overflow-hidden" style={{ backgroundImage: `url(${heroAsset.url})` }}>
         <div className="absolute inset-0 bg-black/80 z-0" />
-        <div className="relative text-center z-10 px-4 flex flex-col items-center">
+        <div className="relative text-center z-10 px-4 flex flex-col items-center cursor-default">
           <h2 className="text-6xl md:text-8xl uppercase tracking-tighter leading-none mb-6 font-black" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
             MEMENTO <br /> <span className="text-[#8B0000] drop-shadow-[0_0_40px_rgba(139,0,0,0.4)]">MORI</span>
           </h2>
           <p className="text-zinc-200 tracking-[0.5em] uppercase text-[10px] md:text-xs max-w-xl mx-auto font-light mb-10">
             BEYOND THE SHADOWS OF MORTALITY LIES THE PATH OF DISCIPLINE
           </p>
-          <button className="bg-white text-black px-10 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 ease-in-out hover:bg-zinc-200 hover:scale-[1.02] active:scale-[0.98] mt-8">
+          <Link 
+            to="/produto/$productId" 
+            params={{ productId: "1" }}
+            className="relative z-10 bg-white text-black px-10 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 ease-in-out hover:bg-zinc-200 hover:scale-[1.02] active:scale-[0.98] mt-8 cursor-pointer"
+          >
             EXPLORAR A COLEÇÃO
-          </button>
+          </Link>
         </div>
       </section>
 
@@ -356,7 +360,11 @@ function Index() {
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
               {items.map((p) => (
-                <ProductCard key={p.id} product={p} onAdd={addToCart} />
+                <div key={p.id} className="relative z-10">
+                  <Link to="/produto/$productId" params={{ productId: p.id.toString() }} className="block cursor-pointer">
+                    <ProductCard product={p} onAdd={addToCart} />
+                  </Link>
+                </div>
               ))}
             </div>
           </section>
