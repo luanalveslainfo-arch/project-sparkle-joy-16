@@ -17,7 +17,7 @@ import { Toaster } from "sonner";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { TrustBadges } from "@/components/TrustBadges";
 import { motion, AnimatePresence } from "framer-motion";
-
+import { GlowCursor } from "@/components/GlowCursor";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -122,7 +122,7 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        
+        <GlowCursor />
         {children}
         <Scripts />
       </body>
@@ -461,8 +461,8 @@ function RootComponent() {
 
                 <div className="space-y-6">
                   <p className="text-zinc-400 text-[10px] uppercase tracking-[0.2em] leading-relaxed">
-                    UMA OFERENDA À SEITA: USE O CÓDIGO ABAIXO PARA<br />
-                    DESBLOQUEAR SEU PODER NAS SOMBRAS.
+                    SUA PRIMEIRA OFERENDA À SEITA ESTÁ GARANTIDA.<br />
+                    USE O CÓDIGO ABAIXO PARA LIBERAR O DESCONTO.
                   </p>
 
                   <div 
@@ -476,7 +476,7 @@ function RootComponent() {
                     <div className="mt-4 flex items-center justify-center gap-2">
                       <div className="h-[1px] w-4 bg-zinc-800 group-hover:bg-red-900" />
                       <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500 group-hover:text-red-700">
-                        {isCopied ? "CÓDIGO COPIADO" : "CLIQUE PARA COPIAR"}
+                        {isCopied ? "MANTRA COPIADO" : "CLIQUE PARA COPIAR"}
                       </span>
                       <div className="h-[1px] w-4 bg-zinc-800 group-hover:bg-red-900" />
                     </div>
@@ -488,7 +488,7 @@ function RootComponent() {
                     onClick={() => setShowModal(false)}
                     className="text-[9px] uppercase tracking-[0.4em] text-zinc-600 hover:text-white transition-colors underline underline-offset-8 decoration-zinc-800 hover:decoration-red-900"
                   >
-                    IGNORAR POR ENQUANTO
+                    CONTINUAR NO ANONIMATO
                   </button>
                 </div>
               </div>

@@ -41,7 +41,7 @@ export function ProductCard({ product }: { product: Product }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="relative z-10 group rounded-sm border border-zinc-800 transition-all duration-300"
+      className="relative z-10"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
@@ -56,9 +56,9 @@ export function ProductCard({ product }: { product: Product }) {
         params={{ productId: product.id.toString() }} 
         className="block cursor-pointer relative z-10 pointer-events-auto"
       >
-        <div className="group flex flex-col items-start text-left relative z-10 transition-all duration-300 p-0">
+        <div className="group flex flex-col items-start text-left relative z-10 transition-all duration-300">
           <div 
-            className="relative w-full aspect-[3/4] bg-zinc-950 flex items-center justify-center overflow-hidden mb-4 shadow-xl transition-all duration-500 group-hover:shadow-[0_20px_40px_rgba(139,0,0,0.15)]"
+            className="relative w-full aspect-[3/4] bg-zinc-950 flex items-center justify-center overflow-hidden mb-4 shadow-xl transition-all duration-500 group-hover:shadow-[0_20px_40px_rgba(139,0,0,0.15)] group-hover:border-zinc-800 border border-transparent"
             style={{ 
               transform: isMobile ? "none" : "translateZ(20px)",
               transformStyle: "preserve-3d" 
@@ -79,7 +79,7 @@ export function ProductCard({ product }: { product: Product }) {
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
           </div>
           
-          <div className="flex flex-col gap-1 p-4 pt-0" style={{ transform: isMobile ? "none" : "translateZ(40px)" }}>
+          <div className="flex flex-col gap-1" style={{ transform: isMobile ? "none" : "translateZ(40px)" }}>
             <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500 group-hover:text-zinc-300 transition-colors">{product.name}</h4>
             <span className="text-sm font-black text-white tracking-widest">{product.price}</span>
           </div>
@@ -88,3 +88,4 @@ export function ProductCard({ product }: { product: Product }) {
     </motion.div>
   );
 }
+
