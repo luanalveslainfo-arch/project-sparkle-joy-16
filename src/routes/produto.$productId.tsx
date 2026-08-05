@@ -61,6 +61,9 @@ function ProductDetail() {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedSize2, setSelectedSize2] = useState<string | null>(null);
   const [purchaseType, setPurchaseType] = useState<"single" | "combo">("single");
+  const [item2Option, setItem2Option] = useState<"same" | "other">("same");
+  const [item2Product, setItem2Product] = useState<Product | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const sizes = ["P", "M", "G", "GG"];
@@ -103,10 +106,16 @@ function ProductDetail() {
     }
     
     if (purchaseType === 'combo') {
-      // Add first item
-      addToCart(product, selectedSize || undefined, 1);
-      // Add second item (might be same ID/size, but addToCart handles it)
-      addToCart(product, selectedSize2 || undefined, 1);
+      const product2 = item2Option === 'other' && item2Product ? item2Product : product;
+      
+      // We'll add them as a single "Combo" unit or separate units.
+      // The user asked to show two pieces separate in the drawer.
+      // To ensure the combo price (R$ 299,90), we'll add them with a custom price property.
+      
+      const comboUnitPrice = 149.95; // 299.90 / 2
+      
+      addToCart({ ...product, price: "R$ 149,95", priceNumber: 149.95, name: `${product.name} (PEÇA 1)` }, selectedSize || undefined, 1);
+      addToCart({ ...product2, price: "R$ 149,95", priceNumber: 149.95, name: `${product2.name} (PEÇA 2)` }, selectedSize2 || undefined, 1);
     } else {
       addToCart(product, selectedSize || undefined, 1);
     }
@@ -202,27 +211,27 @@ function ProductDetail() {
                 <div className="grid grid-cols-1 gap-3">
                   <button 
                     onClick={() => setPurchaseType("single")}
-                    className={`flex items-center justify-between p-4 border transition-all duration-300 rounded-sm ${purchaseType === 'single' ? 'bg-zinc-900 border-white' : 'bg-transparent border-zinc-800 hover:border-zinc-700'}`}
+                    className={`flex items-center justify-between p-4 border transition-all duration-300 rounded-sm ${purchaseType === 'single' ? 'bg-zinc-900 border-red-600 border-2' : 'bg-transparent border-zinc-800 hover:border-zinc-700'}`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${purchaseType === 'single' ? 'border-white' : 'border-zinc-700'}`}>
-                        {purchaseType === 'single' && <div className="w-2 h-2 rounded-full bg-white" />}
+                      <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${purchaseType === 'single' ? 'border-red-600' : 'border-zinc-700'}`}>
+                        {purchaseType === 'single' && <div className="w-2 h-2 rounded-full bg-red-600" />}
                       </div>
-                      <span className="text-xs font-bold uppercase tracking-widest text-white">1 Unidade</span>
+                      <span className="text-xs font-bold uppercase tracking-widest text-white">1 UNIDADE</span>
                     </div>
                     <span className="text-xs font-bold text-zinc-400">{product.price}</span>
                   </button>
 
                   <button 
                     onClick={() => setPurchaseType("combo")}
-                    className={`flex items-center justify-between p-4 border transition-all duration-300 rounded-sm ${purchaseType === 'combo' ? 'bg-zinc-900 border-white' : 'bg-transparent border-zinc-800 hover:border-zinc-700'}`}
+                    className={`flex items-center justify-between p-4 border transition-all duration-300 rounded-sm ${purchaseType === 'combo' ? 'bg-red-950/30 border-red-600 border-2' : 'bg-transparent border-zinc-800 hover:border-zinc-700'}`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${purchaseType === 'combo' ? 'border-white' : 'border-zinc-700'}`}>
-                        {purchaseType === 'combo' && <div className="w-2 h-2 rounded-full bg-white" />}
+                      <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${purchaseType === 'combo' ? 'border-red-600' : 'border-zinc-700'}`}>
+                        {purchaseType === 'combo' && <div className="w-2 h-2 rounded-full bg-red-600" />}
                       </div>
                       <div className="flex flex-col items-start">
-                        <span className="text-xs font-bold uppercase tracking-widest text-white">Combo Duo (2 Peças)</span>
+                        <span className="text-xs font-bold uppercase tracking-widest text-white">COMBO DUO (2 PEÇAS)</span>
                         <span className="text-[8px] font-black text-red-600 tracking-widest mt-1">[ ECONOMIZE R$ 80 ]</span>
                       </div>
                     </div>
@@ -231,45 +240,22 @@ function ProductDetail() {
                 </div>
               </div>
 
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">
-                    {purchaseType === 'combo' ? 'Tamanho da 1ª Peça' : 'Selecione o Tamanho'}
-                  </span>
-                  <span className="text-[9px] uppercase tracking-widest font-bold text-red-600 animate-pulse">Poucas unidades disponíveis</span>
-                </div>
-                <div className="flex gap-3">
-                  {sizes.map((size) => (
-                    <button
-                      key={size}
-                      onClick={() => setSelectedSize(size)}
-                      className={`w-12 h-12 flex items-center justify-center border text-xs font-bold transition-all duration-300 ${
-                        selectedSize === size
-                          ? "bg-white text-black border-white"
-                          : "bg-transparent text-white border-zinc-800 hover:border-zinc-500"
-                      }`}
-                    >
-                      {size}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {purchaseType === 'combo' && (
-                <motion.div 
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  className="space-y-4 pt-4 border-t border-zinc-900"
-                >
-                  <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">Tamanho da 2ª Peça</span>
+              <div className="space-y-6">
+                <div className="space-y-4 pt-4 border-t border-zinc-900">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">
+                      {purchaseType === 'combo' ? 'ITEM 1: ' + product.name : 'Selecione o Tamanho'}
+                    </span>
+                    <span className="text-[9px] uppercase tracking-widest font-bold text-red-600 animate-pulse">Poucas unidades disponíveis</span>
+                  </div>
                   <div className="flex gap-3">
                     {sizes.map((size) => (
                       <button
-                        key={size + "-2"}
-                        onClick={() => setSelectedSize2(size)}
+                        key={size}
+                        onClick={() => setSelectedSize(size)}
                         className={`w-12 h-12 flex items-center justify-center border text-xs font-bold transition-all duration-300 ${
-                          selectedSize2 === size
-                            ? "bg-white text-black border-white"
+                          selectedSize === size
+                            ? "bg-red-600 text-white border-red-600"
                             : "bg-transparent text-white border-zinc-800 hover:border-zinc-500"
                         }`}
                       >
@@ -277,8 +263,53 @@ function ProductDetail() {
                       </button>
                     ))}
                   </div>
-                </motion.div>
-              )}
+                </div>
+
+                {purchaseType === 'combo' && (
+                  <motion.div 
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    className="space-y-6 pt-6 border-t border-zinc-900"
+                  >
+                    <div className="space-y-4">
+                      <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">ITEM 2: CONFIGURAÇÃO</span>
+                      <div className="flex gap-2">
+                        <button 
+                          onClick={() => setItem2Option("same")}
+                          className={`flex-1 py-2 text-[9px] uppercase tracking-widest font-bold border transition-all ${item2Option === 'same' ? 'bg-zinc-900 border-red-600 text-white' : 'border-zinc-800 text-zinc-500'}`}
+                        >
+                          Mesma Peça
+                        </button>
+                        <button 
+                          onClick={() => setIsModalOpen(true)}
+                          className={`flex-1 py-2 text-[9px] uppercase tracking-widest font-bold border transition-all ${item2Option === 'other' ? 'bg-zinc-900 border-red-600 text-white' : 'border-zinc-800 text-zinc-500'}`}
+                        >
+                          {item2Option === 'other' && item2Product ? item2Product.name : "Escolher Outro Modelo"}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">Tamanho da 2ª Peça</span>
+                      <div className="flex gap-3">
+                        {sizes.map((size) => (
+                          <button
+                            key={size + "-2"}
+                            onClick={() => setSelectedSize2(size)}
+                            className={`w-12 h-12 flex items-center justify-center border text-xs font-bold transition-all duration-300 ${
+                              selectedSize2 === size
+                                ? "bg-red-600 text-white border-red-600"
+                                : "bg-transparent text-white border-zinc-800 hover:border-zinc-500"
+                            }`}
+                          >
+                            {size}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </div>
             </div>
 
             <div className="max-md:fixed max-md:bottom-0 max-md:left-0 max-md:w-full max-md:p-4 max-md:bg-zinc-950/95 max-md:backdrop-blur-lg max-md:border-t max-md:border-zinc-900 max-md:z-[100] max-md:shadow-[0_-10px_40px_rgba(0,0,0,0.8)]">
@@ -315,6 +346,41 @@ function ProductDetail() {
           </motion.div>
         </div>
       </div>
+      {/* Compact Modal for Item 2 selection */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" onClick={() => setIsModalOpen(false)} />
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="relative bg-zinc-950 border border-zinc-800 w-full max-w-lg max-h-[80vh] overflow-y-auto p-6 rounded-sm space-y-6"
+          >
+            <div className="flex items-center justify-between border-b border-zinc-900 pb-4">
+              <h2 className="text-sm font-black uppercase tracking-widest">Escolher 2ª Peça</h2>
+              <button onClick={() => setIsModalOpen(false)}><X size={20} /></button>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+              {mockProducts.filter(p => p.id !== product.id).map((p) => (
+                <button 
+                  key={p.id}
+                  onClick={() => {
+                    setItem2Product(p as Product);
+                    setItem2Option("other");
+                    setIsModalOpen(false);
+                  }}
+                  className="group space-y-2 text-left"
+                >
+                  <div className="aspect-[3/4] overflow-hidden border border-zinc-900 group-hover:border-red-600 transition-colors">
+                    <img src={p.image} alt={p.name} className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all" />
+                  </div>
+                  <p className="text-[9px] uppercase font-bold tracking-widest text-zinc-400 group-hover:text-white transition-colors">{p.name}</p>
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 }

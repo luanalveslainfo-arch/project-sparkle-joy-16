@@ -143,6 +143,23 @@ function GlobalCartDrawer() {
     setSavedCep,
     setSavedShippingCost
   } = useCartStore();
+
+  const cartItemsCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+  const currentCartSubtotal = cart.reduce((acc, item) => {
+    const price = typeof item.priceNumber === 'number' ? item.priceNumber : parseFloat(String(item.price).replace(/[R$\s.]/g, '').replace(',', '.'));
+    return acc + (price * item.quantity);
+  }, 0);
+  
+  // totalDiscountValue is 10% of the UN-DISCOUNTED subtotal.
+  // If currentCartSubtotal is already discounted by 10%, then currentCartSubtotal = 0.9 * Undiscounted.
+  // Undiscounted = currentCartSubtotal / 0.9.
+  // Discount = Undiscounted * 0.1 = currentCartSubtotal * (0.1 / 0.9) = currentCartSubtotal * 0.1111...
+  
+  const totalDiscountValue = cartItemsCount >= 2 ? currentCartSubtotal * (0.1 / 0.9) : 0;
+  const subtotalBeforeDiscounts = currentCartSubtotal + totalDiscountValue;
+  
+  
+  
   
   const [couponInput, setCouponInput] = useState("");
   const [cepError, setCepError] = useState<string | null>(null);
@@ -382,13 +399,20 @@ function GlobalCartDrawer() {
             <div className="space-y-3 bg-zinc-900/30 p-4 rounded-sm border border-zinc-900 mb-6">
               <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-zinc-500">
                 <span>Subtotal</span>
-                <span>{(cartTotal / (1 - (activeCoupon ? discountValue : 0)) / (1 - (cart.reduce((acc, item) => acc + item.quantity, 0) >= 2 ? 0.1 : 0))).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+                <span>{subtotalBeforeDiscounts.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
               </div>
               
-              {cart.reduce((acc, item) => acc + item.quantity, 0) >= 2 && (
+              {cartItemsCount >= 2 && (
                 <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-red-600 font-bold">
-                  <span>Bônus 10% OFF (2+ Itens)</span>
-                  <span>-{( (cartTotal / (1 - (activeCoupon ? discountValue : 0))) * 0.1 ).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+                  <span>Bônus Progressivo (2+ Itens: -10%)</span>
+                  <span>-{totalDiscountValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+                </div>
+              )}
+
+              {activeCoupon && (
+                <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-red-600 font-bold">
+                  <span>Cupom {activeCoupon}</span>
+                  <span>-{(subtotalBeforeDiscounts * discountValue).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
                 </div>
               )}
 
