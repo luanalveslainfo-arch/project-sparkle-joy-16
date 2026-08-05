@@ -312,7 +312,11 @@ function Index() {
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
               {items.map((p) => (
                 <div key={p.id} className="relative z-10">
-                  <Link to="/produto/$productId" params={{ productId: p.id.toString() }} className="block cursor-pointer">
+                  <Link 
+                    to="/produto/$productId" 
+                    params={{ productId: p.id.toString() }} 
+                    className="block cursor-pointer relative z-10 pointer-events-auto"
+                  >
                     <ProductCard product={p} onAdd={addToCart} />
                   </Link>
                 </div>

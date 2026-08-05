@@ -43,7 +43,11 @@ function ProdutosPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-12">
               {items.map((p) => (
                 <div key={p.id} className="relative z-10 group">
-                  <Link to="/produto/$productId" params={{ productId: p.id.toString() }} className="block cursor-pointer">
+                  <Link 
+                    to="/produto/$productId" 
+                    params={{ productId: p.id.toString() }} 
+                    className="block cursor-pointer relative z-10 pointer-events-auto"
+                  >
                     <div className="aspect-[3/4] bg-zinc-900 border border-zinc-800 flex items-center justify-center overflow-hidden mb-4 rounded-sm">
                       <img src={p.image} alt={p.name} className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700" />
                     </div>
