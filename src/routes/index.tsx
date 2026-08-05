@@ -52,7 +52,7 @@ function Index() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
-  const { cart, isCartOpen, setIsCartOpen, addToCart, removeFromCart, updateQuantity, cartTotal } = useCartStore();
+  const { cart, isCartOpen, setIsCartOpen, addToCart, removeFromCart, updateQuantity, cartTotal, remainingForFreeShipping, freeShippingProgress } = useCartStore();
 
 
   const productsByCategory = useMemo(() => {
@@ -110,9 +110,6 @@ function Index() {
     }
   };
 
-  const FREE_SHIPPING_THRESHOLD = 299;
-  const remainingForFreeShipping = Math.max(0, FREE_SHIPPING_THRESHOLD - cartTotal);
-  const freeShippingProgress = Math.min(100, (cartTotal / FREE_SHIPPING_THRESHOLD) * 100);
 
   return (
     <div className={`min-h-screen bg-[#000000] text-foreground selection:bg-primary/30 overflow-x-hidden ${isCartOpen ? 'overflow-hidden' : ''}`} style={{ fontFamily: THEME.FONTS.SANS }}>
