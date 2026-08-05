@@ -3,6 +3,7 @@ import heroAsset from "@/assets/hero-bg.png.asset.json";
 import { Search, ShoppingBag, User, Menu, Mail, Instagram, Twitter, X, Phone, MessageSquare, Truck, Shield, Star, ArrowRight, Minus, Plus, Trash2 } from "lucide-react";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { toast } from "sonner";
+import { useCartStore } from "@/lib/cart-store";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -49,8 +50,8 @@ function Index() {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cart, setCart] = useState<CartItem[]>([]);
+  
+  const { cart, isCartOpen, setIsCartOpen, addToCart, removeFromCart, updateQuantity, cartTotal } = useCartStore();
 
 
   const products = useMemo(() => ({
@@ -120,46 +121,6 @@ function Index() {
       setIsSubmitting(false);
     }
   };
-
-  const addToCart = useCallback((product: Product, size?: string) => {
-    setCart(prev => {
-      const existing = prev.find(item => item.id === product.id && item.selectedSize === size);
-      if (existing) {
-        return prev.map(item => 
-          (item.id === product.id && item.selectedSize === size) 
-            ? { ...item, quantity: item.quantity + 1 } 
-            : item
-        );
-      }
-      return [...prev, { ...product, quantity: 1, selectedSize: size }];
-    });
-    
-    setIsCartOpen(true);
-    
-    toast(`🩸 Item adicionado ao seu arsenal.`, {
-      description: `${product.name}${size ? ` - Tamanho: ${size}` : ''}`,
-      className: "bg-[#0a0a0a] text-white border-l-4 border-[#8B0000] rounded-none shadow-2xl",
-      duration: 3000,
-    });
-  }, []);
-
-  const removeFromCart = useCallback((id: number, size?: string) => {
-    setCart(prev => prev.filter(item => !(item.id === id && item.selectedSize === size)));
-  }, []);
-
-  const updateQuantity = useCallback((id: number, size: string | undefined, delta: number) => {
-    setCart(prev => prev.map(item => {
-      if (item.id === id && item.selectedSize === size) {
-        const newQty = Math.max(1, item.quantity + delta);
-        return { ...item, quantity: newQty };
-      }
-      return item;
-    }));
-  }, []);
-
-  const cartTotal = useMemo(() => 
-    cart.reduce((acc, item) => acc + (item.priceNumber * item.quantity), 0)
-  , [cart]);
 
   const FREE_SHIPPING_THRESHOLD = 299;
   const remainingForFreeShipping = Math.max(0, FREE_SHIPPING_THRESHOLD - cartTotal);
