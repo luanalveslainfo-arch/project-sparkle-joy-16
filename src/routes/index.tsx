@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import heroAsset from "@/assets/hero-bg.png.asset.json";
 import { Search, ShoppingBag, User, Menu, Mail, Instagram, Twitter, X, Phone, MessageSquare, Truck, Shield, Star, ArrowRight, Minus, Plus, Trash2 } from "lucide-react";
 import { useState, useEffect, useMemo, useCallback } from "react";
@@ -313,16 +313,20 @@ function Index() {
       {/* Hero */}
       <section className="relative min-h-[80vh] flex items-center justify-center bg-cover bg-center bg-no-repeat overflow-hidden" style={{ backgroundImage: `url(${heroAsset.url})` }}>
         <div className="absolute inset-0 bg-black/80 z-0" />
-        <div className="relative text-center z-10 px-4 flex flex-col items-center">
+        <div className="relative text-center z-10 px-4 flex flex-col items-center cursor-default">
           <h2 className="text-6xl md:text-8xl uppercase tracking-tighter leading-none mb-6 font-black" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
             MEMENTO <br /> <span className="text-[#8B0000] drop-shadow-[0_0_40px_rgba(139,0,0,0.4)]">MORI</span>
           </h2>
           <p className="text-zinc-200 tracking-[0.5em] uppercase text-[10px] md:text-xs max-w-xl mx-auto font-light mb-10">
             BEYOND THE SHADOWS OF MORTALITY LIES THE PATH OF DISCIPLINE
           </p>
-          <button className="bg-white text-black px-10 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 ease-in-out hover:bg-zinc-200 hover:scale-[1.02] active:scale-[0.98] mt-8">
+          <Link 
+            to="/produto/$productId" 
+            params={{ productId: "1" }}
+            className="relative z-10 bg-white text-black px-10 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 ease-in-out hover:bg-zinc-200 hover:scale-[1.02] active:scale-[0.98] mt-8 cursor-pointer"
+          >
             EXPLORAR A COLEÇÃO
-          </button>
+          </Link>
         </div>
       </section>
 
@@ -356,7 +360,11 @@ function Index() {
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
               {items.map((p) => (
-                <ProductCard key={p.id} product={p} onAdd={addToCart} />
+                <div key={p.id} className="relative z-10">
+                  <Link to="/produto/$productId" params={{ productId: p.id.toString() }} className="block cursor-pointer">
+                    <ProductCard product={p} onAdd={addToCart} />
+                  </Link>
+                </div>
               ))}
             </div>
           </section>
@@ -383,9 +391,9 @@ function ProductCard({ product, onAdd }: { product: Product, onAdd: (product: Pr
   const sizes = ["P", "M", "G", "GG"];
 
   return (
-    <div className="group flex flex-col items-start text-left">
+    <div className="group flex flex-col items-start text-left relative z-10">
       <div className="relative w-full aspect-[3/4] bg-zinc-950 flex items-center justify-center overflow-hidden mb-4 rounded-sm">
-        <span className="text-xs text-zinc-800 font-sans tracking-widest uppercase">Imagem em breve</span>
+        <span className="text-xs text-zinc-800 font-sans tracking-widest uppercase select-none">Imagem em breve</span>
         
         {/* Quick Add Overlay */}
         <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center 
@@ -397,16 +405,24 @@ function ProductCard({ product, onAdd }: { product: Product, onAdd: (product: Pr
             {sizes.map(size => (
               <button
                 key={size}
-                onClick={(e) => { e.stopPropagation(); setSelectedSize(size); }}
-                className={`border transition-colors w-10 h-10 flex items-center justify-center font-sans text-sm m-1 ${selectedSize === size ? "bg-white text-black border-white" : "border-zinc-600 bg-transparent text-white hover:bg-white hover:text-black"}`}
+                onClick={(e) => { 
+                  e.preventDefault(); 
+                  e.stopPropagation(); 
+                  setSelectedSize(size); 
+                }}
+                className={`relative z-20 border transition-colors w-10 h-10 flex items-center justify-center font-sans text-sm m-1 cursor-pointer ${selectedSize === size ? "bg-white text-black border-white" : "border-zinc-600 bg-transparent text-white hover:bg-white hover:text-black"}`}
               >
                 {size}
               </button>
             ))}
           </div>
           <button 
-            onClick={(e) => { e.stopPropagation(); onAdd(product, selectedSize || undefined); }}
-            className="w-full bg-zinc-900 text-white border border-zinc-700 font-sans font-bold uppercase py-3 mt-4 hover:bg-white hover:text-black hover:border-white transition-all duration-300 text-xs tracking-wider"
+            onClick={(e) => { 
+              e.preventDefault();
+              e.stopPropagation(); 
+              onAdd(product, selectedSize || undefined); 
+            }}
+            className="relative z-20 w-full bg-zinc-900 text-white border border-zinc-700 font-sans font-bold uppercase py-3 mt-4 hover:bg-white hover:text-black hover:border-white transition-all duration-300 text-xs tracking-wider cursor-pointer"
           >
             ADICIONAR
           </button>
