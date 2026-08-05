@@ -72,7 +72,7 @@ function Index() {
           alt="Arcane | Memento Mori - Dark Fitness & Streetwear" 
           width="1920"
           height="1080"
-          fetchpriority="high"
+          fetchPriority="high"
           loading="eager"
           decoding="async"
           className="absolute inset-0 w-full h-full object-cover object-top z-0" 

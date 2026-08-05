@@ -14,11 +14,14 @@ export default defineConfig({
     build: {
       rollupOptions: {
         output: {
-          manualChunks: {
-            'vendor-react': ['react', 'react-dom'],
-            'vendor-router': ['@tanstack/react-router'],
-            'vendor-motion': ['framer-motion'],
-            'vendor-icons': ['lucide-react'],
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              if (id.includes('react-dom') || id.includes('react')) return 'vendor-react';
+              if (id.includes('@tanstack')) return 'vendor-router';
+              if (id.includes('framer-motion')) return 'vendor-motion';
+              if (id.includes('lucide-react')) return 'vendor-icons';
+              return 'vendor';
+            }
           }
         }
       }
