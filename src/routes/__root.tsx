@@ -327,10 +327,10 @@ function GlobalCartDrawer() {
             )}
             
             {cart.length > 0 && (
-              <div className="mt-8 pt-8 border-t border-zinc-900 space-y-4">
+              <div className="mt-8 pt-8 border-t border-zinc-900 space-y-4 pb-12 sm:pb-0">
                 <div className="flex flex-col gap-2">
                   <label className="text-[10px] text-zinc-500 uppercase tracking-widest">Cálculo de Frete</label>
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 relative">
                     <input 
                       type="text"
                       value={savedCep}
