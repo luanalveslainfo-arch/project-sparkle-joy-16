@@ -1,31 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useMemo } from "react";
 import { X, Minus, Plus, ShoppingBag, ChevronDown, ChevronUp } from "lucide-react";
 import { toast } from "sonner";
-import { useCartStore } from "@/lib/cart-store";
+import { useCartStore, type Product } from "@/lib/cart-store";
 import { mockProducts } from "@/lib/products-data";
 
 export const Route = createFileRoute("/produto/$productId")({
   component: ProductDetail,
 });
-
-// No interfaces needed here anymore, importing from products-data or using types from store
-import { type Product } from "@/lib/cart-store";
-
-interface CartItem extends Product {
-  quantity: number;
-  selectedSize: string | undefined;
-}
-
-const THEME = {
-  FONTS: {
-    DISPLAY: "'Almendra Display', serif",
-    SANS: "'Outfit', sans-serif",
-  },
-  COLORS: {
-    PRIMARY: "#8B0000",
-  }
-};
 
 // Accordion Component
 function Accordion({ title, children }: { title: string; children: React.ReactNode }) {
@@ -57,6 +39,13 @@ function ProductDetail() {
   const product = useMemo(() => {
     return mockProducts.find(p => p.id === Number(productId)) || mockProducts[0];
   }, [productId]);
+
+  const THEME = {
+    FONTS: {
+      DISPLAY: "'Almendra Display', serif",
+      SANS: "'Outfit', sans-serif",
+    },
+  };
 
   const handleAddToCart = () => {
     if (!selectedSize) {
