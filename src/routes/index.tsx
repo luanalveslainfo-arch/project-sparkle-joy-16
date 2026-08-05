@@ -118,7 +118,7 @@ function Index() {
 
   return (
     <div className="min-h-screen bg-[#000000] text-foreground selection:bg-primary/30 overflow-x-hidden" style={{ fontFamily: THEME.FONTS.SANS }}>
-      <header className="sticky top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10 p-4 flex items-center justify-between transition-all duration-300">
+      <header className="sticky top-0 left-0 w-full z-50 bg-black/90 backdrop-blur-md border-b border-zinc-800 p-4 flex items-center justify-between transition-all duration-300">
         <div className="flex items-center gap-6">
           <button 
             className="cursor-pointer md:hidden text-zinc-400 hover:text-white"
@@ -186,16 +186,14 @@ function Index() {
         {Object.entries(products).map(([category, items]) => (
           <section key={category} className="py-16 md:py-24">
             <div className="flex items-center justify-center mb-10 border-b border-zinc-800 pb-8">
-              <h3 className="font-sans text-2xl font-bold tracking-[0.2em] uppercase text-white">
+              <h3 className="text-2xl md:text-3xl font-sans font-bold tracking-[0.2em] uppercase text-white mb-8 text-center">
                 {category === 'arcane' ? 'Drop Arcano' : category === 'oversized' ? 'Camisas Oversized' : 'Moletons e Calças'}
               </h3>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-              {items
-                .filter(p => p.image && !p.image.includes('broken') && p.image.startsWith('http'))
-                .map((p) => (
-                  <ProductCard key={p.id} product={p} onAdd={addToCart} />
-                ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
+              {items.map((p) => (
+                <ProductCard key={p.id} product={p} onAdd={addToCart} />
+              ))}
             </div>
           </section>
         ))}
@@ -221,33 +219,35 @@ function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: strin
   const sizes = ["P", "M", "G", "GG"];
 
   return (
-    <div className="group bg-zinc-900 border border-zinc-800 p-6 md:p-8 rounded-lg text-center flex flex-col items-center">
-      <div className="w-full space-y-4 mb-8">
-        <h4 className="text-sm font-bold uppercase tracking-[0.1em] text-white line-clamp-2">{product.name}</h4>
-        <div className="flex flex-col items-center">
-          <span className="text-lg font-bold text-white">{product.price}</span>
-          <span className="text-xs text-zinc-400 font-medium uppercase tracking-wider">{product.installments}</span>
+    <div className="group flex flex-col items-start text-left">
+      <div className="relative w-full aspect-[3/4] bg-zinc-950 flex items-center justify-center overflow-hidden mb-4 rounded-sm">
+        <span className="text-xs text-zinc-800 font-sans tracking-widest uppercase">Imagem em breve</span>
+        
+        {/* Quick Add Overlay */}
+        <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4">
+          <div className="flex flex-row flex-wrap justify-center">
+            {sizes.map(size => (
+              <button
+                key={size}
+                onClick={(e) => { e.stopPropagation(); setSelectedSize(size); }}
+                className={`border transition-colors w-10 h-10 flex items-center justify-center font-sans text-sm m-1 ${selectedSize === size ? "bg-white text-black border-white" : "border-zinc-600 bg-transparent text-white hover:bg-white hover:text-black"}`}
+              >
+                {size}
+              </button>
+            ))}
+          </div>
+          <button 
+            onClick={(e) => { e.stopPropagation(); onAdd(product.name, selectedSize || undefined); }}
+            className="w-full bg-white text-black font-sans font-bold uppercase py-2 mt-4 hover:bg-zinc-200 transition-colors text-sm"
+          >
+            ADICIONAR
+          </button>
         </div>
       </div>
       
-      <div className="w-full space-y-6 mt-auto">
-        <div className="flex justify-center gap-2">
-          {sizes.map(size => (
-            <button
-              key={size}
-              onClick={(e) => { e.stopPropagation(); setSelectedSize(size); }}
-              className={`w-9 h-9 flex items-center justify-center text-[10px] border transition-all duration-200 uppercase ${selectedSize === size ? "bg-white text-black border-white" : "bg-transparent border-white/20 text-zinc-400 hover:border-white hover:text-white"}`}
-            >
-              {size}
-            </button>
-          ))}
-        </div>
-        <button 
-          onClick={(e) => { e.stopPropagation(); onAdd(product.name, selectedSize || undefined); }}
-          className="w-full bg-black hover:bg-zinc-800 text-white py-4 text-[10px] font-bold uppercase tracking-[0.2em] transition-all border border-white/10"
-        >
-          ADICIONAR AO CARRINHO
-        </button>
+      <h4 className="text-sm font-bold uppercase tracking-[0.1em] text-white mb-1">{product.name}</h4>
+      <div className="flex flex-col">
+        <span className="text-base font-bold text-white">{product.price}</span>
       </div>
     </div>
   );
@@ -255,12 +255,12 @@ function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: strin
 
 function Footer() {
   return (
-    <footer className="bg-black border-t border-zinc-800 pt-20 pb-10 mt-32">
+    <footer className="bg-black border-t border-zinc-800 pt-16 pb-10 mt-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16 mb-20">
           {/* Column 1 */}
           <div className="space-y-6">
-            <h2 className="text-4xl select-none tracking-widest font-black" style={{ fontFamily: THEME.FONTS.DISPLAY }}>ARCANE</h2>
+            <h2 className="text-4xl select-none tracking-widest font-black uppercase" style={{ fontFamily: THEME.FONTS.DISPLAY }}>ARCANE</h2>
             <p className="text-zinc-500 text-xs uppercase tracking-widest leading-relaxed max-w-xs">
               Beyond the shadows of mortality lies the path of discipline.
             </p>
