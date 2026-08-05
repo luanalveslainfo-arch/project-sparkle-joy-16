@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { useCartStore } from "@/lib/cart-store";
-import { Truck, Shield, Star } from "lucide-react";
 
 export const Route = createFileRoute("/produtos")({
   component: ProdutosPage,
@@ -68,6 +67,11 @@ function ProdutosPage() {
             </div>
           </section>
         ))}
+      </div>
+      
+      {/* Voltar para Home */}
+      <div className="mt-24 text-center">
+        <Link to="/" className="text-xs uppercase tracking-widest text-zinc-500 hover:text-white transition-colors">Voltar para a página inicial</Link>
       </div>
     </div>
   );
