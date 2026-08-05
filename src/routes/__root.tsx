@@ -493,23 +493,6 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="flex flex-col min-h-screen bg-black text-white selection:bg-red-900/30" style={{ fontFamily: THEME.FONTS.SANS }}>
-        <Toaster 
-          position="top-right"
-          richColors={false}
-          closeButton
-          expand={!prefersReducedMotion}
-          visibleToasts={3}
-          duration={3000}
-          toastOptions={{
-            className: "bg-zinc-950 border border-zinc-800 text-white font-sans uppercase tracking-widest text-[10px] rounded-none shadow-2xl",
-            descriptionClassName: "text-zinc-500 font-bold",
-            style: {
-              backgroundColor: '#09090b',
-              borderColor: '#27272a',
-              color: 'white',
-            }
-          }}
-        />
 
         {/* Top Bar Marquee */}
         <div className={`h-8 bg-red-950 flex items-center overflow-hidden border-b border-red-900/30 fixed top-0 left-0 right-0 z-[101] w-full ${transitionClass} ${showTopBar ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
@@ -652,8 +635,12 @@ function RootComponent() {
       <GlobalCartDrawer />
       <Toaster 
         position="bottom-right" 
+        expand={!prefersReducedMotion}
+        visibleToasts={3}
+        duration={3000}
         toastOptions={{
-          className: 'bg-zinc-950 text-zinc-100 border border-zinc-800 rounded-none font-sans uppercase tracking-widest text-[10px] font-bold py-4',
+          className: 'bg-zinc-950 text-zinc-100 border border-zinc-800 rounded-none font-sans uppercase tracking-widest text-[10px] font-bold py-4 shadow-2xl',
+          descriptionClassName: "text-zinc-500 font-bold",
           style: {
             background: '#09090b',
             color: '#f4f4f5',

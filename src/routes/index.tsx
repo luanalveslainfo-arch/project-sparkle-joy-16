@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import heroAsset from "@/assets/hero-bg.png.asset.json";
+import heroBg from "@/assets/hero-bg.png";
 import { Truck, Shield, Star, Phone } from "lucide-react";
 import { useMemo } from "react";
-import { toast } from "sonner";
+
 import { useCartStore } from "@/lib/cart-store";
 import { mockProducts } from "@/lib/products-data";
 
@@ -62,7 +62,7 @@ function Index() {
     <div className={`selection:bg-primary/30 overflow-x-hidden ${isCartOpen ? 'overflow-hidden' : ''}`}>
 
       {/* Hero */}
-      <section className="relative min-h-[80vh] flex items-center justify-center bg-cover bg-center bg-no-repeat overflow-hidden" style={{ backgroundImage: `url(${heroAsset.url})` }}>
+      <section className="relative min-h-[80vh] flex items-center justify-center bg-cover bg-center bg-no-repeat overflow-hidden" style={{ backgroundImage: `url(${heroBg})` }}>
         <div className="absolute inset-0 bg-black/80 z-0" />
         <div className="relative text-center z-10 px-4 flex flex-col items-center cursor-default">
           <h2 className="text-6xl md:text-8xl uppercase tracking-tighter leading-none mb-6 font-black" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
