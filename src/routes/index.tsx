@@ -188,10 +188,10 @@ function Footer() {
           <div className="space-y-6">
             <h4 className="text-white text-xs font-bold uppercase tracking-[0.2em]">Links Úteis</h4>
             <ul className="space-y-4 text-[10px] uppercase tracking-widest text-zinc-400">
-              <li><a href="#" className="transition-colors duration-200 hover:text-white">Rastrear Pedido</a></li>
-              <li><a href="#" className="transition-colors duration-200 hover:text-white">Trocas e Devoluções</a></li>
-              <li><a href="#" className="transition-colors duration-200 hover:text-white">Termos de Serviço</a></li>
-              <li><a href="#" className="transition-colors duration-200 hover:text-white">Fale Conosco</a></li>
+              <li><Link to="/manifesto" className="transition-colors duration-200 hover:text-white">Nossa Visão (Manifesto)</Link></li>
+              <li><a href="#" className="transition-colors duration-200 hover:text-white">Tabela de Medidas</a></li>
+              <li><a href="#" className="transition-colors duration-200 hover:text-white">Prazos e Envios</a></li>
+              <li><a href="mailto:contato@arcanestreet.com" className="transition-colors duration-200 hover:text-white">Contato</a></li>
             </ul>
           </div>
 

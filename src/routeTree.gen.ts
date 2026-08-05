@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ManifestoRouteImport } from './routes/manifesto'
 import { Route as ProdutosRouteImport } from './routes/produtos'
 import { Route as ProdutoProductIdRouteImport } from './routes/produto.$productId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ManifestoRoute = ManifestoRouteImport.update({
+  id: '/manifesto',
+  path: '/manifesto',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProdutosRoute = ProdutosRouteImport.update({
@@ -31,30 +37,34 @@ const ProdutoProductIdRoute = ProdutoProductIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/manifesto': typeof ManifestoRoute
   '/produtos': typeof ProdutosRoute
   '/produto/$productId': typeof ProdutoProductIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/manifesto': typeof ManifestoRoute
   '/produtos': typeof ProdutosRoute
   '/produto/$productId': typeof ProdutoProductIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/manifesto': typeof ManifestoRoute
   '/produtos': typeof ProdutosRoute
   '/produto/$productId': typeof ProdutoProductIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/produtos' | '/produto/$productId'
+  fullPaths: '/' | '/manifesto' | '/produtos' | '/produto/$productId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/produtos' | '/produto/$productId'
-  id: '__root__' | '/' | '/produtos' | '/produto/$productId'
+  to: '/' | '/manifesto' | '/produtos' | '/produto/$productId'
+  id: '__root__' | '/' | '/manifesto' | '/produtos' | '/produto/$productId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ManifestoRoute: typeof ManifestoRoute
   ProdutosRoute: typeof ProdutosRoute
   ProdutoProductIdRoute: typeof ProdutoProductIdRoute
 }
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/manifesto': {
+      id: '/manifesto'
+      path: '/manifesto'
+      fullPath: '/manifesto'
+      preLoaderRoute: typeof ManifestoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/produtos': {
@@ -87,19 +104,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ManifestoRoute: ManifestoRoute,
   ProdutosRoute: ProdutosRoute,
   ProdutoProductIdRoute: ProdutoProductIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
