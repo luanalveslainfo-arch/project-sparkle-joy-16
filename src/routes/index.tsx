@@ -48,16 +48,16 @@ function Index() {
   // Use useMemo to prevent unnecessary re-renders of static data
   const products = useMemo(() => ({
     arcane: [
-      { id: 1, name: "COMPRESSION VEIN", price: "R$ 189,90", installments: "12x de R$ 15,82", image: "https://images.unsplash.com/photo-1583454110551-21f2fa2adfcd?q=80&w=800" },
-      { id: 2, name: "ANGELIC BLADE", price: "R$ 179,90", installments: "12x de R$ 14,99", image: "https://images.unsplash.com/photo-1506629082955-511b1aa562c8?q=80&w=800" }
+      { id: 1, name: "COMPRESSION VEIN", price: "R$ 189,90", installments: "12x de R$ 15,82", image: "https://images.unsplash.com/photo-1574680096145-d05b474e2158?q=80&w=800" },
+      { id: 2, name: "ANGELIC BLADE", price: "R$ 179,90", installments: "12x de R$ 14,99", image: "https://images.unsplash.com/photo-1597452485669-2c7bb5fef90d?q=80&w=800" }
     ] as Product[],
     oversized: [
-      { id: 3, name: "GOTHIC CROSS", price: "R$ 159,90", installments: "12x de R$ 13,32", image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=800" },
-      { id: 4, name: "FALLEN ANGEL", price: "R$ 165,90", installments: "12x de R$ 13,82", image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?q=80&w=800" }
+      { id: 3, name: "GOTHIC CROSS", price: "R$ 159,90", installments: "12x de R$ 13,32", image: "https://images.unsplash.com/photo-1594381898411-846e7d193883?q=80&w=800" },
+      { id: 4, name: "FALLEN ANGEL", price: "R$ 165,90", installments: "12x de R$ 13,82", image: "https://images.unsplash.com/photo-1599058917233-57c0e62097b9?q=80&w=800" }
     ] as Product[],
     sweatshirts: [
-      { id: 5, name: "ZIP-UP GOTHIC", price: "R$ 289,90", installments: "12x de R$ 24,15", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=800" },
-      { id: 6, name: "TRIBAL BAGGY", price: "R$ 219,90", installments: "12x de R$ 18,32", image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=800" }
+      { id: 5, name: "ZIP-UP GOTHIC", price: "R$ 289,90", installments: "12x de R$ 24,15", image: "https://images.unsplash.com/photo-1571731956672-f2b94d7dd0cb?q=80&w=800" },
+      { id: 6, name: "TRIBAL BAGGY", price: "R$ 219,90", installments: "12x de R$ 18,32", image: "https://images.unsplash.com/photo-1620188467120-5042ed1eb5da?q=80&w=800" }
     ] as Product[]
   }), []);
 
@@ -168,7 +168,7 @@ function Index() {
 
       {/* Hero */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1516062423079-7ca13cdc7f5a?q=80&w=2000')] bg-cover bg-center brightness-[0.3] scale-110 motion-safe:animate-pulse" style={{ animationDuration: '10s' }} />
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2000')] bg-cover bg-center brightness-[0.2] scale-105" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black" />
         <div className="relative text-center z-10 px-4">
           <h2 className="text-6xl md:text-[10rem] uppercase tracking-tighter leading-none mb-4" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
