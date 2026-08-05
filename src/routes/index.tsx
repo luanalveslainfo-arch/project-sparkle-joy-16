@@ -405,7 +405,7 @@ function ProductCard({ product, onAdd }: { product: Product, onAdd: (product: Pr
             ))}
           </div>
           <button 
-            onClick={(e) => { e.stopPropagation(); onAdd(product.name, selectedSize || undefined); }}
+            onClick={(e) => { e.stopPropagation(); onAdd(product, selectedSize || undefined); }}
             className="w-full bg-zinc-900 text-white border border-zinc-700 font-sans font-bold uppercase py-3 mt-4 hover:bg-white hover:text-black hover:border-white transition-all duration-300 text-xs tracking-wider"
           >
             ADICIONAR
