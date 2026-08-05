@@ -92,17 +92,11 @@ function ProductDetail() {
 
   const handleAddToCart = () => {
     if (!selectedSize) {
-      sonnerToast.error("Por favor, selecione o tamanho da primeira peça.");
+      sonnerToast.error("Por favor, selecione o tamanho.");
       return;
     }
     
-    if (product.isCombo && !selectedSize2) {
-      sonnerToast.error("Por favor, selecione o tamanho da segunda peça.");
-      return;
-    }
-    
-    const finalSize = product.isCombo ? `1: ${selectedSize} / 2: ${selectedSize2}` : selectedSize;
-    addToCart(product, finalSize);
+    addToCart(product, selectedSize);
     setIsCartOpen(true);
     
     sonnerToast.success(`🩸 ${product.name} adicionado ao arsenal.`);
@@ -192,9 +186,9 @@ function ProductDetail() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">
-                    {product.isCombo ? "Tamanho da Peça 1" : "Selecione o Tamanho"}
+                    Selecione o Tamanho
                   </span>
-                  {!product.isCombo && <span className="text-[9px] uppercase tracking-widest font-bold text-red-600 animate-pulse">Poucas unidades disponíveis</span>}
+                  <span className="text-[9px] uppercase tracking-widest font-bold text-red-600 animate-pulse">Poucas unidades disponíveis</span>
                 </div>
                 <div className="flex gap-3">
                   {sizes.map((size) => (
@@ -212,32 +206,6 @@ function ProductDetail() {
                   ))}
                 </div>
               </div>
-
-              {product.isCombo && (
-                <div className="space-y-4 pt-4 border-t border-zinc-900">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">
-                      Tamanho da Peça 2
-                    </span>
-                    <span className="text-[9px] uppercase tracking-widest font-bold text-red-600 animate-pulse">Combo Limitado</span>
-                  </div>
-                  <div className="flex gap-3">
-                    {sizes.map((size) => (
-                      <button
-                        key={size + "-2"}
-                        onClick={() => setSelectedSize2(size)}
-                        className={`w-12 h-12 flex items-center justify-center border text-xs font-bold transition-all duration-300 ${
-                          selectedSize2 === size
-                            ? "bg-white text-black border-white"
-                            : "bg-transparent text-white border-zinc-800 hover:border-zinc-500"
-                        }`}
-                      >
-                        {size}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
 
             <div className="max-md:fixed max-md:bottom-0 max-md:left-0 max-md:w-full max-md:p-4 max-md:bg-zinc-950/95 max-md:backdrop-blur-lg max-md:border-t max-md:border-zinc-900 max-md:z-[100] max-md:shadow-[0_-10px_40px_rgba(0,0,0,0.8)]">
