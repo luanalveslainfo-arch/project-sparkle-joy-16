@@ -5,6 +5,10 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/")({
   component: Index,
+  errorComponent: ({ error }) => {
+    console.error("Index route error:", error);
+    return <div className="p-4 text-red-500">Erro ao carregar a página principal.</div>;
+  },
 });
 
 /**
