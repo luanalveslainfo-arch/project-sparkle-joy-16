@@ -31,12 +31,12 @@ const STORAGE_KEYS = {
 
 const THEME = {
   FONTS: {
-    DISPLAY: "'Metal Mania', system-ui",
+    DISPLAY: "'Almendra Display', serif",
     SANS: "'Outfit', sans-serif",
   },
   COLORS: {
     PRIMARY: "#b91c1c", // Blood red
-    BG_DARK: "#0a0a0a",
+    BG_DARK: "#000000",
   }
 };
 
