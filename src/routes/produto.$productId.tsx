@@ -61,6 +61,9 @@ function ProductDetail() {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedSize2, setSelectedSize2] = useState<string | null>(null);
   const [purchaseType, setPurchaseType] = useState<"single" | "combo">("single");
+  const [item2Option, setItem2Option] = useState<"same" | "other">("same");
+  const [item2Product, setItem2Product] = useState<Product | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const sizes = ["P", "M", "G", "GG"];
