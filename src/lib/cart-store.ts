@@ -37,11 +37,11 @@ interface CartStore {
   
   applyCoupon: (code: string) => boolean;
   removeCoupon: () => void;
-  addToCart: (product: Product, size?: string) => void;
+  addToCart: (product: Product, size?: string, quantity?: number) => void;
   removeFromCart: (id: number, size?: string) => void;
   updateQuantity: (id: number, size: string | undefined, delta: number) => void;
   setIsCartOpen: (isOpen: boolean) => void;
-  calculateTotals: (cart: CartItem[], discountValue?: number) => { total: number, remaining: number, progress: number };
+  calculateTotals: (cart: CartItem[], discountValue?: number) => { total: number, remaining: number, progress: number, autoDiscount: number };
 }
 
 const FREE_SHIPPING_THRESHOLD = 299;
@@ -76,12 +76,17 @@ export const useCartStore = create<CartStore>()(
           return acc + (price * item.quantity);
         }, 0);
         
-        const total = subtotal * (1 - discountValue);
+        // Multi-item auto discount: 2+ items = 10% OFF
+        const totalItemsCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+        const autoDiscount = totalItemsCount >= 2 ? 0.1 : 0;
+        
+        const totalAfterAutoDiscount = subtotal * (1 - autoDiscount);
+        const total = totalAfterAutoDiscount * (1 - discountValue);
         
         const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal);
         const progress = Math.min((subtotal / FREE_SHIPPING_THRESHOLD) * 100, 100);
         
-        return { total, remaining, progress };
+        return { total, remaining, progress, autoDiscount };
       },
 
       setIsCartOpen: (isOpen) => set({ isCartOpen: isOpen }),
@@ -117,7 +122,7 @@ export const useCartStore = create<CartStore>()(
         });
       },
 
-      addToCart: (product, size) => {
+      addToCart: (product, size, quantity = 1) => {
         const { cart, calculateTotals } = get();
         const existing = cart.find(item => item.id === product.id && item.selectedSize === size);
         
@@ -125,11 +130,11 @@ export const useCartStore = create<CartStore>()(
         if (existing) {
           newCart = cart.map(item => 
             (item.id === product.id && item.selectedSize === size) 
-              ? { ...item, quantity: item.quantity + 1 } 
+              ? { ...item, quantity: item.quantity + quantity } 
               : item
           );
         } else {
-          newCart = [...cart, { ...product, quantity: 1, selectedSize: size }];
+          newCart = [...cart, { ...product, quantity, selectedSize: size }];
         }
         
         const totals = calculateTotals(newCart);
