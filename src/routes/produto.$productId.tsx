@@ -1,8 +1,9 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useMemo, useEffect } from "react";
 import { X, Minus, Plus, ShoppingBag, ChevronDown, ChevronUp, ArrowLeft, Loader2 } from "lucide-react";
-import { toast } from "sonner";
+
 import { useCartStore, type Product } from "@/lib/cart-store";
+import { Toaster, toast as sonnerToast } from "sonner";
 import { mockProducts } from "@/lib/products-data";
 
 export const Route = createFileRoute("/produto/$productId")({
@@ -75,14 +76,14 @@ function ProductDetail() {
 
   const handleAddToCart = () => {
     if (!selectedSize) {
-      toast.error("Por favor, selecione um tamanho.");
+      sonnerToast.error("Por favor, selecione um tamanho.");
       return;
     }
     
     addToCart(product, selectedSize);
     setIsCartOpen(true);
     
-    toast.success(`🩸 ${product.name} adicionado ao arsenal.`);
+    sonnerToast.success(`🩸 ${product.name} adicionado ao arsenal.`);
   };
 
   return (
