@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import heroAsset from "@/assets/hero-bg.png.asset.json";
-import { Search, ShoppingBag, User, Menu, Mail, Instagram, Twitter, X, Phone, MessageSquare, Truck, Shield, Star, ArrowRight, Minus, Plus, Trash2 } from "lucide-react";
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { Truck, Shield, Star, Phone } from "lucide-react";
+import { useMemo } from "react";
 import { toast } from "sonner";
 import { useCartStore } from "@/lib/cart-store";
 import { mockProducts } from "@/lib/products-data";
@@ -47,13 +47,7 @@ const THEME = {
 };
 
 function Index() {
-  const [showModal, setShowModal] = useState(false);
-  const [email, setEmail] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isCopied, setIsCopied] = useState(false);
-  
-  const { cart, isCartOpen, setIsCartOpen, addToCart, removeFromCart, updateQuantity, cartTotal, remainingForFreeShipping, freeShippingProgress } = useCartStore();
+  const { isCartOpen } = useCartStore();
 
   const productsByCategory = useMemo(() => {
     return {
@@ -62,44 +56,6 @@ function Index() {
       sweatshirts: mockProducts.filter(p => p.category === 'sweatshirts'),
     };
   }, []);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setShowModal(true), 3000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  const handleCloseModal = useCallback(() => {
-    setShowModal(false);
-  }, []);
-
-  const copyCoupon = () => {
-    navigator.clipboard.writeText("ARCANE5");
-    setIsCopied(true);
-    toast.success("Cupom copiado para a área de transferência!");
-    setTimeout(() => setIsCopied(false), 2000);
-  };
-
-  const handleNewsletterSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (isSubmitting) return;
-
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      toast.error("Por favor, insira um e-mail válido.");
-      return;
-    }
-
-    setIsSubmitting(true);
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      toast.success("Inscrição realizada com sucesso! Bem-vindo ao coven.");
-      setEmail("");
-    } catch (error) {
-      toast.error("Erro ao realizar inscrição. Tente novamente.");
-      console.error("Newsletter error:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
 
   return (

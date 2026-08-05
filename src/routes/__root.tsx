@@ -258,11 +258,15 @@ function RootComponent() {
 
   // Welcome Modal Logic - Show after 3s on Home page only
   useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
     if (pathname === "/") {
-      const timer = setTimeout(() => setShowModal(true), 3000);
-      return () => clearTimeout(timer);
+      timer = setTimeout(() => setShowModal(true), 3000);
+    } else {
+      setShowModal(false);
     }
-    setShowModal(false);
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
   }, [pathname]);
 
   const handleCloseModal = useCallback(() => {
