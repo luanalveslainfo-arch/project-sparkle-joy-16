@@ -145,11 +145,19 @@ function GlobalCartDrawer() {
   } = useCartStore();
 
   const cartItemsCount = cart.reduce((acc, item) => acc + item.quantity, 0);
-  const subtotalBeforeDiscounts = cart.reduce((acc, item) => {
+  const currentCartSubtotal = cart.reduce((acc, item) => {
     const price = typeof item.priceNumber === 'number' ? item.priceNumber : parseFloat(String(item.price).replace(/[R$\s.]/g, '').replace(',', '.'));
     return acc + (price * item.quantity);
   }, 0);
-  const totalDiscountValue = cartItemsCount >= 2 ? subtotalBeforeDiscounts * 0.11111111 : 0; // Reverse-calc to show original subtotal correctly if subtotalBeforeDiscounts is already discounted in logic
+  
+  // totalDiscountValue is 10% of the UN-DISCOUNTED subtotal.
+  // If currentCartSubtotal is already discounted by 10%, then currentCartSubtotal = 0.9 * Undiscounted.
+  // Undiscounted = currentCartSubtotal / 0.9.
+  // Discount = Undiscounted * 0.1 = currentCartSubtotal * (0.1 / 0.9) = currentCartSubtotal * 0.1111...
+  
+  const totalDiscountValue = cartItemsCount >= 2 ? currentCartSubtotal * (0.1 / 0.9) : 0;
+  const subtotalBeforeDiscounts = currentCartSubtotal + totalDiscountValue;
+  
   
   
   
