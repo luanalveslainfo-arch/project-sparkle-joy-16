@@ -391,9 +391,9 @@ function ProductCard({ product, onAdd }: { product: Product, onAdd: (product: Pr
   const sizes = ["P", "M", "G", "GG"];
 
   return (
-    <div className="group flex flex-col items-start text-left">
+    <div className="group flex flex-col items-start text-left relative z-10">
       <div className="relative w-full aspect-[3/4] bg-zinc-950 flex items-center justify-center overflow-hidden mb-4 rounded-sm">
-        <span className="text-xs text-zinc-800 font-sans tracking-widest uppercase">Imagem em breve</span>
+        <span className="text-xs text-zinc-800 font-sans tracking-widest uppercase select-none">Imagem em breve</span>
         
         {/* Quick Add Overlay */}
         <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center 
