@@ -409,15 +409,11 @@ function GlobalCartDrawer() {
             </div>
             
             {activeCoupon && (
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-[10px] uppercase tracking-widest text-zinc-500">Cupom: {activeCoupon}</span>
-                <button onClick={removeCoupon} className="text-[8px] uppercase tracking-widest text-red-900 hover:text-red-700">Remover</button>
+              <div className="flex items-center justify-between mb-6 px-1">
+                <span className="text-[10px] uppercase tracking-widest text-zinc-500">CUPOM ATIVO: {activeCoupon}</span>
+                <button onClick={removeCoupon} className="text-[8px] uppercase tracking-widest text-red-900 hover:text-red-700 font-bold">REMOVER</button>
               </div>
             )}
-
-            <p className="text-[10px] text-zinc-500 mt-2 mb-6 text-center uppercase tracking-wider italic">
-              Envio {savedShippingCost === 0 ? 'grátis' : 'calculado'} para sua região
-            </p>
             <button 
               disabled={isCheckoutDisabled}
               className={`w-full ${isCheckoutDisabled ? 'bg-zinc-800 text-zinc-500 grayscale cursor-not-allowed' : 'bg-white text-black hover:bg-zinc-200'} transition-all duration-300 py-4 font-bold tracking-[0.2em] text-xs uppercase shadow-lg mb-6`}
