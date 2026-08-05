@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
+import { ProductSkeleton } from "@/components/Skeleton";
 import { motion } from "framer-motion";
 import { useCartStore } from "@/lib/cart-store";
 import { mockProducts } from "@/lib/products-data";
@@ -18,6 +19,12 @@ const THEME = {
 
 function ProdutosPage() {
   const { addToCart } = useCartStore();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
 
   const productsByCategory = useMemo(() => {
     return {
@@ -49,9 +56,12 @@ function ProdutosPage() {
               </h2>
             </motion.div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-12">
-              {items.map((p) => (
-                <ProductCard key={p.id} product={p} />
-              ))}
+              {isLoading
+                ? Array.from({ length: 4 }).map((_, i) => <ProductSkeleton key={i} />)
+                : items.map((p) => (
+                    <ProductCard key={p.id} product={p} />
+                  ))
+              }
             </div>
           </section>
         ))}

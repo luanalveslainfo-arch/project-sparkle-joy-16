@@ -7,7 +7,9 @@ import { motion } from "framer-motion";
 import { useCartStore } from "@/lib/cart-store";
 import { mockProducts } from "@/lib/products-data";
 import { AshParticles } from "@/components/AshParticles";
+import { ProductSkeleton } from "@/components/Skeleton";
 import { ProductCard } from "@/components/ProductCard";
+import { useState, useEffect } from "react";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -51,6 +53,13 @@ const THEME = {
 
 function Index() {
   const { isCartOpen } = useCartStore();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading for skeleton visibility
+    const timer = setTimeout(() => setIsLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
 
   const productsByCategory = useMemo(() => {
     return {
@@ -152,9 +161,12 @@ function Index() {
               </h3>
             </motion.div>
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
-              {items.map((p) => (
-                <ProductCard key={p.id} product={p} />
-              ))}
+              {isLoading 
+                ? Array.from({ length: 4 }).map((_, i) => <ProductSkeleton key={i} />)
+                : items.map((p) => (
+                    <ProductCard key={p.id} product={p} />
+                  ))
+              }
             </div>
           </section>
         ))}
