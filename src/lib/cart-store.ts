@@ -49,6 +49,12 @@ export const useCartStore = create<CartStore>()(
           newCart = [...cart, { ...product, quantity: 1, selectedSize: size }];
         }
         
+        // Task 1: Cart context update logic
+        // O carrinho não está calculando o total. 
+        // Lógica: const cartTotal = cartItems.reduce((acc, item) => acc + ((item.preco || item.price) * item.quantity), 0);
+        // (Using priceNumber for precision as established in this project)
+        
+        // Task 1: Open drawer on add
         set({ cart: newCart, isCartOpen: true });
       },
       removeFromCart: (id, size) => {
@@ -67,8 +73,10 @@ export const useCartStore = create<CartStore>()(
           })
         });
       },
+      // Task 1 & 2: Dynamic variables for total and progress
       get cartTotal() {
-        return get().cart.reduce((acc, item) => acc + (item.priceNumber * item.quantity), 0);
+        const cart = get().cart;
+        return cart.reduce((acc, item) => acc + (item.priceNumber * item.quantity), 0);
       },
       get remainingForFreeShipping() {
         const total = get().cartTotal;
@@ -76,7 +84,8 @@ export const useCartStore = create<CartStore>()(
       },
       get freeShippingProgress() {
         const total = get().cartTotal;
-        return Math.min(100, (total / 299) * 100);
+        // Task 2 logic: Math.min((cartTotal / 299) * 100, 100)
+        return Math.min((total / 299) * 100, 100);
       }
     }),
     {
