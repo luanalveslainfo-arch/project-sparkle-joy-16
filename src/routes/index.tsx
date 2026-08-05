@@ -31,8 +31,8 @@ const STORAGE_KEYS = {
 
 const THEME = {
   FONTS: {
-    DISPLAY: "'UnifrakturMaguntia', serif",
-    SANS: "'Inter', sans-serif",
+    DISPLAY: "'Metal Mania', system-ui",
+    SANS: "'Outfit', sans-serif",
   },
   COLORS: {
     PRIMARY: "#b91c1c", // Blood red
@@ -171,8 +171,8 @@ function Index() {
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2000')] bg-cover bg-center brightness-[0.2] scale-105" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black" />
         <div className="relative text-center z-10 px-4">
-          <h2 className="text-6xl md:text-[10rem] uppercase tracking-tighter leading-none mb-4" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
-            MEMENTO <br /> <span className="text-red-800">MORI</span>
+          <h2 className="text-6xl md:text-[10rem] uppercase tracking-tighter leading-none mb-4 font-black" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
+            MEMENTO <br /> <span className="text-red-800 drop-shadow-[0_0_15px_rgba(185,28,28,0.5)]">MORI</span>
           </h2>
           <p className="text-zinc-500 tracking-[0.3em] uppercase text-sm md:text-base">Streetwear Essentials for the Fallen</p>
         </div>
