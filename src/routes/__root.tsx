@@ -372,9 +372,9 @@ function GlobalCartDrawer() {
             )}
         </div>
 
-        {/* Cart Footer */}
+        {/* Cart Footer - Fixado no rodapé */}
         {cart.length > 0 && (
-          <div className="p-6 border-t border-zinc-900 bg-zinc-950">
+          <div className="p-6 border-t border-zinc-900 bg-zinc-950 sticky bottom-0 z-10">
             {/* Coupon System */}
             <div className="mb-6 flex items-end gap-3">
               <div className="flex-1 flex flex-col gap-1">
