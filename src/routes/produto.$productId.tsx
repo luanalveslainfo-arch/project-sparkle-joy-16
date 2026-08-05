@@ -126,7 +126,7 @@ function ProductDetail() {
                   7% OFF
                 </span>
               </div>
-              <p className="text-[10px] text-zinc-400 uppercase tracking-[0.2em]">ou 12x de {(parseFloat(product.price.replace('R$ ', '').replace(',', '.')) / 12).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
+              <p className="text-[10px] text-zinc-400 uppercase tracking-[0.2em]">ou {product.installments}</p>
             </div>
 
             <div className="space-y-4">
