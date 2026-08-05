@@ -118,7 +118,7 @@ function Index() {
 
   return (
     <div className="min-h-screen bg-[#000000] text-foreground selection:bg-primary/30 overflow-x-hidden" style={{ fontFamily: THEME.FONTS.SANS }}>
-      <header className="sticky top-0 left-0 w-full z-50 bg-black/90 backdrop-blur-md border-b border-zinc-800 p-4 flex items-center justify-between transition-all duration-300">
+      <header className="fixed top-0 left-0 w-full z-50 bg-black/70 backdrop-blur-md border-b border-zinc-800 p-4 flex items-center justify-between transition-all duration-300">
         <div className="flex items-center gap-6">
           <button 
             className="cursor-pointer md:hidden text-zinc-400 hover:text-white"
@@ -142,7 +142,7 @@ function Index() {
       </header>
 
       {/* Hero */}
-      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden pt-[72px]">
         <div className="absolute inset-0 bg-black/75 z-10" />
         <img 
           src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1920&auto=format&fit=crop" 
@@ -184,7 +184,7 @@ function Index() {
 
       <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 space-y-32">
         {Object.entries(products).map(([category, items]) => (
-          <section key={category} className="py-16 md:py-24">
+          <section key={category} className="py-20 md:py-32">
             <div className="flex items-center justify-center mb-10 border-b border-zinc-800 pb-8">
               <h3 className="text-2xl md:text-3xl font-sans font-bold tracking-[0.2em] uppercase text-white mb-8 text-center">
                 {category === 'arcane' ? 'Drop Arcano' : category === 'oversized' ? 'Camisas Oversized' : 'Moletons e Calças'}
@@ -224,7 +224,7 @@ function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: strin
         <span className="text-xs text-zinc-800 font-sans tracking-widest uppercase">Imagem em breve</span>
         
         {/* Quick Add Overlay */}
-        <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 ease-out p-4">
+        <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out p-4">
           <div className="flex flex-row flex-wrap justify-center">
             {sizes.map(size => (
               <button
@@ -238,7 +238,7 @@ function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: strin
           </div>
           <button 
             onClick={(e) => { e.stopPropagation(); onAdd(product.name, selectedSize || undefined); }}
-            className="w-full bg-white text-black font-sans font-bold uppercase py-2 mt-4 hover:bg-zinc-200 transition-colors text-sm"
+            className="w-full bg-zinc-900 text-white border border-zinc-700 font-sans font-bold uppercase py-3 mt-4 hover:bg-white hover:text-black hover:border-white transition-all duration-300 text-xs tracking-wider"
           >
             ADICIONAR
           </button>
@@ -281,13 +281,13 @@ function Footer() {
           <div className="space-y-6">
             <h4 className="text-white text-xs font-bold uppercase tracking-[0.2em]">JUNTE-SE À SEITA</h4>
             <form className="flex flex-col space-y-4" onSubmit={(e) => e.preventDefault()}>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center border-b border-zinc-600 pb-2 focus-within:border-white transition-colors duration-300 w-full md:w-2/3">
                 <input 
                   type="email" 
                   placeholder="SEU MELHOR E-MAIL" 
-                  className="border-b border-zinc-700 bg-transparent focus:border-white focus:outline-none py-2 text-sm text-white w-full placeholder:text-zinc-600 tracking-widest transition-colors"
+                  className="bg-transparent w-full text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-0 border-none p-0 tracking-widest"
                 />
-                <button className="text-xs tracking-widest font-bold text-white hover:text-zinc-400 transition-colors whitespace-nowrap">
+                <button className="text-xs font-bold tracking-widest uppercase text-white hover:text-zinc-400 transition-colors bg-transparent border-none p-0 ml-4 whitespace-nowrap">
                   ASSINAR
                 </button>
               </div>
