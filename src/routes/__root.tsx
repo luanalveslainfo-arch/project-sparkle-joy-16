@@ -547,7 +547,7 @@ function RootComponent() {
 
         {/* Mobile Menu Overlay */}
         {isMenuOpen && (
-          <div className="fixed inset-0 z-[200] flex">
+          <div className="fixed inset-0 z-[10001] flex">
             <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setIsMenuOpen(false)} />
             <div className="relative w-[300px] h-full bg-zinc-950 border-r border-zinc-900 flex flex-col p-8 animate-in slide-in-from-left duration-300">
               <div className="flex items-center justify-between mb-12">
