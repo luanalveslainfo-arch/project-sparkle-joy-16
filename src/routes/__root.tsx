@@ -9,8 +9,8 @@ import {
   ScrollRestoration,
   useLocation,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode, useState } from "react";
-import { X, ShoppingBag, Minus, Plus, Trash2 } from "lucide-react";
+import { useEffect, type ReactNode, useState, useCallback } from "react";
+import { X, ShoppingBag, Minus, Plus, Trash2, Menu } from "lucide-react";
 import { useCartStore } from "@/lib/cart-store";
 import { Toaster } from "sonner";
 
@@ -247,20 +247,138 @@ function GlobalCartDrawer() {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const { pathname } = useLocation();
+  const [showModal, setShowModal] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
+  const { cart, setIsCartOpen } = useCartStore();
 
   // Task 4: Scroll restoration fix using useLocation and window.scrollTo
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
 
+  // Welcome Modal Logic - Show after 3s on Home page only
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+    if (pathname === "/") {
+      timer = setTimeout(() => setShowModal(true), 3000);
+    } else {
+      setShowModal(false);
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [pathname]);
+
+  const handleCloseModal = useCallback(() => {
+    setShowModal(false);
+  }, []);
+
+  const copyCoupon = () => {
+    navigator.clipboard.writeText("ARCANE5");
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2000);
+  };
+
+  const THEME = {
+    FONTS: {
+      DISPLAY: "'Almendra Display', serif",
+      SANS: "'Outfit', sans-serif",
+    }
+  };
+
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
-      {/* Task 3: Render Cart Drawer globally */}
+      <div className="flex flex-col min-h-screen bg-black text-white selection:bg-red-900/30" style={{ fontFamily: THEME.FONTS.SANS }}>
+        {/* Top Bar Marquee */}
+        <div className="h-8 bg-red-950 flex items-center overflow-hidden border-b border-red-900/30 sticky top-0 z-[100] w-full">
+          <div className="flex whitespace-nowrap animate-marquee py-1">
+            {[1, 2, 3, 4].map((i) => (
+              <span key={i} className="text-[10px] uppercase tracking-[0.2em] font-bold text-white px-4">
+                FRETE GRÁTIS ACIMA DE R$ 299 • 5% DE DESCONTO NO PIX • QUALIDADE PREMIUM GARANTIDA • MEMENTO MORI •
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Global Header */}
+        <header className="sticky top-8 left-0 w-full z-50 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50 p-4 flex items-center justify-between transition-all duration-300">
+          <div className="flex items-center gap-6">
+            <nav className="hidden md:flex gap-6 text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-bold">
+              <Link to="/" className="hover:text-white transition-colors duration-300">Home</Link>
+              <Link to="/produtos" className="hover:text-white transition-colors duration-300">Produtos</Link>
+            </nav>
+            <button className="md:hidden text-zinc-400 hover:text-white">
+              <Menu size={20} />
+            </button>
+          </div>
+          
+          <Link to="/" className="text-3xl md:text-4xl absolute left-1/2 -translate-x-1/2 select-none tracking-widest font-black text-white hover:text-white/90" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
+            ARCANE
+          </Link>
+
+          <div className="flex items-center gap-5">
+            <button 
+              aria-label="Carrinho" 
+              className="relative group"
+              onClick={() => setIsCartOpen(true)}
+            >
+              <ShoppingBag className="text-zinc-400 group-hover:text-white w-4 transition-colors" />
+              <span className="absolute -top-1 -right-1 bg-[#8B0000] text-[8px] px-1 rounded-full text-white font-bold">
+                {cart.reduce((acc, item) => acc + item.quantity, 0)}
+              </span>
+            </button>
+          </div>
+        </header>
+
+        <main className="flex-1">
+          <Outlet />
+        </main>
+      </div>
+
+      {/* Welcome Pop-up */}
+      {showModal && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 pointer-events-auto">
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={handleCloseModal} />
+          <div className="relative bg-zinc-950 border border-zinc-800 p-8 md:p-12 max-w-lg w-full text-center space-y-8 animate-in fade-in zoom-in duration-300">
+            <button 
+              onClick={handleCloseModal}
+              className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors"
+            >
+              <X size={20} />
+            </button>
+            <div className="space-y-4">
+              <h2 className="text-3xl md:text-4xl font-black tracking-widest uppercase" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
+                BEM-VINDO AO DROP ARCANO
+              </h2>
+              <p className="text-zinc-400 text-sm uppercase tracking-widest leading-relaxed">
+                Garanta 5% de desconto na sua primeira compra usando o cupom abaixo:
+              </p>
+            </div>
+            
+            <div className="flex items-center justify-between bg-zinc-900 border border-zinc-800 p-4 rounded-sm group">
+              <span className="font-mono text-xl font-bold tracking-widest text-white">ARCANE5</span>
+              <button 
+                onClick={copyCoupon}
+                className="bg-white text-black px-4 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-zinc-200 transition-colors"
+              >
+                {isCopied ? "COPIADO" : "COPIAR"}
+              </button>
+            </div>
+
+            <button 
+              onClick={handleCloseModal}
+              className="w-full border border-zinc-700 text-zinc-400 py-4 text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-black hover:border-white transition-all duration-300"
+            >
+              FECHAR E EXPLORAR
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Global Cart Drawer */}
       <GlobalCartDrawer />
       <Toaster position="bottom-right" theme="dark" closeButton />
       <ScrollRestoration />
-
     </QueryClientProvider>
   );
 }

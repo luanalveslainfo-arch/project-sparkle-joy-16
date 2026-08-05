@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import heroAsset from "@/assets/hero-bg.png.asset.json";
-import { Search, ShoppingBag, User, Menu, Mail, Instagram, Twitter, X, Phone, MessageSquare, Truck, Shield, Star, ArrowRight, Minus, Plus, Trash2 } from "lucide-react";
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { Truck, Shield, Star, Phone } from "lucide-react";
+import { useMemo } from "react";
 import { toast } from "sonner";
 import { useCartStore } from "@/lib/cart-store";
 import { mockProducts } from "@/lib/products-data";
@@ -33,7 +33,7 @@ interface CartItem extends Product {
 
 
 const STORAGE_KEYS = {
-  MODAL_SHOWN: 'arcane_modal_shown_v1',
+  MODAL_SHOWN: 'arcane_modal_shown_v2',
 };
 
 const THEME = {
@@ -47,13 +47,7 @@ const THEME = {
 };
 
 function Index() {
-  const [showModal, setShowModal] = useState(false);
-  const [email, setEmail] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isCopied, setIsCopied] = useState(false);
-  
-  const { cart, isCartOpen, setIsCartOpen, addToCart, removeFromCart, updateQuantity, cartTotal, remainingForFreeShipping, freeShippingProgress } = useCartStore();
+  const { isCartOpen } = useCartStore();
 
   const productsByCategory = useMemo(() => {
     return {
@@ -63,104 +57,9 @@ function Index() {
     };
   }, []);
 
-  useEffect(() => {
-    let timer: ReturnType<typeof setTimeout>;
-    try {
-      const hasShownModal = localStorage.getItem(STORAGE_KEYS.MODAL_SHOWN);
-      if (!hasShownModal) {
-        timer = setTimeout(() => setShowModal(true), 3000);
-      }
-    } catch (e) {
-      console.error("LocalStorage access error:", e);
-      timer = setTimeout(() => setShowModal(true), 3000);
-    }
-    return () => {
-      if (timer) clearTimeout(timer);
-    };
-  }, []);
-
-  const handleCloseModal = useCallback(() => {
-    setShowModal(false);
-    try {
-      localStorage.setItem(STORAGE_KEYS.MODAL_SHOWN, 'true');
-    } catch (e) {
-      console.warn("Could not save modal state to localStorage", e);
-    }
-  }, []);
-
-  const copyCoupon = () => {
-    navigator.clipboard.writeText("ARCANE5");
-    setIsCopied(true);
-    toast.success("Cupom copiado para a área de transferência!");
-    setTimeout(() => setIsCopied(false), 2000);
-  };
-
-  const handleNewsletterSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (isSubmitting) return;
-
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      toast.error("Por favor, insira um e-mail válido.");
-      return;
-    }
-
-    setIsSubmitting(true);
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      toast.success("Inscrição realizada com sucesso! Bem-vindo ao coven.");
-      setEmail("");
-    } catch (error) {
-      toast.error("Erro ao realizar inscrição. Tente novamente.");
-      console.error("Newsletter error:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
 
   return (
-    <div className={`min-h-screen bg-[#000000] text-foreground selection:bg-primary/30 overflow-x-hidden ${isCartOpen ? 'overflow-hidden' : ''}`} style={{ fontFamily: THEME.FONTS.SANS }}>
-      {/* Top Bar Marquee */}
-      <div className="h-8 bg-red-950 flex items-center overflow-hidden border-b border-red-900/30 relative z-[60]">
-        <div className="flex whitespace-nowrap animate-marquee py-1">
-          {[1, 2, 3, 4].map((i) => (
-            <span key={i} className="text-[10px] uppercase tracking-[0.2em] font-bold text-white px-4">
-              FRETE GRÁTIS ACIMA DE R$ 299 • 5% DE DESCONTO NO PIX • QUALIDADE PREMIUM GARANTIDA • MEMENTO MORI •
-            </span>
-          ))}
-        </div>
-      </div>
-
-      <header className="fixed top-8 left-0 w-full z-50 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50 p-4 flex items-center justify-between transition-all duration-300">
-
-
-        <div className="flex items-center gap-6">
-          <button 
-            className="cursor-pointer md:hidden text-zinc-400 hover:text-white"
-            onClick={() => setIsMobileMenuOpen(true)}
-            aria-label="Abrir menu"
-          >
-            <Menu />
-          </button>
-          <nav className="hidden md:flex gap-6 text-[10px] uppercase tracking-[0.2em] text-zinc-400">
-            <Link to="/" className="relative z-50 pointer-events-auto cursor-pointer hover:text-[#8B0000] transition-colors duration-300">Home</Link>
-            <Link to="/produtos" className="relative z-50 pointer-events-auto cursor-pointer hover:text-[#8B0000] transition-colors duration-300">Produtos</Link>
-          </nav>
-        </div>
-        <h1 className="text-3xl md:text-4xl absolute left-1/2 -translate-x-1/2 select-none tracking-widest font-black" style={{ fontFamily: THEME.FONTS.DISPLAY }}>ARCANE</h1>
-        <div className="flex items-center gap-5">
-          <button 
-            aria-label="Carrinho" 
-            className="relative group"
-            onClick={() => setIsCartOpen(true)}
-          >
-            <ShoppingBag className="text-zinc-400 hover:text-white w-4 transition-colors" />
-            <span className="absolute -top-1 -right-1 bg-[#8B0000] text-[8px] px-1 rounded-full text-white">
-              {cart.reduce((acc, item) => acc + item.quantity, 0)}
-            </span>
-          </button>
-        </div>
-      </header>
+    <div className={`selection:bg-primary/30 overflow-x-hidden ${isCartOpen ? 'overflow-hidden' : ''}`}>
 
       {/* Hero */}
       <section className="relative min-h-[80vh] flex items-center justify-center bg-cover bg-center bg-no-repeat overflow-hidden" style={{ backgroundImage: `url(${heroAsset.url})` }}>
@@ -217,7 +116,7 @@ function Index() {
                     params={{ productId: p.id.toString() }} 
                     className="block cursor-pointer relative z-10 pointer-events-auto"
                   >
-                    <ProductCard product={p} onAdd={addToCart} />
+                    <ProductCard product={p} />
                   </Link>
                 </div>
               ))}
@@ -228,45 +127,6 @@ function Index() {
 
       <Footer />
 
-      {/* Welcome Pop-up */}
-      {showModal && (
-        <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 pointer-events-auto">
-          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={handleCloseModal} />
-          <div className="relative bg-zinc-950 border border-zinc-800 p-8 md:p-12 max-w-lg w-full text-center space-y-8 animate-in fade-in zoom-in duration-300">
-            <button 
-              onClick={handleCloseModal}
-              className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors"
-            >
-              <X size={20} />
-            </button>
-            <div className="space-y-4">
-              <h2 className="text-3xl md:text-4xl font-black tracking-widest uppercase" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
-                BEM-VINDO AO DROP ARCANO
-              </h2>
-              <p className="text-zinc-400 text-sm uppercase tracking-widest leading-relaxed">
-                Garanta 5% de desconto na sua primeira compra usando o cupom abaixo:
-              </p>
-            </div>
-            
-            <div className="flex items-center justify-between bg-zinc-900 border border-zinc-800 p-4 rounded-sm group">
-              <span className="font-mono text-xl font-bold tracking-widest text-white">ARCANE5</span>
-              <button 
-                onClick={copyCoupon}
-                className="bg-white text-black px-4 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-zinc-200 transition-colors"
-              >
-                {isCopied ? "COPIADO" : "COPIAR"}
-              </button>
-            </div>
-
-            <button 
-              onClick={handleCloseModal}
-              className="w-full border border-zinc-700 text-zinc-400 py-4 text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-black hover:border-white transition-all duration-300"
-            >
-              FECHAR E EXPLORAR
-            </button>
-          </div>
-        </div>
-      )}
 
       <a 
         href="https://wa.me/5511999999999" 
@@ -282,56 +142,19 @@ function Index() {
   );
 }
 
-function ProductCard({ product, onAdd }: { product: Product, onAdd: (product: Product, size?: string) => void }) {
-  const [selectedSize, setSelectedSize] = useState<string | null>(null);
-  const sizes = ["P", "M", "G", "GG"];
-
+function ProductCard({ product }: { product: Product }) {
   return (
     <div className="group flex flex-col items-start text-left relative z-10">
       <div className="relative w-full aspect-[3/4] bg-zinc-950 flex items-center justify-center overflow-hidden mb-4 rounded-sm">
         <img 
           src={product.image} 
           alt={product.name} 
-          className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" 
+          className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" 
         />
-        <div className="absolute inset-0 bg-black/20" />
-
-        
-        {/* Quick Add Overlay */}
-        <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center 
-          opacity-0 md:group-hover:opacity-100 
-          max-md:relative max-md:opacity-100 max-md:bg-transparent max-md:backdrop-blur-none max-md:p-0 max-md:mt-4
-          transition-all duration-500 ease-out p-4">
-          
-          <div className="flex flex-row flex-wrap justify-center max-md:justify-start">
-            {sizes.map(size => (
-              <button
-                key={size}
-                onClick={(e) => { 
-                  e.preventDefault(); 
-                  e.stopPropagation(); 
-                  setSelectedSize(size); 
-                }}
-                className={`relative z-20 border transition-colors w-10 h-10 flex items-center justify-center font-sans text-sm m-1 cursor-pointer ${selectedSize === size ? "bg-white text-black border-white" : "border-zinc-600 bg-transparent text-white hover:bg-white hover:text-black"}`}
-              >
-                {size}
-              </button>
-            ))}
-          </div>
-          <button 
-            onClick={(e) => { 
-              e.preventDefault();
-              e.stopPropagation(); 
-              onAdd(product, selectedSize || undefined); 
-            }}
-            className="relative z-20 w-full bg-zinc-900 text-white border border-zinc-700 font-sans font-bold uppercase py-3 mt-4 hover:bg-white hover:text-black hover:border-white transition-all duration-300 text-xs tracking-wider cursor-pointer"
-          >
-            ADICIONAR
-          </button>
-        </div>
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
       </div>
       
-      <div className="mt-4 flex flex-col gap-1 max-md:mt-2">
+      <div className="flex flex-col gap-1">
         <h4 className="text-sm font-bold uppercase tracking-[0.1em] text-zinc-300">{product.name}</h4>
         <span className="text-base font-semibold text-white">{product.price}</span>
       </div>
