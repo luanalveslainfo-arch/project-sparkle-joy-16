@@ -36,8 +36,10 @@ function ProductDetail() {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const sizes = ["P", "M", "G", "GG"];
 
+  // Force cast to Product since we have a fallback
   const product = useMemo(() => {
-    return mockProducts.find(p => p.id === Number(productId)) || mockProducts[0];
+    const found = mockProducts.find(p => p.id === Number(productId));
+    return (found || mockProducts[0]) as Product;
   }, [productId]);
 
   const THEME = {
