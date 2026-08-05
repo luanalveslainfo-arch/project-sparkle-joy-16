@@ -488,11 +488,31 @@ function RootComponent() {
     }
   };
 
+  const transitionClass = prefersReducedMotion ? "" : "transition-all duration-500 ease-in-out";
+
   return (
     <QueryClientProvider client={queryClient}>
       <div className="flex flex-col min-h-screen bg-black text-white selection:bg-red-900/30" style={{ fontFamily: THEME.FONTS.SANS }}>
+        <Toaster 
+          position="top-right"
+          richColors={false}
+          closeButton
+          expand={!prefersReducedMotion}
+          visibleToasts={3}
+          duration={3000}
+          toastOptions={{
+            className: "bg-zinc-950 border border-zinc-800 text-white font-sans uppercase tracking-widest text-[10px] rounded-none shadow-2xl",
+            descriptionClassName: "text-zinc-500 font-bold",
+            style: {
+              backgroundColor: '#09090b',
+              borderColor: '#27272a',
+              color: 'white',
+            }
+          }}
+        />
+
         {/* Top Bar Marquee */}
-        <div className={`h-8 bg-red-950 flex items-center overflow-hidden border-b border-red-900/30 fixed top-0 left-0 right-0 z-[101] w-full transition-transform duration-500 ease-in-out ${showTopBar ? 'translate-y-0' : '-translate-y-full'}`}>
+        <div className={`h-8 bg-red-950 flex items-center overflow-hidden border-b border-red-900/30 fixed top-0 left-0 right-0 z-[101] w-full ${transitionClass} ${showTopBar ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
           <div className="flex whitespace-nowrap animate-marquee py-1">
             {[1, 2, 3, 4].map((i) => (
               <span key={i} className="text-[10px] uppercase tracking-[0.2em] font-bold text-white px-4">
@@ -503,7 +523,7 @@ function RootComponent() {
         </div>
 
         {/* Global Header */}
-        <header className={`fixed left-0 w-full z-[100] bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50 p-4 flex items-center justify-between transition-all duration-500 ease-in-out ${showTopBar ? 'translate-y-8' : 'translate-y-0'} top-0`}>
+        <header className={`fixed left-0 w-full z-[100] bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50 flex items-center justify-between ${transitionClass} ${showTopBar ? 'translate-y-8' : 'translate-y-0'} top-0 h-16 md:h-20 px-4 md:px-12`}>
           <div className="flex items-center gap-6">
             <nav className="hidden md:flex gap-6 text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-bold">
               <Link to="/" className="hover:text-white transition-colors duration-300">Home</Link>
@@ -512,12 +532,13 @@ function RootComponent() {
             <button 
               className="md:hidden text-zinc-400 hover:text-white"
               onClick={() => setIsMenuOpen(true)}
+              aria-label="Menu"
             >
               <Menu size={20} />
             </button>
           </div>
           
-          <Link to="/" className="text-3xl md:text-4xl absolute left-1/2 -translate-x-1/2 select-none tracking-widest font-black text-white hover:text-white/90" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
+          <Link to="/" className="text-2xl md:text-4xl absolute left-1/2 -translate-x-1/2 select-none tracking-widest font-black text-white hover:text-white/90" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
             ARCANE
           </Link>
 
@@ -536,7 +557,8 @@ function RootComponent() {
         </header>
 
         {/* Padding to prevent content under fixed header */}
-        <div className="h-20" />
+        <div className="h-24 md:h-28" />
+
 
         {/* Mobile Menu Overlay */}
         {isMenuOpen && (
