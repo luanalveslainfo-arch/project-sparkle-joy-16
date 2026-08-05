@@ -8,6 +8,7 @@ import { useCartStore } from "@/lib/cart-store";
 import { mockProducts } from "@/lib/products-data";
 import { AshParticles } from "@/components/AshParticles";
 import { ProductSkeleton } from "@/components/Skeleton";
+import { ProductCard } from "@/components/ProductCard";
 import { useState, useEffect } from "react";
 
 export const Route = createFileRoute("/")({
