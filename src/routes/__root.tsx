@@ -10,7 +10,7 @@ import {
   useLocation,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode, useState, useCallback, useRef } from "react";
-import { X, ShoppingBag, Minus, Plus, Trash2, Menu } from "lucide-react";
+import { X, ShoppingBag, Minus, Plus, Trash2, Menu, ShieldCheck, CreditCard, Truck } from "lucide-react";
 import { useCartStore } from "@/lib/cart-store";
 import { Toaster, toast as sonnerToast } from "sonner";
 import { useMediaQuery } from "@/hooks/use-media-query";
@@ -409,18 +409,18 @@ function GlobalCartDrawer() {
             </button>
 
             {/* Trust Badges */}
-            <div className="grid grid-cols-1 gap-3 pt-2 border-t border-zinc-900">
-              <div className="flex items-center gap-3 text-zinc-500">
-                <span className="text-sm">🛡️</span>
-                <span className="text-[9px] uppercase tracking-widest font-bold">Compra 100% Segura</span>
+            <div className="grid grid-cols-1 gap-3 pt-4 border-t border-zinc-900">
+              <div className="flex items-center gap-3 text-zinc-500 hover:text-white transition-colors">
+                <ShieldCheck size={14} className="text-[#8B0000]" />
+                <span className="text-[9px] uppercase tracking-[0.2em] font-bold">Compra 100% Segura</span>
               </div>
-              <div className="flex items-center gap-3 text-zinc-500">
-                <span className="text-sm">💳</span>
-                <span className="text-[9px] uppercase tracking-widest font-bold">Parcele em até 6x no Cartão / Desconto no PIX</span>
+              <div className="flex items-center gap-3 text-zinc-500 hover:text-white transition-colors">
+                <CreditCard size={14} className="text-[#8B0000]" />
+                <span className="text-[9px] uppercase tracking-[0.2em] font-bold">Parcele em até 6x no Cartão / Desconto no PIX</span>
               </div>
-              <div className="flex items-center gap-3 text-zinc-500">
-                <span className="text-sm">🚚</span>
-                <span className="text-[9px] uppercase tracking-widest font-bold">Entrega Garantida via Correios</span>
+              <div className="flex items-center gap-3 text-zinc-500 hover:text-white transition-colors">
+                <Truck size={14} className="text-[#8B0000]" />
+                <span className="text-[9px] uppercase tracking-[0.2em] font-bold">Entrega Garantida via Correios</span>
               </div>
             </div>
           </div>
