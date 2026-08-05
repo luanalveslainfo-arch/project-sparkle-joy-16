@@ -455,14 +455,14 @@ function RootComponent() {
 
               <div className="space-y-12">
                 <div className="space-y-4">
-                  <span className="text-[10px] tracking-[0.5em] text-red-700 uppercase font-black">ENTRE NAS SOMBRAS</span>
+                  <span className="text-[10px] tracking-[0.5em] text-red-700 uppercase font-black">ENTRE NO FLOW</span>
                   <h2 className="text-5xl md:text-6xl font-madness text-white tracking-tighter">ARCANE</h2>
                 </div>
 
                 <div className="space-y-6">
                   <p className="text-zinc-400 text-[10px] uppercase tracking-[0.2em] leading-relaxed">
-                    SUA PRIMEIRA OFERENDA À SEITA ESTÁ GARANTIDA.<br />
-                    USE O CÓDIGO ABAIXO PARA LIBERAR O DESCONTO.
+                    SEU PRIMEIRO PASSO NA DISCIPLINA ESTÁ GARANTIDO.<br />
+                    USE O CÓDIGO ABAIXO PARA LIBERAR SEU DESCONTO.
                   </p>
 
                   <div 
@@ -476,7 +476,7 @@ function RootComponent() {
                     <div className="mt-4 flex items-center justify-center gap-2">
                       <div className="h-[1px] w-4 bg-zinc-800 group-hover:bg-red-900" />
                       <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500 group-hover:text-red-700">
-                        {isCopied ? "MANTRA COPIADO" : "CLIQUE PARA COPIAR"}
+                        {isCopied ? "CÓDIGO COPIADO" : "CLIQUE PARA COPIAR"}
                       </span>
                       <div className="h-[1px] w-4 bg-zinc-800 group-hover:bg-red-900" />
                     </div>
@@ -488,7 +488,7 @@ function RootComponent() {
                     onClick={() => setShowModal(false)}
                     className="text-[9px] uppercase tracking-[0.4em] text-zinc-600 hover:text-white transition-colors underline underline-offset-8 decoration-zinc-800 hover:decoration-red-900"
                   >
-                    CONTINUAR NO ANONIMATO
+                    IGNORAR POR ENQUANTO
                   </button>
                 </div>
               </div>
