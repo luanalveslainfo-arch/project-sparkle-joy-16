@@ -9,12 +9,14 @@ import {
   ScrollRestoration,
   useLocation,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode, useState, useCallback, useRef } from "react";
+import { useEffect, type ReactNode, useState, useCallback, useRef, Suspense, lazy } from "react";
 import { X, ShoppingBag, Minus, Plus, Trash2, Menu, ShieldCheck, CreditCard, Truck } from "lucide-react";
 import { useCartStore } from "@/lib/cart-store";
 import { Toaster, toast as sonnerToast } from "sonner";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { TrustBadges } from "@/components/TrustBadges";
+import { motion, AnimatePresence } from "framer-motion";
+import { GlowCursor } from "@/components/GlowCursor";
 
 
 import appCss from "../styles.css?url";
@@ -120,6 +122,7 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
+        <GlowCursor />
         {children}
         <Scripts />
       </body>
@@ -201,12 +204,23 @@ function GlobalCartDrawer() {
   const isCheckoutDisabled = isCalculating || !!cepError || savedShippingCost === null;
 
   return (
-    <>
-      <div 
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] transition-opacity duration-300"
-        onClick={() => setIsCartOpen(false)}
-      />
-      <div className={`fixed top-0 right-0 h-full w-full md:w-[400px] bg-zinc-950 border-l border-zinc-800 shadow-2xl z-[10000] flex flex-col transform transition-transform duration-300 ease-in-out`}>
+    <AnimatePresence>
+      {isCartOpen && (
+        <>
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999]"
+            onClick={() => setIsCartOpen(false)}
+          />
+          <motion.div 
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className={`fixed top-0 right-0 h-full w-full md:w-[400px] bg-zinc-950 border-l border-zinc-800 shadow-2xl z-[10000] flex flex-col`}
+          >
         {/* Cart Header */}
         <div className="p-6 border-b border-zinc-900">
           <div className="flex items-center justify-between mb-4">

@@ -63,7 +63,11 @@ export function AshParticles() {
 
     const init = () => {
       particles = [];
-      const numberOfParticles = Math.floor((canvas.width * canvas.height) / 15000);
+      // Density based on device pixel ratio and screen size
+      const dpr = window.devicePixelRatio || 1;
+      const densityMultiplier = dpr > 1.5 ? 20000 : 15000;
+      const numberOfParticles = Math.floor((canvas.width * canvas.height) / densityMultiplier);
+      
       for (let i = 0; i < numberOfParticles; i++) {
         particles.push(new Particle(canvas.width, canvas.height));
       }
