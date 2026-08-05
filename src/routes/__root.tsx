@@ -206,7 +206,7 @@ function GlobalCartDrawer() {
   return (
     <AnimatePresence>
       {isCartOpen && (
-        <>
+        <div className="fixed inset-0 z-[9999]">
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -461,7 +461,7 @@ function GlobalCartDrawer() {
               <TrustBadges />
             </div>
           </motion.div>
-        </>
+        </div>
       )}
     </AnimatePresence>
   );
