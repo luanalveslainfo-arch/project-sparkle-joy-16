@@ -149,7 +149,7 @@ function ProductCard({ product }: { product: Product }) {
         <img 
           src={product.image} 
           alt={product.name} 
-          className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" 
+          className="w-full h-full object-cover brightness-75 group-hover:scale-105 transition-all duration-700" 
         />
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
       </div>

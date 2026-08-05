@@ -123,7 +123,8 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function GlobalCartDrawer() {
-  const { cart, isCartOpen, setIsCartOpen, removeFromCart, updateQuantity, cartTotal, remainingForFreeShipping, freeShippingProgress } = useCartStore();
+  const { cart, isCartOpen, setIsCartOpen, removeFromCart, updateQuantity, cartTotal, remainingForFreeShipping, freeShippingProgress, activeCoupon, discountValue, applyCoupon, removeCoupon } = useCartStore();
+  const [couponInput, setCouponInput] = useState("");
 
   if (!isCartOpen) return null;
 
@@ -227,10 +228,48 @@ function GlobalCartDrawer() {
         {/* Cart Footer */}
         {cart.length > 0 && (
           <div className="p-6 border-t border-zinc-900 bg-zinc-950">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs uppercase tracking-widest text-zinc-400">Subtotal</span>
-              <span className="text-lg font-bold text-white">{cartTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+            {/* Coupon System */}
+            <div className="mb-6 flex items-end gap-3">
+              <div className="flex-1 flex flex-col gap-1">
+                <input 
+                  type="text" 
+                  value={couponInput}
+                  onChange={(e) => setCouponInput(e.target.value)}
+                  placeholder="CUPOM" 
+                  className="bg-transparent border-b border-zinc-800 text-white text-xs py-2 uppercase tracking-widest focus:outline-none focus:border-zinc-500 transition-colors w-full"
+                />
+              </div>
+              <button 
+                onClick={() => {
+                  if (applyCoupon(couponInput)) setCouponInput("");
+                }}
+                className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 hover:text-white transition-colors py-2"
+              >
+                APLICAR
+              </button>
             </div>
+
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs uppercase tracking-widest text-zinc-400">Total</span>
+              <div className="flex flex-col items-end">
+                {activeCoupon && (
+                  <span className="text-[10px] text-zinc-500 line-through mb-1">
+                    {(cartTotal / (1 - discountValue)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                  </span>
+                )}
+                <span className={`text-lg font-bold ${activeCoupon ? 'text-[#8B0000]' : 'text-white'}`}>
+                  {cartTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                </span>
+              </div>
+            </div>
+            
+            {activeCoupon && (
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-[10px] uppercase tracking-widest text-zinc-500">Cupom: {activeCoupon}</span>
+                <button onClick={removeCoupon} className="text-[8px] uppercase tracking-widest text-red-900 hover:text-red-700">Remover</button>
+              </div>
+            )}
+
             <p className="text-[10px] text-zinc-500 mt-2 mb-6 text-center uppercase tracking-wider italic">
               Frete calculado no checkout
             </p>
@@ -256,11 +295,16 @@ function RootComponent() {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  // Welcome Modal Logic - Show after 3s on Home page only
+  // Welcome Modal Logic - Show after 6s on Home page only, once per session
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
-    if (pathname === "/") {
-      timer = setTimeout(() => setShowModal(true), 3000);
+    const hasSeenModal = sessionStorage.getItem('arcane_modal_seen');
+
+    if (pathname === "/" && !hasSeenModal) {
+      timer = setTimeout(() => {
+        setShowModal(true);
+        sessionStorage.setItem('arcane_modal_seen', 'true');
+      }, 6000);
     } else {
       setShowModal(false);
     }
@@ -274,7 +318,7 @@ function RootComponent() {
   }, []);
 
   const copyCoupon = () => {
-    navigator.clipboard.writeText("ARCANE5");
+    navigator.clipboard.writeText("ARCANES");
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000);
   };
@@ -356,7 +400,7 @@ function RootComponent() {
             </div>
             
             <div className="flex items-center justify-between bg-zinc-900 border border-zinc-800 p-4 rounded-sm group">
-              <span className="font-mono text-xl font-bold tracking-widest text-white">ARCANE5</span>
+              <span className="font-mono text-xl font-bold tracking-widest text-white">ARCANES</span>
               <button 
                 onClick={copyCoupon}
                 className="bg-white text-black px-4 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-zinc-200 transition-colors"

@@ -25,11 +25,15 @@ interface CartStore {
   cartTotal: number;
   remainingForFreeShipping: number;
   freeShippingProgress: number;
+  activeCoupon: string | null;
+  discountValue: number;
+  applyCoupon: (code: string) => boolean;
+  removeCoupon: () => void;
   addToCart: (product: Product, size?: string) => void;
   removeFromCart: (id: number, size?: string) => void;
   updateQuantity: (id: number, size: string | undefined, delta: number) => void;
   setIsCartOpen: (isOpen: boolean) => void;
-  calculateTotals: (cart: CartItem[]) => { total: number, remaining: number, progress: number };
+  calculateTotals: (cart: CartItem[], discountValue?: number) => { total: number, remaining: number, progress: number };
 }
 
 const FREE_SHIPPING_THRESHOLD = 299;
@@ -50,20 +54,55 @@ export const useCartStore = create<CartStore>()(
       cartTotal: 0,
       remainingForFreeShipping: FREE_SHIPPING_THRESHOLD,
       freeShippingProgress: 0,
+      activeCoupon: null,
+      discountValue: 0,
 
-      calculateTotals: (cart: CartItem[]) => {
-        const total = cart.reduce((acc, item) => {
+      calculateTotals: (cart: CartItem[], discountValue = get()?.discountValue || 0) => {
+        const subtotal = cart.reduce((acc, item) => {
           const price = parsePrice(item.priceNumber || item.price);
           return acc + (price * item.quantity);
         }, 0);
         
-        const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD - total);
-        const progress = Math.min((total / FREE_SHIPPING_THRESHOLD) * 100, 100);
+        const total = subtotal * (1 - discountValue);
+        
+        const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal);
+        const progress = Math.min((subtotal / FREE_SHIPPING_THRESHOLD) * 100, 100);
         
         return { total, remaining, progress };
       },
 
       setIsCartOpen: (isOpen) => set({ isCartOpen: isOpen }),
+
+      applyCoupon: (code) => {
+        if (code.toUpperCase() === "ARCANES") {
+          const discount = 0.05; // 5%
+          const { cart, calculateTotals } = get();
+          const totals = calculateTotals(cart, discount);
+          set({ 
+            activeCoupon: "ARCANES", 
+            discountValue: discount,
+            cartTotal: totals.total,
+            remainingForFreeShipping: totals.remaining,
+            freeShippingProgress: totals.progress
+          });
+          toast.success("Cupom ARCANES aplicado! 5% de desconto ativado.");
+          return true;
+        }
+        toast.error("Cupom inválido");
+        return false;
+      },
+
+      removeCoupon: () => {
+        const { cart, calculateTotals } = get();
+        const totals = calculateTotals(cart, 0);
+        set({ 
+          activeCoupon: null, 
+          discountValue: 0,
+          cartTotal: totals.total,
+          remainingForFreeShipping: totals.remaining,
+          freeShippingProgress: totals.progress
+        });
+      },
 
       addToCart: (product, size) => {
         const { cart, calculateTotals } = get();
