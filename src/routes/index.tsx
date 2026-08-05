@@ -33,7 +33,7 @@ interface CartItem extends Product {
 
 
 const STORAGE_KEYS = {
-  MODAL_SHOWN: 'arcane_modal_shown_v1',
+  MODAL_SHOWN: 'arcane_modal_shown_v2',
 };
 
 const THEME = {
@@ -64,28 +64,12 @@ function Index() {
   }, []);
 
   useEffect(() => {
-    let timer: ReturnType<typeof setTimeout>;
-    try {
-      const hasShownModal = localStorage.getItem(STORAGE_KEYS.MODAL_SHOWN);
-      if (!hasShownModal) {
-        timer = setTimeout(() => setShowModal(true), 3000);
-      }
-    } catch (e) {
-      console.error("LocalStorage access error:", e);
-      timer = setTimeout(() => setShowModal(true), 3000);
-    }
-    return () => {
-      if (timer) clearTimeout(timer);
-    };
+    const timer = setTimeout(() => setShowModal(true), 3000);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleCloseModal = useCallback(() => {
     setShowModal(false);
-    try {
-      localStorage.setItem(STORAGE_KEYS.MODAL_SHOWN, 'true');
-    } catch (e) {
-      console.warn("Could not save modal state to localStorage", e);
-    }
   }, []);
 
   const copyCoupon = () => {
@@ -121,7 +105,7 @@ function Index() {
   return (
     <div className={`min-h-screen bg-[#000000] text-foreground selection:bg-primary/30 overflow-x-hidden ${isCartOpen ? 'overflow-hidden' : ''}`} style={{ fontFamily: THEME.FONTS.SANS }}>
       {/* Top Bar Marquee */}
-      <div className="h-8 bg-red-950 flex items-center overflow-hidden border-b border-red-900/30 relative z-[60]">
+      <div className="h-8 bg-red-950 flex items-center overflow-hidden border-b border-red-900/30 sticky top-0 z-[100] w-full">
         <div className="flex whitespace-nowrap animate-marquee py-1">
           {[1, 2, 3, 4].map((i) => (
             <span key={i} className="text-[10px] uppercase tracking-[0.2em] font-bold text-white px-4">
@@ -131,7 +115,7 @@ function Index() {
         </div>
       </div>
 
-      <header className="fixed top-8 left-0 w-full z-50 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50 p-4 flex items-center justify-between transition-all duration-300">
+      <header className="sticky top-8 left-0 w-full z-50 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50 p-4 flex items-center justify-between transition-all duration-300">
 
 
         <div className="flex items-center gap-6">
@@ -217,7 +201,7 @@ function Index() {
                     params={{ productId: p.id.toString() }} 
                     className="block cursor-pointer relative z-10 pointer-events-auto"
                   >
-                    <ProductCard product={p} onAdd={addToCart} />
+                    <ProductCard product={p} />
                   </Link>
                 </div>
               ))}
@@ -230,7 +214,7 @@ function Index() {
 
       {/* Welcome Pop-up */}
       {showModal && (
-        <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 pointer-events-auto">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 pointer-events-auto">
           <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={handleCloseModal} />
           <div className="relative bg-zinc-950 border border-zinc-800 p-8 md:p-12 max-w-lg w-full text-center space-y-8 animate-in fade-in zoom-in duration-300">
             <button 
@@ -282,56 +266,19 @@ function Index() {
   );
 }
 
-function ProductCard({ product, onAdd }: { product: Product, onAdd: (product: Product, size?: string) => void }) {
-  const [selectedSize, setSelectedSize] = useState<string | null>(null);
-  const sizes = ["P", "M", "G", "GG"];
-
+function ProductCard({ product }: { product: Product }) {
   return (
     <div className="group flex flex-col items-start text-left relative z-10">
       <div className="relative w-full aspect-[3/4] bg-zinc-950 flex items-center justify-center overflow-hidden mb-4 rounded-sm">
         <img 
           src={product.image} 
           alt={product.name} 
-          className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" 
+          className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" 
         />
-        <div className="absolute inset-0 bg-black/20" />
-
-        
-        {/* Quick Add Overlay */}
-        <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center 
-          opacity-0 md:group-hover:opacity-100 
-          max-md:relative max-md:opacity-100 max-md:bg-transparent max-md:backdrop-blur-none max-md:p-0 max-md:mt-4
-          transition-all duration-500 ease-out p-4">
-          
-          <div className="flex flex-row flex-wrap justify-center max-md:justify-start">
-            {sizes.map(size => (
-              <button
-                key={size}
-                onClick={(e) => { 
-                  e.preventDefault(); 
-                  e.stopPropagation(); 
-                  setSelectedSize(size); 
-                }}
-                className={`relative z-20 border transition-colors w-10 h-10 flex items-center justify-center font-sans text-sm m-1 cursor-pointer ${selectedSize === size ? "bg-white text-black border-white" : "border-zinc-600 bg-transparent text-white hover:bg-white hover:text-black"}`}
-              >
-                {size}
-              </button>
-            ))}
-          </div>
-          <button 
-            onClick={(e) => { 
-              e.preventDefault();
-              e.stopPropagation(); 
-              onAdd(product, selectedSize || undefined); 
-            }}
-            className="relative z-20 w-full bg-zinc-900 text-white border border-zinc-700 font-sans font-bold uppercase py-3 mt-4 hover:bg-white hover:text-black hover:border-white transition-all duration-300 text-xs tracking-wider cursor-pointer"
-          >
-            ADICIONAR
-          </button>
-        </div>
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
       </div>
       
-      <div className="mt-4 flex flex-col gap-1 max-md:mt-2">
+      <div className="flex flex-col gap-1">
         <h4 className="text-sm font-bold uppercase tracking-[0.1em] text-zinc-300">{product.name}</h4>
         <span className="text-base font-semibold text-white">{product.price}</span>
       </div>
