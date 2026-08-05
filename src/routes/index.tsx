@@ -86,7 +86,7 @@ function Index() {
           viewport={{ once: true }}
           className="relative z-20 flex flex-col items-center justify-center h-full text-center px-4 cursor-default"
         >
-          <h2 className="text-7xl md:text-[11rem] tracking-tight leading-[0.85] mb-8 font-madness text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+          <h2 className="text-5xl md:text-7xl lg:text-[11rem] tracking-tight leading-[0.85] mb-8 font-madness text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
             MEMENTO <br /> <span className="text-red-700 drop-shadow-[0_0_50px_rgba(185,28,28,0.6)]">MORI</span>
           </h2>
           <p className="text-zinc-200 tracking-[0.5em] uppercase text-[10px] md:text-xs max-w-xl mx-auto font-light mb-10">
@@ -121,9 +121,9 @@ function Index() {
         </div>
       </section>
 
-      <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 space-y-32">
+      <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 space-y-24 md:space-y-32">
         {Object.entries(productsByCategory).map(([category, items]) => (
-          <section key={category} className="py-20 md:py-32">
+          <section key={category} className="py-12 md:py-32">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}

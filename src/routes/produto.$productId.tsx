@@ -107,7 +107,7 @@ function ProductDetail() {
             transition={{ duration: 0.6 }}
             className="w-full"
           >
-            <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide md:flex-col gap-4 pb-4 md:pb-0">
+            <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide md:flex-col gap-4 pb-4 md:pb-0 scroll-smooth">
               <div className="min-w-full md:min-w-0 snap-center">
                 <ProductImage src={product.image} alt={product.name} />
               </div>
@@ -128,7 +128,7 @@ function ProductDetail() {
             className="lg:sticky lg:top-24 h-fit space-y-8"
           >
             <div className="space-y-4">
-              <h1 className="text-4xl md:text-5xl font-black tracking-widest leading-tight uppercase font-sans">
+              <h1 className="text-3xl md:text-5xl font-black tracking-widest leading-tight uppercase font-sans">
                 {product.name}
               </h1>
               <div className="flex items-center gap-4">
@@ -165,10 +165,10 @@ function ProductDetail() {
               </div>
             </div>
 
-            <div className="max-md:fixed max-md:bottom-0 max-md:left-0 max-md:w-full max-md:p-4 max-md:bg-zinc-950/90 max-md:backdrop-blur-md max-md:border-t max-md:border-zinc-900 max-md:z-50">
+            <div className="max-md:fixed max-md:bottom-0 max-md:left-0 max-md:w-full max-md:p-4 max-md:bg-zinc-950/95 max-md:backdrop-blur-lg max-md:border-t max-md:border-zinc-900 max-md:z-[100] max-md:shadow-[0_-10px_40px_rgba(0,0,0,0.8)]">
               <button
                 onClick={handleAddToCart}
-                className="relative z-50 pointer-events-auto cursor-pointer w-full bg-white text-black py-5 text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-300 hover:bg-zinc-200 active:scale-[0.98]"
+                className="relative z-50 pointer-events-auto cursor-pointer w-full bg-white text-black py-4 md:py-5 text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-300 hover:bg-zinc-200 active:scale-[0.98]"
               >
                 ADICIONAR AO CARRINHO
               </button>
