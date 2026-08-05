@@ -193,10 +193,10 @@ function ProductDetail() {
                 Nosso arsenal é forjado internacionalmente. O tempo de processamento é de 1 a 3 dias úteis. O prazo de entrega estimado para o Brasil é de 7 a 15 dias úteis. Todas as remessas possuem código de rastreio enviado diretamente para o seu e-mail.
                 <div className="mt-4">
                   <Link to="/envios" className="text-white underline decoration-zinc-700 hover:decoration-white transition-colors">Mais detalhes sobre envios</Link>
-          </motion.div>
+                </div>
               </Accordion>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>
