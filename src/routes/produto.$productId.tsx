@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useMemo, useEffect } from "react";
-import { X, Minus, Plus, ShoppingBag, ChevronDown, ChevronUp, ArrowLeft, Loader2 } from "lucide-react";
+import { X, Minus, Plus, ShoppingBag, ChevronDown, ChevronUp, ArrowLeft, Loader2, ShieldCheck, CreditCard, Truck } from "lucide-react";
+import { TrustBadges } from "@/components/TrustBadges";
 
 import { useCartStore, type Product } from "@/lib/cart-store";
 import { Toaster, toast as sonnerToast } from "sonner";
@@ -157,6 +158,10 @@ function ProductDetail() {
               >
                 ADICIONAR AO CARRINHO
               </button>
+            </div>
+
+            <div className="pt-4 border-t border-zinc-900">
+              <TrustBadges />
             </div>
 
 

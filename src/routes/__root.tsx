@@ -14,6 +14,7 @@ import { X, ShoppingBag, Minus, Plus, Trash2, Menu, ShieldCheck, CreditCard, Tru
 import { useCartStore } from "@/lib/cart-store";
 import { Toaster, toast as sonnerToast } from "sonner";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { TrustBadges } from "@/components/TrustBadges";
 
 
 import appCss from "../styles.css?url";
@@ -377,14 +378,30 @@ function GlobalCartDrawer() {
               </button>
             </div>
 
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs uppercase tracking-widest text-zinc-400">Total</span>
-              <div className="flex flex-col items-end">
-                {activeCoupon && (
-                  <span className="text-[10px] text-zinc-500 line-through mb-1">
-                    {(cartTotal / (1 - discountValue)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+            <div className="space-y-3 bg-zinc-900/30 p-4 rounded-sm border border-zinc-900 mb-6">
+              <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-zinc-500">
+                <span>Subtotal</span>
+                <span>{cartTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+              </div>
+              
+              {savedShippingCost !== null && (
+                <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-zinc-500">
+                  <span>Frete Estimado</span>
+                  <span className={savedShippingCost === 0 ? "text-[#8B0000] font-bold" : ""}>
+                    {savedShippingCost === 0 ? 'GRÁTIS' : savedShippingCost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                   </span>
-                )}
+                </div>
+              )}
+
+              {activeCoupon && (
+                <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-[#8B0000]">
+                  <span>Desconto Cupom</span>
+                  <span>-{(cartTotal * discountValue).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+                </div>
+              )}
+
+              <div className="pt-3 border-t border-zinc-800 flex items-center justify-between">
+                <span className="text-xs uppercase tracking-[0.2em] font-bold text-white">Total Final</span>
                 <span className={`text-lg font-bold ${activeCoupon ? 'text-[#8B0000]' : 'text-white'}`}>
                   {(cartTotal + (savedShippingCost || 0)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                 </span>
@@ -392,15 +409,11 @@ function GlobalCartDrawer() {
             </div>
             
             {activeCoupon && (
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-[10px] uppercase tracking-widest text-zinc-500">Cupom: {activeCoupon}</span>
-                <button onClick={removeCoupon} className="text-[8px] uppercase tracking-widest text-red-900 hover:text-red-700">Remover</button>
+              <div className="flex items-center justify-between mb-6 px-1">
+                <span className="text-[10px] uppercase tracking-widest text-zinc-500">CUPOM ATIVO: {activeCoupon}</span>
+                <button onClick={removeCoupon} className="text-[8px] uppercase tracking-widest text-red-900 hover:text-red-700 font-bold">REMOVER</button>
               </div>
             )}
-
-            <p className="text-[10px] text-zinc-500 mt-2 mb-6 text-center uppercase tracking-wider italic">
-              Envio {savedShippingCost === 0 ? 'grátis' : 'calculado'} para sua região
-            </p>
             <button 
               disabled={isCheckoutDisabled}
               className={`w-full ${isCheckoutDisabled ? 'bg-zinc-800 text-zinc-500 grayscale cursor-not-allowed' : 'bg-white text-black hover:bg-zinc-200'} transition-all duration-300 py-4 font-bold tracking-[0.2em] text-xs uppercase shadow-lg mb-6`}
@@ -409,19 +422,8 @@ function GlobalCartDrawer() {
             </button>
 
             {/* Trust Badges */}
-            <div className="grid grid-cols-1 gap-3 pt-4 border-t border-zinc-900">
-              <div className="flex items-center gap-3 text-zinc-500 hover:text-white transition-colors">
-                <ShieldCheck size={14} className="text-[#8B0000]" />
-                <span className="text-[9px] uppercase tracking-[0.2em] font-bold">Compra 100% Segura</span>
-              </div>
-              <div className="flex items-center gap-3 text-zinc-500 hover:text-white transition-colors">
-                <CreditCard size={14} className="text-[#8B0000]" />
-                <span className="text-[9px] uppercase tracking-[0.2em] font-bold">Parcele em até 6x no Cartão / Desconto no PIX</span>
-              </div>
-              <div className="flex items-center gap-3 text-zinc-500 hover:text-white transition-colors">
-                <Truck size={14} className="text-[#8B0000]" />
-                <span className="text-[9px] uppercase tracking-[0.2em] font-bold">Entrega Garantida via Correios</span>
-              </div>
+            <div className="pt-6 border-t border-zinc-900">
+              <TrustBadges />
             </div>
           </div>
         )}
