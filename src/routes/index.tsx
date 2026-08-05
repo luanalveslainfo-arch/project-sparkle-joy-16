@@ -297,9 +297,15 @@ function Index() {
         </div>
         <h1 className="text-3xl md:text-4xl absolute left-1/2 -translate-x-1/2 select-none tracking-widest font-black" style={{ fontFamily: THEME.FONTS.DISPLAY }}>ARCANE</h1>
         <div className="flex items-center gap-5">
-          <button aria-label="Carrinho" className="relative group">
+          <button 
+            aria-label="Carrinho" 
+            className="relative group"
+            onClick={() => setIsCartOpen(true)}
+          >
             <ShoppingBag className="text-zinc-400 hover:text-white w-4 transition-colors" />
-            <span className="absolute -top-1 -right-1 bg-[#8B0000] text-[8px] px-1 rounded-full text-white">0</span>
+            <span className="absolute -top-1 -right-1 bg-[#8B0000] text-[8px] px-1 rounded-full text-white">
+              {cart.reduce((acc, item) => acc + item.quantity, 0)}
+            </span>
           </button>
         </div>
       </header>
