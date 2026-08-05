@@ -395,7 +395,7 @@ function GlobalCartDrawer() {
               
               {cartItemsCount >= 2 && (
                 <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-red-600 font-bold">
-                  <span>Bônus Progressivo (2+ Itens)</span>
+                  <span>Bônus Progressivo (2+ Itens: -10%)</span>
                   <span>-{totalDiscountValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
                 </div>
               )}
