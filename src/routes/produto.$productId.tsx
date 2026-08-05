@@ -1,9 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useMemo, useEffect } from "react";
 import { X, Minus, Plus, ShoppingBag, ChevronDown, ChevronUp, ArrowLeft, Loader2, ShieldCheck, CreditCard, Truck } from "lucide-react";
-import { Skeleton } from "@/components/Skeleton";
 import { TrustBadges } from "@/components/TrustBadges";
-import { motion } from "framer-motion";
 
 import { useCartStore, type Product } from "@/lib/cart-store";
 import { Toaster, toast as sonnerToast } from "sonner";
@@ -61,13 +59,7 @@ function ProductDetail() {
   const { addToCart, setIsCartOpen } = useCartStore();
   const navigate = useNavigate();
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const sizes = ["P", "M", "G", "GG"];
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 800);
-    return () => clearTimeout(timer);
-  }, []);
 
   // Force cast to Product since we have a fallback
   const product = useMemo(() => {
@@ -124,36 +116,18 @@ function ProductDetail() {
 
           {/* Right Column: Info & Checkout */}
           <div className="lg:sticky lg:top-24 h-fit space-y-8">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="space-y-4"
-            >
-              {isLoading ? (
-                <div className="space-y-4">
-                  <Skeleton className="h-12 w-3/4" />
-                  <div className="flex gap-4">
-                    <Skeleton className="h-8 w-24" />
-                    <Skeleton className="h-8 w-16" />
-                  </div>
-                  <Skeleton className="h-4 w-32" />
-                </div>
-              ) : (
-                <>
-                  <h1 className="text-4xl md:text-5xl font-black tracking-widest leading-tight uppercase font-sans">
-                    {product.name}
-                  </h1>
-                  <div className="flex items-center gap-4">
-                    <span className="text-2xl font-bold tracking-wider">{product.price}</span>
-                    <span className="px-2 py-1 bg-red-950/30 text-red-700 text-[10px] font-bold uppercase tracking-widest border border-red-900/30">
-                      7% OFF
-                    </span>
-                  </div>
-                  <p className="text-[10px] text-zinc-400 uppercase tracking-[0.2em]">ou {product.installments}</p>
-                </>
-              )}
-            </motion.div>
+            <div className="space-y-4">
+              <h1 className="text-4xl md:text-5xl font-black tracking-widest leading-tight uppercase font-sans">
+                {product.name}
+              </h1>
+              <div className="flex items-center gap-4">
+                <span className="text-2xl font-bold tracking-wider">{product.price}</span>
+                <span className="px-2 py-1 bg-red-950/30 text-red-700 text-[10px] font-bold uppercase tracking-widest border border-red-900/30">
+                  7% OFF
+                </span>
+              </div>
+              <p className="text-[10px] text-zinc-400 uppercase tracking-[0.2em]">ou {product.installments}</p>
+            </div>
 
             <div className="space-y-4">
               <div className="flex items-center justify-between">
@@ -186,19 +160,9 @@ function ProductDetail() {
               </button>
             </div>
 
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="pt-6 border-t border-zinc-900 bg-zinc-950/50 p-4 rounded-sm"
-            >
-              <div className="flex items-center justify-between mb-4 text-[9px] uppercase tracking-[0.2em] text-zinc-500 font-bold border-b border-zinc-900 pb-2">
-                <span>Garantias Arcane</span>
-                <span className="text-emerald-900">5% OFF NO PIX</span>
-              </div>
+            <div className="pt-4 border-t border-zinc-900">
               <TrustBadges />
-            </motion.div>
+            </div>
 
 
             <div className="pt-8">

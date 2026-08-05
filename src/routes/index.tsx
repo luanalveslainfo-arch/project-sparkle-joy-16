@@ -2,16 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Truck, Shield, Star, Phone } from "lucide-react";
 import { useMemo } from "react";
 import { toast as sonnerToast } from "sonner";
-import { motion } from "framer-motion";
 
 import { useCartStore } from "@/lib/cart-store";
 import { mockProducts } from "@/lib/products-data";
-import { AshParticles } from "@/components/AshParticles";
-import { ProductSkeleton } from "@/components/Skeleton";
-import { ProductCard } from "@/components/ProductCard";
-import { InteractiveGrid } from "@/components/InteractiveGrid";
-import { MagneticButton } from "@/components/MagneticButton";
-import { useState, useEffect } from "react";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -55,13 +48,6 @@ const THEME = {
 
 function Index() {
   const { isCartOpen } = useCartStore();
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    // Simulate loading for skeleton visibility
-    const timer = setTimeout(() => setIsLoading(false), 800);
-    return () => clearTimeout(timer);
-  }, []);
 
   const productsByCategory = useMemo(() => {
     return {
@@ -80,84 +66,45 @@ function Index() {
         {/* Background Image using Native <img> for Vite optimization */}
         <img 
           src="/hero.png" 
-          alt="Arcane | Memento Mori - Dark Fitness & Streetwear" 
-          width="1920"
-          height="1080"
-          fetchPriority="high"
-          loading="eager"
-          decoding="async"
+          alt="Memento Mori" 
           className="absolute inset-0 w-full h-full object-cover object-top z-0" 
         />
         
-        {/* Ash Particles Canvas */}
-        <AshParticles />
-
         {/* Overlay */}
         <div className="absolute inset-0 bg-black/85 z-10" />
 
         {/* Content */}
         <div className="relative z-20 flex flex-col items-center justify-center h-full text-center px-4 cursor-default">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="text-7xl md:text-[11rem] tracking-tight leading-[0.85] mb-8 font-madness text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]"
-          >
+          <h2 className="text-7xl md:text-[11rem] tracking-tight leading-[0.85] mb-8 font-madness text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
             MEMENTO <br /> <span className="text-red-700 drop-shadow-[0_0_50px_rgba(185,28,28,0.6)]">MORI</span>
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
-            className="text-zinc-200 tracking-[0.5em] uppercase text-[10px] md:text-xs max-w-xl mx-auto font-light mb-10"
-          >
+          </h2>
+          <p className="text-zinc-200 tracking-[0.5em] uppercase text-[10px] md:text-xs max-w-xl mx-auto font-light mb-10">
             BEYOND THE SHADOWS OF MORTALITY LIES THE PATH OF DISCIPLINE
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut", delay: 0.4 }}
+          </p>
+          <Link 
+            to="/manifesto" 
+            className="relative z-50 pointer-events-auto border border-white bg-black/50 text-white px-10 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 ease-in-out hover:bg-white hover:text-black hover:scale-[1.02] active:scale-[0.98] mt-8 cursor-pointer"
           >
-            <MagneticButton className="flex items-center justify-center mt-8">
-              <Link 
-                to="/manifesto" 
-                className="relative z-50 pointer-events-auto border border-white bg-black/50 text-white px-10 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 ease-in-out hover:bg-white hover:text-black cursor-pointer"
-              >
-                LER O MANIFESTO
-              </Link>
-            </MagneticButton>
-          </motion.div>
+            LER O MANIFESTO
+          </Link>
         </div>
       </section>
 
-      {/* Featured Categories / Drops */}
-      <section className="bg-zinc-950 border-y border-zinc-900 py-16">
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-12">
-          <div className="flex flex-col items-center text-center gap-4 group">
-            <div className="w-16 h-16 rounded-full bg-zinc-900 flex items-center justify-center border border-zinc-800 transition-colors group-hover:border-red-900/50">
-              <Truck size={24} className="text-zinc-500 group-hover:text-red-700 transition-colors" />
+      {/* Trust Badges Section */}
+      <section className="bg-zinc-950 border-y border-zinc-800 py-6">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex flex-col md:flex-row items-center justify-around gap-8 md:gap-4 text-center">
+            <div className="flex flex-col items-center gap-2">
+              <Truck size={20} className="text-zinc-400" />
+              <span className="text-xs font-bold tracking-widest text-zinc-400 uppercase">FRETE GRÁTIS ACIMA DE R$299</span>
             </div>
-            <div className="space-y-1">
-              <h4 className="text-[10px] font-black tracking-[0.3em] uppercase text-white">Logística Premium</h4>
-              <p className="text-[9px] tracking-widest text-zinc-500 uppercase">Frete grátis acima de R$299</p>
+            <div className="flex flex-col items-center gap-2">
+              <Shield size={20} className="text-zinc-400" />
+              <span className="text-xs font-bold tracking-widest text-zinc-400 uppercase">COMPRA 100% SEGURA</span>
             </div>
-          </div>
-          <div className="flex flex-col items-center text-center gap-4 group">
-            <div className="w-16 h-16 rounded-full bg-zinc-900 flex items-center justify-center border border-zinc-800 transition-colors group-hover:border-red-900/50">
-              <Shield size={24} className="text-zinc-500 group-hover:text-red-700 transition-colors" />
-            </div>
-            <div className="space-y-1">
-              <h4 className="text-[10px] font-black tracking-[0.3em] uppercase text-white">Fortaleza Blindada</h4>
-              <p className="text-[9px] tracking-widest text-zinc-500 uppercase">Compra 100% Segura</p>
-            </div>
-          </div>
-          <div className="flex flex-col items-center text-center gap-4 group">
-            <div className="w-16 h-16 rounded-full bg-zinc-900 flex items-center justify-center border border-zinc-800 transition-colors group-hover:border-red-900/50">
-              <Star size={24} className="text-zinc-500 group-hover:text-red-700 transition-colors" />
-            </div>
-            <div className="space-y-1">
-              <h4 className="text-[10px] font-black tracking-[0.3em] uppercase text-white">Forjado no Caos</h4>
-              <p className="text-[9px] tracking-widest text-zinc-500 uppercase">Qualidade Premium Garantida</p>
+            <div className="flex flex-col items-center gap-2">
+              <Star size={20} className="text-zinc-400" />
+              <span className="text-xs font-bold tracking-widest text-zinc-400 uppercase">QUALIDADE PREMIUM GARANTIDA</span>
             </div>
           </div>
         </div>
@@ -166,28 +113,24 @@ function Index() {
       <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 space-y-32">
         {Object.entries(productsByCategory).map(([category, items]) => (
           <section key={category} className="py-20 md:py-32">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="flex flex-col items-center justify-center mb-16"
-            >
-              <h3 className="text-2xl md:text-4xl font-madness tracking-wider text-white mb-4 text-center">
-                {category === 'arcane' ? 'Drop Arcane' : category === 'oversized' ? 'Camisas Oversized' : 'Moletons e Calças'}
+            <div className="flex items-center justify-center mb-10 border-b border-zinc-800 pb-8">
+              <h3 className="text-2xl md:text-3xl font-sans font-bold tracking-[0.2em] uppercase text-white mb-8 text-center">
+                {category === 'arcane' ? 'Drop Arcano' : category === 'oversized' ? 'Camisas Oversized' : 'Moletons e Calças'}
               </h3>
-              <div className="w-12 h-[1px] bg-red-800" />
-            </motion.div>
-            <InteractiveGrid>
-              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12 relative z-10">
-                {isLoading 
-                  ? Array.from({ length: 4 }).map((_, i) => <ProductSkeleton key={i} />)
-                  : items.map((p) => (
-                      <ProductCard key={p.id} product={p} />
-                    ))
-                }
-              </div>
-            </InteractiveGrid>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
+              {items.map((p) => (
+                <div key={p.id} className="relative z-10">
+                  <Link 
+                    to="/produto/$productId" 
+                    params={{ productId: p.id.toString() }} 
+                    className="block cursor-pointer relative z-10 pointer-events-auto"
+                  >
+                    <ProductCard product={p} />
+                  </Link>
+                </div>
+              ))}
+            </div>
           </section>
         ))}
       </main>
@@ -209,7 +152,25 @@ function Index() {
   );
 }
 
-// ProductCard removed from here and moved to src/components/ProductCard.tsx
+function ProductCard({ product }: { product: Product }) {
+  return (
+    <div className="group flex flex-col items-start text-left relative z-10">
+      <div className="relative w-full aspect-[3/4] bg-zinc-950 flex items-center justify-center overflow-hidden mb-4">
+        <img 
+          src={product.image} 
+          alt={product.name} 
+          className="w-full h-full object-cover brightness-75 group-hover:scale-105 transition-all duration-700" 
+        />
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+      </div>
+      
+      <div className="flex flex-col gap-1">
+        <h4 className="text-sm font-bold uppercase tracking-[0.1em] text-zinc-300">{product.name}</h4>
+        <span className="text-base font-semibold text-white">{product.price}</span>
+      </div>
+    </div>
+  );
+}
 
 function Footer() {
   const handleNewsletter = (e: React.FormEvent<HTMLFormElement>) => {

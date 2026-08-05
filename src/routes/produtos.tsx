@@ -1,10 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState, useEffect } from "react";
-import { ProductSkeleton } from "@/components/Skeleton";
-import { motion } from "framer-motion";
+import { useMemo, useState } from "react";
 import { useCartStore } from "@/lib/cart-store";
 import { mockProducts } from "@/lib/products-data";
-import { ProductCard } from "@/components/ProductCard";
 
 export const Route = createFileRoute("/produtos")({
   component: ProdutosPage,
@@ -19,12 +16,6 @@ const THEME = {
 
 function ProdutosPage() {
   const { addToCart } = useCartStore();
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 800);
-    return () => clearTimeout(timer);
-  }, []);
 
   const productsByCategory = useMemo(() => {
     return {
@@ -44,24 +35,23 @@ function ProdutosPage() {
       <div className="max-w-7xl mx-auto space-y-32">
         {Object.entries(productsByCategory).map(([category, items]) => (
           <section key={category}>
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="flex items-center justify-center mb-10 border-b border-zinc-900 pb-8"
-            >
+            <div className="flex items-center justify-center mb-10 border-b border-zinc-900 pb-8">
               <h2 className="text-xl md:text-2xl font-bold tracking-[0.2em] uppercase text-white">
-                {category === 'arcane' ? 'Drop Arcane' : category === 'oversized' ? 'Camisas Oversized' : 'Moletons e Calças'}
+                {category === 'arcane' ? 'Drop Arcano' : category === 'oversized' ? 'Camisas Oversized' : 'Moletons e Calças'}
               </h2>
-            </motion.div>
+            </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-12">
-              {isLoading
-                ? Array.from({ length: 4 }).map((_, i) => <ProductSkeleton key={i} />)
-                : items.map((p) => (
-                    <ProductCard key={p.id} product={p} />
-                  ))
-              }
+              {items.map((p) => (
+                <div key={p.id} className="relative z-10">
+                  <Link 
+                    to="/produto/$productId" 
+                    params={{ productId: p.id.toString() }} 
+                    className="block cursor-pointer relative z-10 pointer-events-auto"
+                  >
+                    <ProductCard product={p} />
+                  </Link>
+                </div>
+              ))}
             </div>
           </section>
         ))}
@@ -75,4 +65,22 @@ function ProdutosPage() {
   );
 }
 
-// ProductCard removed and moved to src/components/ProductCard.tsx
+function ProductCard({ product }: { product: any }) {
+  return (
+    <div className="group flex flex-col items-start text-left relative z-10">
+      <div className="relative w-full aspect-[3/4] bg-zinc-950 flex items-center justify-center overflow-hidden mb-4">
+        <img 
+          src={product.image} 
+          alt={product.name} 
+          className="w-full h-full object-cover brightness-75 group-hover:scale-105 transition-all duration-700" 
+        />
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+      </div>
+      
+      <div className="flex flex-col gap-1">
+        <h4 className="text-sm font-bold uppercase tracking-[0.1em] text-zinc-300">{product.name}</h4>
+        <span className="text-base font-semibold text-white">{product.price}</span>
+      </div>
+    </div>
+  );
+}

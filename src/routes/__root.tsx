@@ -10,14 +10,12 @@ import {
   useLocation,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode, useState, useCallback, useRef } from "react";
-import { X, ShoppingBag, Minus, Plus, Trash2, Menu } from "lucide-react";
-import { MagneticButton } from "@/components/MagneticButton";
+import { X, ShoppingBag, Minus, Plus, Trash2, Menu, ShieldCheck, CreditCard, Truck } from "lucide-react";
 import { useCartStore } from "@/lib/cart-store";
-import { Toaster } from "sonner";
+import { Toaster, toast as sonnerToast } from "sonner";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { TrustBadges } from "@/components/TrustBadges";
-import { motion, AnimatePresence } from "framer-motion";
-import { GlowCursor } from "@/components/GlowCursor";
+
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -87,15 +85,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Arcane | Memento Mori - Dark Fitness & Streetwear" },
-      { name: "description", content: "Explore a Arcane. Roupas fitness e streetwear com estética dark gótica. Memento Mori - Onde a disciplina encontra a mortalidade. Alta qualidade e design exclusivo." },
-      { property: "og:title", content: "Arcane | Memento Mori - Dark Fitness & Streetwear" },
-      { property: "og:description", content: "Explore a Arcane. Roupas fitness e streetwear com estética dark gótica. Memento Mori - Onde a disciplina encontra a mortalidade." },
-      { property: "og:image", content: "https://project-sparkle-joy-16.lovable.app/hero.png" },
-      { property: "og:url", content: "https://project-sparkle-joy-16.lovable.app/" },
+      { title: "Arcane | Memento Mori" },
+      { name: "description", content: "Premium Dark Fitness Streetwear" },
+      { property: "og:title", content: "Arcane | Streetwear & Fitness" },
+      { property: "og:description", content: "Premium Dark Fitness Streetwear" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "https://project-sparkle-joy-16.lovable.app/hero.png" },
     ],
     links: [
       {
@@ -122,7 +117,6 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <GlowCursor />
         {children}
         <Scripts />
       </body>
@@ -154,6 +148,7 @@ function GlobalCartDrawer() {
   const [cepError, setCepError] = useState<string | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
 
+  // Mask and Normalize CEP
   const formatCep = (value: string) => {
     const digits = value.replace(/\D/g, '').slice(0, 8);
     if (digits.length <= 5) return digits;
@@ -162,23 +157,35 @@ function GlobalCartDrawer() {
 
   const calculateShipping = async (value: string) => {
     const cleanCep = value.replace(/\D/g, '');
+    
     if (cleanCep.length === 8) {
       setIsCalculating(true);
       setCepError(null);
+      
+      // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 800));
+
       if (cleanCep.startsWith('000')) {
         setCepError('CEP INVÁLIDO OU NÃO ENCONTRADO');
         setSavedShippingCost(null);
+      } else if (cleanCep === '99999999') {
+        setCepError('ERRO NA CONSULTA. TENTE NOVAMENTE');
+        setSavedShippingCost(null);
       } else {
+        setCepError(null);
         const cost = freeShippingProgress >= 100 ? 0 : 25;
         setSavedShippingCost(cost);
       }
       setIsCalculating(false);
     } else {
       setSavedShippingCost(null);
+      if (cleanCep.length > 0 && cleanCep.length < 8) {
+        setCepError(null);
+      }
     }
   };
 
+  // Debounced calculation
   useEffect(() => {
     const timer = setTimeout(() => {
       calculateShipping(savedCep);
@@ -186,154 +193,242 @@ function GlobalCartDrawer() {
     return () => clearTimeout(timer);
   }, [savedCep, freeShippingProgress]);
 
+  if (!isCartOpen) return null;
+
   const isCheckoutDisabled = isCalculating || !!cepError || savedShippingCost === null;
 
   return (
-    <AnimatePresence>
-      {isCartOpen && (
-        <div className="fixed inset-0 z-[9999]">
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999]"
-            onClick={() => setIsCartOpen(false)}
-          />
-          <motion.div 
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed top-0 right-0 h-full w-full md:w-[400px] bg-zinc-950 border-l border-zinc-800 shadow-2xl z-[10000] flex flex-col"
-          >
-            <div className="p-6 border-b border-zinc-900">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="font-sans text-lg font-bold tracking-widest text-white uppercase">SEU CARRINHO</h2>
-                <button onClick={() => setIsCartOpen(false)} className="text-zinc-400 hover:text-white p-1">
-                  <X size={20} />
-                </button>
-              </div>
-              <div className="space-y-2">
-                <div className="flex justify-between items-end">
-                  <p className="text-[10px] uppercase tracking-wider text-zinc-400">
-                    {remainingForFreeShipping > 0 
-                      ? `Faltam ${remainingForFreeShipping.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} para Frete Grátis`
-                      : "Você ganhou Frete Grátis! 🩸"}
-                  </p>
-                </div>
-                <div className="h-1 bg-zinc-800 w-full rounded-full overflow-hidden">
-                  <div 
-                    className="h-full transition-all duration-500"
-                    style={{ 
-                      width: `${freeShippingProgress}%`,
-                      backgroundColor: freeShippingProgress >= 100 ? '#8B0000' : 'white'
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
-              {cart.length === 0 ? (
-                <div className="flex-1 flex flex-col items-center justify-center text-center px-8 gap-8">
-                  <p className="text-[10px] uppercase tracking-[0.4em] text-zinc-500 font-bold">SEU ARSENAL ESTÁ VAZIO</p>
-                  <button onClick={() => setIsCartOpen(false)} className="border border-white/20 px-8 py-3 text-[10px] uppercase tracking-[0.2em] font-bold text-white hover:bg-white hover:text-black">
-                    VOLTAR ÀS SOMBRAS
-                  </button>
-                </div>
-              ) : (
-                cart.map((item, idx) => (
-                  <div key={`${item.id}-${item.selectedSize}-${idx}`} className="flex gap-4">
-                    <div className="w-20 h-24 bg-zinc-900 border border-zinc-800 rounded-sm">
-                      <img src={item.image} alt={item.name} className="w-full h-full object-cover grayscale brightness-50" />
-                    </div>
-                    <div className="flex-1 flex flex-col justify-between py-1">
-                      <div>
-                        <h3 className="text-xs font-bold text-white uppercase tracking-wider">{item.name}</h3>
-                        <p className="text-[10px] text-zinc-400 uppercase mt-1">Tamanho: {item.selectedSize}</p>
-                        <p className="text-xs font-bold text-white mt-1">{item.price}</p>
-                      </div>
-                      <div className="flex items-center justify-between mt-2">
-                        <div className="flex items-center border border-zinc-800 rounded-sm">
-                          <button onClick={() => updateQuantity(item.id, item.selectedSize, -1)} className="w-8 h-8 flex items-center justify-center text-zinc-400"><Minus size={12} /></button>
-                          <span className="w-8 h-8 flex items-center justify-center text-xs text-white font-bold">{item.quantity}</span>
-                          <button onClick={() => updateQuantity(item.id, item.selectedSize, 1)} className="w-8 h-8 flex items-center justify-center text-zinc-400"><Plus size={12} /></button>
-                        </div>
-                        <button onClick={() => removeFromCart(item.id, item.selectedSize)} className="text-zinc-500 hover:text-[#8B0000]"><Trash2 size={16} /></button>
-                      </div>
-                    </div>
-                  </div>
-                ))
+    <>
+      <div 
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] transition-opacity duration-300"
+        onClick={() => setIsCartOpen(false)}
+      />
+      <div className={`fixed top-0 right-0 h-full w-full md:w-[400px] bg-zinc-950 border-l border-zinc-800 shadow-2xl z-[10000] flex flex-col transform transition-transform duration-300 ease-in-out`}>
+        {/* Cart Header */}
+        <div className="p-6 border-b border-zinc-900">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-sans text-lg font-bold tracking-widest text-white uppercase">SEU CARRINHO</h2>
+            <button 
+              onClick={() => setIsCartOpen(false)}
+              className="text-zinc-400 hover:text-white p-1"
+            >
+              <X size={20} />
+            </button>
+          </div>
+          
+          {/* Free Shipping Progress */}
+          <div className="space-y-2">
+            <div className="flex justify-between items-end">
+              <p className="text-[10px] uppercase tracking-wider text-zinc-400">
+                {remainingForFreeShipping > 0 
+                  ? `Faltam ${remainingForFreeShipping.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} para Frete Grátis`
+                  : "Você ganhou Frete Grátis! 🩸"}
+              </p>
+              {savedShippingCost !== null && !cepError && !isCalculating && (
+                <span className="text-[8px] uppercase tracking-widest text-zinc-500 font-bold">
+                  {savedShippingCost === 0 ? "BÔNUS APLICADO" : "ENVIO EXPRESSO"}
+                </span>
               )}
-              {cart.length > 0 && (
-                <div className="mt-8 pt-8 border-t border-zinc-900 space-y-4">
-                  <div className="flex flex-col gap-2">
-                    <label className="text-[10px] text-zinc-500 uppercase tracking-widest">Cálculo de Frete</label>
+            </div>
+            <div className="h-1 bg-zinc-800 w-full rounded-full overflow-hidden">
+              <div 
+                className="h-full transition-all duration-500"
+                style={{ 
+                  width: `${freeShippingProgress}%`,
+                  backgroundColor: freeShippingProgress >= 100 ? '#8B0000' : 'white'
+                }}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Content Area */}
+        <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+          {cart.length === 0 ? (
+            <div className="flex-1 flex flex-col items-center justify-center text-center px-8 gap-8">
+              <div className="space-y-2">
+                <p className="text-[10px] uppercase tracking-[0.4em] text-zinc-500 font-bold">SEU ARSENAL ESTÁ VAZIO</p>
+                <p className="text-[8px] uppercase tracking-[0.2em] text-zinc-600 italic">EQUIPE-SE PARA A BATALHA</p>
+              </div>
+              <button 
+                onClick={() => setIsCartOpen(false)}
+                className="border border-white/20 px-8 py-3 text-[10px] uppercase tracking-[0.2em] font-bold text-white hover:bg-white hover:text-black transition-all duration-300"
+              >
+                VOLTAR ÀS SOMBRAS
+              </button>
+            </div>
+          ) : (
+            cart.map((item, idx) => (
+              <div key={`${item.id}-${item.selectedSize}-${idx}`} className="flex gap-4 group">
+                {/* Product Image Placeholder */}
+                <div className="w-20 h-24 bg-zinc-900 border border-zinc-800 rounded-sm flex items-center justify-center text-[8px] uppercase text-zinc-600 text-center px-1 leading-tight">
+                  <img src={item.image} alt={item.name} className="w-full h-full object-cover grayscale brightness-50" />
+                </div>
+                
+                {/* Product Info */}
+                <div className="flex-1 flex flex-col justify-between py-1">
+                  <div>
+                    <h3 className="text-xs font-bold text-white uppercase tracking-wider">{item.name}</h3>
+                    {item.selectedSize && (
+                      <p className="text-[10px] text-zinc-400 uppercase mt-1">Tamanho: {item.selectedSize}</p>
+                    )}
+                    <p className="text-xs font-bold text-white mt-1">{item.price}</p>
+                  </div>
+                  
+                  {/* Controls */}
+                  <div className="flex items-center justify-between mt-2">
+                    <div className="flex items-center border border-zinc-800 rounded-sm">
+                      <button 
+                        onClick={() => updateQuantity(item.id, item.selectedSize, -1)}
+                        className="w-8 h-8 flex items-center justify-center text-zinc-400 hover:text-white transition-colors"
+                      >
+                        <Minus size={12} />
+                      </button>
+                      <span className="w-8 h-8 flex items-center justify-center text-xs text-white border-x border-zinc-800 font-bold">
+                        {item.quantity}
+                      </span>
+                      <button 
+                        onClick={() => updateQuantity(item.id, item.selectedSize, 1)}
+                        className="w-8 h-8 flex items-center justify-center text-zinc-400 hover:text-white transition-colors"
+                      >
+                        <Plus size={12} />
+                      </button>
+                    </div>
+                    
+                    <button 
+                      onClick={() => removeFromCart(item.id, item.selectedSize)}
+                      className="text-zinc-500 hover:text-[#8B0000] transition-colors p-2"
+                      aria-label="Remover item"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                </div>
+                </div>
+              ))
+            )}
+            
+            {cart.length > 0 && (
+              <div className="mt-8 pt-8 border-t border-zinc-900 space-y-4">
+                <div className="flex flex-col gap-2">
+                  <label className="text-[10px] text-zinc-500 uppercase tracking-widest">Cálculo de Frete</label>
+                  <div className="flex gap-2">
                     <input 
                       type="text"
                       value={savedCep}
-                      onChange={e => setSavedCep(formatCep(e.target.value))}
+                      onChange={e => {
+                        const formatted = formatCep(e.target.value);
+                        setSavedCep(formatted);
+                      }}
                       placeholder="00000-000"
-                      className="bg-transparent border-b border-zinc-800 text-white text-xs py-2 focus:outline-none"
+                      className={`flex-1 bg-transparent border-b ${cepError ? 'border-red-900' : 'border-zinc-800'} text-white text-xs py-2 focus:outline-none focus:border-zinc-500 transition-colors ${isCalculating ? 'opacity-50' : ''}`}
+                      disabled={isCalculating}
                     />
-                    {cepError && <span className="text-[8px] text-red-900 uppercase font-bold">{cepError}</span>}
+                    {isCalculating && (
+                      <div className="absolute right-0 bottom-2">
+                        <div className="w-3 h-3 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+                      </div>
+                    )}
                   </div>
-                </div>
-              )}
-            </div>
-
-            {cart.length > 0 && (
-              <div className="p-6 border-t border-zinc-900 bg-zinc-950">
-                <div className="mb-6 flex items-end gap-3">
-                  <input 
-                    type="text" 
-                    value={couponInput}
-                    onChange={(e) => setCouponInput(e.target.value)}
-                    placeholder="CUPOM" 
-                    className="bg-transparent border-b border-zinc-800 text-white text-xs py-2 w-full uppercase"
-                  />
-                  <button onClick={() => { if (applyCoupon(couponInput)) setCouponInput(""); }} className="text-[10px] font-bold text-zinc-400 hover:text-white uppercase">APLICAR</button>
-                </div>
-                <div className="space-y-3 bg-zinc-950 p-5 border border-zinc-900 mb-6">
-                  <div className="flex justify-between text-[10px] uppercase text-zinc-500">
-                    <span>Subtotal</span>
-                    <span>{cartTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
-                  </div>
-                  {savedShippingCost !== null && (
-                    <div className="flex justify-between text-[10px] uppercase text-zinc-500">
-                      <span>Envio</span>
-                      <span>{savedShippingCost === 0 ? 'GRÁTIS' : savedShippingCost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
-                    </div>
+                  {cepError && (
+                    <span className="text-[8px] text-red-900 uppercase font-bold tracking-widest">{cepError}</span>
                   )}
-                  {activeCoupon && (
-                    <div className="flex justify-between text-[10px] uppercase text-[#8B0000] font-black">
-                      <span>Cupom: {activeCoupon}</span>
-                      <span>-{(cartTotal * discountValue).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
-                    </div>
-                  )}
-                  <div className="pt-4 border-t border-zinc-900">
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs uppercase font-black text-white">Total</span>
-                      <span className="text-xl font-black text-white">
-                        {(cartTotal + (savedShippingCost || 0)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                </div>
+                
+                {savedShippingCost !== null && !cepError && !isCalculating && (
+                  <div className="bg-zinc-900/50 p-3 rounded border border-zinc-800/50 flex flex-col gap-1">
+                    <div className="flex justify-between items-center text-[10px] uppercase tracking-widest text-zinc-400">
+                      <span>Frete ({savedCep})</span>
+                      <span className={savedShippingCost === 0 ? "text-[#8B0000] font-bold" : "text-white"}>
+                        {savedShippingCost === 0 ? 'GRÁTIS' : savedShippingCost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                       </span>
                     </div>
+                    <p className="text-[8px] text-zinc-600 uppercase tracking-tighter leading-none italic">
+                      {savedShippingCost === 0 
+                        ? "CONDIÇÃO ESPECIAL: VALOR DE CARRINHO SUPERIOR A R$ 299,00" 
+                        : "ENTREGA ESTIMADA EM ATÉ 5 DIAS ÚTEIS APÓS A POSTAGEM"}
+                    </p>
                   </div>
-                </div>
-                <MagneticButton className="w-full">
-                  <button disabled={isCheckoutDisabled} className="w-full bg-white text-black py-4 font-bold uppercase text-xs">
-                    {isCalculating ? 'CALCULANDO...' : 'FINALIZAR COMPRA'}
-                  </button>
-                </MagneticButton>
-                <div className="pt-6 border-t border-zinc-900 mt-4">
-                  <TrustBadges />
-                </div>
+                )}
               </div>
             )}
-          </motion.div>
         </div>
-      )}
-    </AnimatePresence>
+
+        {/* Cart Footer */}
+        {cart.length > 0 && (
+          <div className="p-6 border-t border-zinc-900 bg-zinc-950">
+            {/* Coupon System */}
+            <div className="mb-6 flex items-end gap-3">
+              <div className="flex-1 flex flex-col gap-1">
+                <input 
+                  type="text" 
+                  value={couponInput}
+                  onChange={(e) => setCouponInput(e.target.value)}
+                  placeholder="CUPOM" 
+                  className="bg-transparent border-b border-zinc-800 text-white text-xs py-2 uppercase tracking-widest focus:outline-none focus:border-zinc-500 transition-colors w-full"
+                />
+              </div>
+              <button 
+                onClick={() => {
+                  if (applyCoupon(couponInput)) setCouponInput("");
+                }}
+                className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 hover:text-white transition-colors py-2"
+              >
+                APLICAR
+              </button>
+            </div>
+
+            <div className="space-y-3 bg-zinc-900/30 p-4 rounded-sm border border-zinc-900 mb-6">
+              <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-zinc-500">
+                <span>Subtotal</span>
+                <span>{cartTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+              </div>
+              
+              {savedShippingCost !== null && (
+                <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-zinc-500">
+                  <span>Frete Estimado</span>
+                  <span className={savedShippingCost === 0 ? "text-[#8B0000] font-bold" : ""}>
+                    {savedShippingCost === 0 ? 'GRÁTIS' : savedShippingCost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                  </span>
+                </div>
+              )}
+
+              {activeCoupon && (
+                <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-[#8B0000]">
+                  <span>Desconto Cupom</span>
+                  <span>-{(cartTotal * discountValue).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+                </div>
+              )}
+
+              <div className="pt-3 border-t border-zinc-800 flex items-center justify-between">
+                <span className="text-xs uppercase tracking-[0.2em] font-bold text-white">Total Final</span>
+                <span className={`text-lg font-bold ${activeCoupon ? 'text-[#8B0000]' : 'text-white'}`}>
+                  {(cartTotal + (savedShippingCost || 0)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                </span>
+              </div>
+            </div>
+            
+            {activeCoupon && (
+              <div className="flex items-center justify-between mb-6 px-1">
+                <span className="text-[10px] uppercase tracking-widest text-zinc-500">CUPOM ATIVO: {activeCoupon}</span>
+                <button onClick={removeCoupon} className="text-[8px] uppercase tracking-widest text-red-900 hover:text-red-700 font-bold">REMOVER</button>
+              </div>
+            )}
+            <button 
+              disabled={isCheckoutDisabled}
+              className={`w-full ${isCheckoutDisabled ? 'bg-zinc-800 text-zinc-500 grayscale cursor-not-allowed' : 'bg-white text-black hover:bg-zinc-200'} transition-all duration-300 py-4 font-bold tracking-[0.2em] text-xs uppercase shadow-lg mb-6`}
+            >
+              {isCalculating ? 'CALCULANDO...' : 'FINALIZAR COMPRA'}
+            </button>
+
+            {/* Trust Badges */}
+            <div className="pt-6 border-t border-zinc-900">
+              <TrustBadges />
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 
@@ -348,29 +443,55 @@ function RootComponent() {
   const { cart, setIsCartOpen } = useCartStore();
   const prefersReducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
 
+
+  // Task 1: Intelligent Header/Top Bar behavior
   useEffect(() => {
     const handleScroll = () => {
-      const current = window.scrollY;
-      setShowTopBar(current < 50 || current < lastScrollY.current);
-      lastScrollY.current = current;
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY < 50) {
+        setShowTopBar(true);
+      } else if (currentScrollY > lastScrollY.current) {
+        // Scrolling down
+        setShowTopBar(false);
+      } else {
+        // Scrolling up
+        setShowTopBar(true);
+      }
+      
+      lastScrollY.current = currentScrollY;
     };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
-
+  // Task 4: Scroll restoration fix using useLocation and window.scrollTo
   useEffect(() => {
-    const seen = sessionStorage.getItem('arcane_modal_seen');
-    if (pathname === "/" && !seen) {
-      const timer = setTimeout(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  // Welcome Modal Logic - Show after 6s on Home page only, once per session
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+    const hasSeenModal = sessionStorage.getItem('arcane_modal_seen');
+
+    if (pathname === "/" && !hasSeenModal) {
+      timer = setTimeout(() => {
         setShowModal(true);
         sessionStorage.setItem('arcane_modal_seen', 'true');
       }, 6000);
-      return () => clearTimeout(timer);
+    } else {
+      setShowModal(false);
     }
-    return undefined;
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
   }, [pathname]);
+
+  const handleCloseModal = useCallback(() => {
+    setShowModal(false);
+  }, []);
 
   const copyCoupon = () => {
     navigator.clipboard.writeText("ARCANE5");
@@ -378,127 +499,193 @@ function RootComponent() {
     setTimeout(() => setIsCopied(false), 2000);
   };
 
+  const THEME = {
+    FONTS: {
+      DISPLAY: "'Almendra Display', serif",
+      SANS: "'Outfit', sans-serif",
+    }
+  };
+
+  const transitionClass = prefersReducedMotion ? "" : "transition-all duration-500 ease-in-out";
+
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="flex flex-col min-h-screen bg-black text-white font-sans">
-        <div className={`h-8 bg-[#660000] fixed top-0 w-full z-[40] transition-transform duration-500 ${showTopBar ? 'translate-y-0' : '-translate-y-full'} border-b border-black/20`}>
-          <div className="flex animate-marquee py-1">
-            {[1, 2, 3, 4].map(i => (
-              <span key={i} className="text-[9px] uppercase font-black text-white/90 px-6 tracking-[0.2em] flex items-center gap-2">
-                <span>FRETE GRÁTIS ACIMA DE R$ 299</span>
-                <span className="w-1 h-1 bg-white/30 rounded-full" />
-                <span>5% DE DESCONTO NO PIX</span>
-                <span className="w-1 h-1 bg-white/30 rounded-full" />
+      <div className="flex flex-col min-h-screen bg-black text-white selection:bg-red-900/30" style={{ fontFamily: THEME.FONTS.SANS }}>
+
+        {/* Top Bar Marquee */}
+        <div className={`h-8 bg-red-950 flex items-center overflow-hidden border-b border-red-900/30 fixed top-0 left-0 right-0 z-[40] w-full ${transitionClass} ${showTopBar ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
+          <div className="flex whitespace-nowrap animate-marquee py-1">
+            {[1, 2, 3, 4].map((i) => (
+              <span key={i} className="text-[10px] uppercase tracking-[0.2em] font-bold text-white px-4">
+                FRETE GRÁTIS ACIMA DE R$ 299 • 5% DE DESCONTO NO PIX • QUALIDADE PREMIUM GARANTIDA • MEMENTO MORI •
               </span>
             ))}
           </div>
         </div>
 
-        <header className={`fixed left-0 w-full z-[30] bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800 transition-transform duration-500 ${showTopBar ? 'translate-y-8' : 'translate-y-0'} top-0 h-16 md:h-20 px-4 md:px-12 flex items-center justify-between`}>
-          <button className="md:hidden text-zinc-400" onClick={() => setIsMenuOpen(true)}><Menu size={20} /></button>
-          <nav className="hidden md:flex gap-6 text-[10px] uppercase text-zinc-400 font-bold">
-            <Link to="/">Home</Link><Link to="/produtos">Produtos</Link><Link to="/manifesto">Manifesto</Link>
-          </nav>
-          <Link to="/" className="text-4xl md:text-6xl absolute left-1/2 -translate-x-1/2 font-madness text-white">ARCANE</Link>
-          <button onClick={() => setIsCartOpen(true)} className="relative"><ShoppingBag className="text-zinc-400" /><span className="absolute -top-1 -right-1 bg-[#8B0000] text-[8px] px-1 rounded-full">{cart.reduce((a, b) => a + b.quantity, 0)}</span></button>
+        {/* Global Header */}
+        <header className={`fixed left-0 w-full z-[30] bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50 flex items-center justify-between ${transitionClass} ${showTopBar ? 'translate-y-8' : 'translate-y-0'} top-0 h-16 md:h-20 px-4 md:px-12`}>
+          <div className="flex items-center gap-6">
+            <nav className="hidden md:flex gap-6 text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-bold">
+              <Link to="/" className="hover:text-white transition-colors duration-300">Home</Link>
+              <Link to="/produtos" className="hover:text-white transition-colors duration-300">Produtos</Link>
+              <Link to="/manifesto" className="hover:text-white transition-colors duration-300">Manifesto</Link>
+              <a href="https://wa.me/5521965226593" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-300">Contato</a>
+            </nav>
+            <button 
+              className="md:hidden text-zinc-400 hover:text-white"
+              onClick={() => setIsMenuOpen(true)}
+              aria-label="Menu"
+            >
+              <Menu size={20} />
+            </button>
+          </div>
+          
+          <Link to="/" className="text-4xl md:text-6xl absolute left-1/2 -translate-x-1/2 select-none font-madness text-white hover:text-white/90">
+            ARCANE
+          </Link>
+
+          <div className="flex items-center gap-5">
+            <button 
+              aria-label="Carrinho" 
+              className="relative group"
+              onClick={() => setIsCartOpen(true)}
+            >
+              <ShoppingBag className="text-zinc-400 group-hover:text-white w-4 transition-colors" />
+              <span className="absolute -top-1 -right-1 bg-[#8B0000] text-[8px] px-1 rounded-full text-white font-bold">
+                {cart.reduce((acc, item) => acc + item.quantity, 0)}
+              </span>
+            </button>
+          </div>
         </header>
 
+        {/* Padding to prevent content under fixed header */}
         <div className="h-24 md:h-28" />
 
-        <AnimatePresence>
-          {isMenuOpen && (
-            <div className="fixed inset-0 z-[10001] flex">
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setIsMenuOpen(false)} />
-              <motion.div initial={{ x: "-100%" }} animate={{ x: 0 }} exit={{ x: "-100%" }} className="relative w-[300px] h-full bg-zinc-950 p-8 flex flex-col">
-                <div className="flex justify-between mb-12"><span className="text-4xl font-madness">ARCANE</span><button onClick={() => setIsMenuOpen(false)}><X size={24} /></button></div>
-                <nav className="flex flex-col"><Link to="/" onClick={() => setIsMenuOpen(false)} className="py-6 uppercase font-bold">Home</Link><Link to="/produtos" onClick={() => setIsMenuOpen(false)} className="py-6 uppercase font-bold">Produtos</Link></nav>
-              </motion.div>
-            </div>
-          )}
-        </AnimatePresence>
 
-        <main className="flex-1"><Outlet /></main>
+        {/* Mobile Menu Overlay */}
+        {isMenuOpen && (
+          <div className="fixed inset-0 z-[10001] flex">
+            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setIsMenuOpen(false)} />
+            <div className="relative w-[300px] h-full bg-zinc-950 border-r border-zinc-900 flex flex-col p-8 animate-in slide-in-from-left duration-300">
+              <div className="flex items-center justify-between mb-12">
+                <span className="text-4xl font-madness text-white">ARCANE</span>
+                <button onClick={() => setIsMenuOpen(false)} className="text-zinc-500 hover:text-white">
+                  <X size={24} />
+                </button>
+              </div>
+              <nav className="flex flex-col gap-0">
+                <Link 
+                  to="/" 
+                  onClick={() => setIsMenuOpen(false)}
+                  className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
+                >
+                  Home
+                </Link>
+                <Link 
+                  to="/produtos" 
+                  onClick={() => setIsMenuOpen(false)}
+                  className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
+                >
+                  Produtos
+                </Link>
+                <Link 
+                  to="/manifesto" 
+                  onClick={() => setIsMenuOpen(false)}
+                  className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
+                >
+                  Manifesto
+                </Link>
+                <a 
+                  href="https://wa.me/5521965226593" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
+                >
+                  Contato
+                </a>
+
+                <button 
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    setIsCartOpen(true);
+                  }}
+                  className="py-6 text-sm font-bold text-left uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
+                >
+                  Carrinho
+                </button>
+              </nav>
+              <div className="mt-auto">
+                <p className="text-[10px] uppercase tracking-widest text-zinc-600">Arcane • Memento Mori</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <main className="flex-1">
+          <Outlet />
+        </main>
       </div>
 
-      <AnimatePresence>
-        {showModal && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[10002] flex items-center justify-center p-4 overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-black/90 backdrop-blur-md" onClick={() => setShowModal(false)} />
+      {/* Welcome Pop-up */}
+      {showModal && (
+        <div className="fixed inset-0 z-[10002] flex items-center justify-center p-4 pointer-events-auto">
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={handleCloseModal} />
+          <div className="relative bg-zinc-950 border border-zinc-800 p-8 md:p-12 max-w-lg w-full text-center space-y-8 animate-in fade-in zoom-in duration-300">
+            <button 
+              onClick={handleCloseModal}
+              className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors"
+            >
+              <X size={20} />
+            </button>
+            <div className="space-y-4">
+              <h2 className="text-4xl md:text-5xl font-black tracking-widest text-white font-sans uppercase">
+                BEM-VINDO AO DROP ARCANO
+              </h2>
+              <p className="text-zinc-400 text-sm uppercase tracking-widest leading-relaxed">
+                Garanta 5% de desconto na sua primeira compra usando o cupom abaixo:
+              </p>
+            </div>
             
-            {/* Visual background element */}
-            <div className="absolute inset-0 pointer-events-none opacity-20">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-900/30 rounded-full blur-[120px]" />
+            <div className="flex items-center justify-between bg-zinc-900 border border-zinc-800 p-4 rounded-sm group">
+              <span className="font-mono text-xl font-bold tracking-widest text-white">ARCANE5</span>
+              <button 
+                onClick={copyCoupon}
+                className="bg-white text-black px-4 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-zinc-200 transition-colors"
+              >
+                {isCopied ? "COPIADO" : "COPIAR"}
+              </button>
             </div>
 
-            <motion.div 
-              initial={{ scale: 0.9, y: 20, opacity: 0 }}
-              animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: 0.9, y: 20, opacity: 0 }}
-              transition={{ type: "spring", damping: 20, stiffness: 100 }}
-              className="relative bg-zinc-950 border border-zinc-900 p-8 md:p-16 max-w-lg w-full text-center overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)]"
+            <button 
+              onClick={handleCloseModal}
+              className="w-full border border-zinc-700 text-zinc-400 py-4 text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-black hover:border-white transition-all duration-300"
             >
-              {/* Decorative corner */}
-              <div className="absolute top-0 right-0 w-24 h-24 border-t border-r border-red-900/30 pointer-events-none" />
-              <div className="absolute bottom-0 left-0 w-24 h-24 border-b border-l border-red-900/30 pointer-events-none" />
-              
-              <button 
-                onClick={() => setShowModal(false)} 
-                className="absolute top-6 right-6 text-zinc-600 hover:text-white transition-colors"
-              >
-                <X size={20} />
-              </button>
+              FECHAR E EXPLORAR
+            </button>
+          </div>
+        </div>
+      )}
 
-              <div className="space-y-12">
-                <div className="space-y-4">
-                  <span className="text-[10px] tracking-[0.5em] text-red-700 uppercase font-black">ENTRE NAS SOMBRAS</span>
-                  <h2 className="text-5xl md:text-6xl font-madness text-white tracking-tighter">ARCANE</h2>
-                </div>
-
-                <div className="space-y-6">
-                  <p className="text-zinc-400 text-[10px] uppercase tracking-[0.2em] leading-relaxed">
-                    SUA PRIMEIRA OFERENDA À SEITA ESTÁ GARANTIDA.<br />
-                    USE O CÓDIGO ABAIXO PARA LIBERAR O DESCONTO.
-                  </p>
-
-                  <div 
-                    onClick={copyCoupon}
-                    className="group relative cursor-pointer border border-zinc-800 bg-zinc-900/50 py-6 px-4 transition-all hover:border-red-900/50"
-                  >
-                    <div className="absolute inset-0 bg-red-950/0 group-hover:bg-red-950/10 transition-colors" />
-                    <span className="relative text-3xl md:text-4xl font-black tracking-[0.3em] text-white font-sans uppercase">
-                      ARCANE5
-                    </span>
-                    <div className="mt-4 flex items-center justify-center gap-2">
-                      <div className="h-[1px] w-4 bg-zinc-800 group-hover:bg-red-900" />
-                      <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500 group-hover:text-red-700">
-                        {isCopied ? "MANTRA COPIADO" : "CLIQUE PARA COPIAR"}
-                      </span>
-                      <div className="h-[1px] w-4 bg-zinc-800 group-hover:bg-red-900" />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-4">
-                  <button 
-                    onClick={() => setShowModal(false)}
-                    className="text-[9px] uppercase tracking-[0.4em] text-zinc-600 hover:text-white transition-colors underline underline-offset-8 decoration-zinc-800 hover:decoration-red-900"
-                  >
-                    CONTINUAR NO ANONIMATO
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
+      {/* Global Cart Drawer */}
       <GlobalCartDrawer />
-      <Toaster position="bottom-right" />
+      <Toaster 
+        position="bottom-right" 
+        expand={!prefersReducedMotion}
+        visibleToasts={3}
+        duration={3000}
+        toastOptions={{
+          className: 'bg-zinc-950 text-zinc-100 border border-zinc-800 rounded-none font-sans uppercase tracking-widest text-[10px] font-bold py-4 shadow-2xl',
+          descriptionClassName: "text-zinc-500 font-bold",
+          style: {
+            background: '#09090b',
+            color: '#f4f4f5',
+            borderColor: '#27272a',
+          },
+        }}
+        closeButton 
+      />
       <ScrollRestoration />
     </QueryClientProvider>
   );

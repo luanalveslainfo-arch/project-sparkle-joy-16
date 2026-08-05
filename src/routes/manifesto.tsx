@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCartStore } from "@/lib/cart-store";
 import { toast as sonnerToast } from "sonner";
-import { motion } from "framer-motion";
 
 export const Route = createFileRoute("/manifesto")({
   component: Manifesto,
@@ -21,72 +20,44 @@ function Manifesto() {
     <div className={`min-h-screen bg-black selection:bg-[#8B0000]/30 overflow-x-hidden ${isCartOpen ? 'overflow-hidden' : ''}`}>
       <main className="max-w-3xl mx-auto px-6 py-24 md:py-32 flex flex-col items-center text-center">
         {/* Title */}
-        <motion.h1 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
+        <h1 
           className="text-5xl md:text-7xl lg:text-8xl uppercase tracking-tighter leading-tight mb-16 font-black text-white" 
           style={{ fontFamily: THEME.FONTS.DISPLAY }}
         >
           MEMENTO <span className="text-[#8B0000]">MORI</span>
-        </motion.h1>
+        </h1>
 
         {/* Content */}
         <div className="space-y-12 mb-20">
-          {[
-            "A mediocridade é o conforto dos fracos. Na Arcane, acreditamos que o verdadeiro caráter é forjado na escuridão, longe dos aplausos e sob o peso da disciplina implacável.",
-            "Memento Mori não é sobre a morte, é sobre a urgência da vida. É lembrar que o tempo escorre pelas mãos e que cada fraqueza que você não domina, dominará você.",
-            "Nossas armaduras não são para qualquer um. Elas são feitas para aqueles que abraçam sua própria sombra, que entendem que o caminho para o topo é solitário e que as cicatrizes são as medalhas dos implacáveis."
-          ].map((text, i) => (
-            <motion.p 
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: i * 0.2 }}
-              className="text-zinc-300 text-lg md:text-xl leading-relaxed font-light tracking-wide text-justify md:text-center"
-            >
-              {text}
-            </motion.p>
-          ))}
+          <p className="text-zinc-300 text-lg md:text-xl leading-relaxed font-light tracking-wide text-justify md:text-center">
+            A mediocridade é o conforto dos fracos. Na Arcane, acreditamos que o verdadeiro caráter é forjado na escuridão, longe dos aplausos e sob o peso da disciplina implacável.
+          </p>
           
-          <motion.p 
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.6 }}
-            className="text-zinc-200 text-xl md:text-2xl font-bold uppercase tracking-[0.2em] mt-16 italic"
-          >
+          <p className="text-zinc-300 text-lg md:text-xl leading-relaxed font-light tracking-wide text-justify md:text-center">
+            Memento Mori não é sobre a morte, é sobre a urgência da vida. É lembrar que o tempo escorre pelas mãos e que cada fraqueza que você não domina, dominará você.
+          </p>
+          
+          <p className="text-zinc-300 text-lg md:text-xl leading-relaxed font-light tracking-wide text-justify md:text-center">
+            Nossas armaduras não são para qualquer um. Elas são feitas para aqueles que abraçam sua própria sombra, que entendem que o caminho para o topo é solitário e que as cicatrizes são as medalhas dos implacáveis.
+          </p>
+          
+          <p className="text-zinc-200 text-xl md:text-2xl font-bold uppercase tracking-[0.2em] mt-16 italic">
             Vista sua disciplina. Domine seu caos. Bem-vindo à Arcane.
-          </motion.p>
+          </p>
         </div>
 
         {/* Action */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.8 }}
+        <Link 
+          to="/produtos" 
+          className="bg-white text-black px-12 py-5 text-sm font-bold uppercase tracking-[0.2em] transition-all duration-500 hover:bg-zinc-200 hover:tracking-[0.3em] active:scale-95 shadow-[0_0_30px_rgba(255,255,255,0.1)]"
         >
-          <Link 
-            to="/produtos" 
-            className="bg-white text-black px-12 py-5 text-sm font-bold uppercase tracking-[0.2em] transition-all duration-500 hover:bg-zinc-200 hover:tracking-[0.3em] active:scale-95 shadow-[0_0_30px_rgba(255,255,255,0.1)]"
-          >
-            FORJAR MEU ARSENAL
-          </Link>
-        </motion.div>
+          FORJAR MEU ARSENAL
+        </Link>
       </main>
 
       {/* Aesthetic Divider */}
       <div className="w-full flex justify-center py-20">
-        <motion.div 
-          initial={{ height: 0 }}
-          whileInView={{ height: 128 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.5, ease: "easeInOut" }}
-          className="w-px bg-gradient-to-b from-zinc-800 to-transparent" 
-        />
+        <div className="w-px h-32 bg-gradient-to-b from-zinc-800 to-transparent" />
       </div>
 
       <Footer />
