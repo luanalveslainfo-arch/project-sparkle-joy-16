@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useMemo, useEffect } from "react";
 import { X, Minus, Plus, ShoppingBag, ChevronDown, ChevronUp, ArrowLeft, Loader2, ShieldCheck, CreditCard, Truck } from "lucide-react";
 import { TrustBadges } from "@/components/TrustBadges";
+import { motion } from "framer-motion";
 
 import { useCartStore, type Product } from "@/lib/cart-store";
 import { Toaster, toast as sonnerToast } from "sonner";
@@ -116,7 +117,12 @@ function ProductDetail() {
 
           {/* Right Column: Info & Checkout */}
           <div className="lg:sticky lg:top-24 h-fit space-y-8">
-            <div className="space-y-4">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="space-y-4"
+            >
               <h1 className="text-4xl md:text-5xl font-black tracking-widest leading-tight uppercase font-sans">
                 {product.name}
               </h1>
@@ -160,13 +166,19 @@ function ProductDetail() {
               </button>
             </div>
 
-            <div className="pt-6 border-t border-zinc-900 bg-zinc-950/50 p-4 rounded-sm">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="pt-6 border-t border-zinc-900 bg-zinc-950/50 p-4 rounded-sm"
+            >
               <div className="flex items-center justify-between mb-4 text-[9px] uppercase tracking-[0.2em] text-zinc-500 font-bold border-b border-zinc-900 pb-2">
                 <span>Garantias Arcane</span>
                 <span className="text-emerald-900">5% OFF NO PIX</span>
               </div>
               <TrustBadges />
-            </div>
+            </motion.div>
 
 
             <div className="pt-8">
