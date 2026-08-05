@@ -10,6 +10,8 @@ export interface Product {
   image: string;
   backImage?: string;
   category?: string;
+  isCombo?: boolean;
+  originalPrice?: string;
 }
 import { toast } from 'sonner';
 

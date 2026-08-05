@@ -7,17 +7,21 @@ export interface Product {
   image: string;
   backImage?: string;
   category: string;
+  isCombo?: boolean;
+  originalPrice?: string;
 }
 
 export const mockProducts: Product[] = [
   { 
     id: 1, 
-    name: "COMPRESSION VEIN", 
+    name: "COMBO DUO: 2 CAMISETAS OVERSIZED", 
     price: "R$ 189,90", 
     priceNumber: 189.90, 
     installments: "12x de R$ 15,82", 
     image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&q=80&w=800",
-    category: "arcane"
+    category: "arcane",
+    isCombo: true,
+    originalPrice: "R$ 379,80"
   },
   { 
     id: 2, 
