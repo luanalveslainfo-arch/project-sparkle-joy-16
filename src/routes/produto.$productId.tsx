@@ -60,6 +60,7 @@ function ProductDetail() {
   const { addToCart, setIsCartOpen } = useCartStore();
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedSize2, setSelectedSize2] = useState<string | null>(null);
+  const [purchaseType, setPurchaseType] = useState<"single" | "combo">("single");
   const [activeSlide, setActiveSlide] = useState(0);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const sizes = ["P", "M", "G", "GG"];
@@ -92,14 +93,26 @@ function ProductDetail() {
 
   const handleAddToCart = () => {
     if (!selectedSize) {
-      sonnerToast.error("Por favor, selecione o tamanho.");
+      sonnerToast.error(`Por favor, selecione o tamanho${purchaseType === 'combo' ? ' da 1ª peça' : ''}.`);
+      return;
+    }
+
+    if (purchaseType === 'combo' && !selectedSize2) {
+      sonnerToast.error("Por favor, selecione o tamanho da 2ª peça.");
       return;
     }
     
-    addToCart(product, selectedSize);
-    setIsCartOpen(true);
+    if (purchaseType === 'combo') {
+      // Add first item
+      addToCart(product, selectedSize || undefined, 1);
+      // Add second item (might be same ID/size, but addToCart handles it)
+      addToCart(product, selectedSize2 || undefined, 1);
+    } else {
+      addToCart(product, selectedSize || undefined, 1);
+    }
     
-    sonnerToast.success(`🩸 ${product.name} adicionado ao arsenal.`);
+    setIsCartOpen(true);
+    sonnerToast.success(`🩸 ${purchaseType === 'combo' ? 'Combo forjado' : product.name + ' adicionado'} ao arsenal.`);
   };
 
   return (
@@ -182,11 +195,46 @@ function ProductDetail() {
               <p className="text-[10px] text-zinc-400 uppercase tracking-[0.2em]">ou {product.installments}</p>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-8">
+              {/* Purchase Type Selector */}
+              <div className="space-y-4">
+                <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">Oferta de Drop</span>
+                <div className="grid grid-cols-1 gap-3">
+                  <button 
+                    onClick={() => setPurchaseType("single")}
+                    className={`flex items-center justify-between p-4 border transition-all duration-300 rounded-sm ${purchaseType === 'single' ? 'bg-zinc-900 border-white' : 'bg-transparent border-zinc-800 hover:border-zinc-700'}`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${purchaseType === 'single' ? 'border-white' : 'border-zinc-700'}`}>
+                        {purchaseType === 'single' && <div className="w-2 h-2 rounded-full bg-white" />}
+                      </div>
+                      <span className="text-xs font-bold uppercase tracking-widest text-white">1 Unidade</span>
+                    </div>
+                    <span className="text-xs font-bold text-zinc-400">{product.price}</span>
+                  </button>
+
+                  <button 
+                    onClick={() => setPurchaseType("combo")}
+                    className={`flex items-center justify-between p-4 border transition-all duration-300 rounded-sm ${purchaseType === 'combo' ? 'bg-zinc-900 border-white' : 'bg-transparent border-zinc-800 hover:border-zinc-700'}`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${purchaseType === 'combo' ? 'border-white' : 'border-zinc-700'}`}>
+                        {purchaseType === 'combo' && <div className="w-2 h-2 rounded-full bg-white" />}
+                      </div>
+                      <div className="flex flex-col items-start">
+                        <span className="text-xs font-bold uppercase tracking-widest text-white">Combo Duo (2 Peças)</span>
+                        <span className="text-[8px] font-black text-red-600 tracking-widest mt-1">[ ECONOMIZE R$ 80 ]</span>
+                      </div>
+                    </div>
+                    <span className="text-xs font-bold text-white">R$ 299,90</span>
+                  </button>
+                </div>
+              </div>
+
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">
-                    Selecione o Tamanho
+                    {purchaseType === 'combo' ? 'Tamanho da 1ª Peça' : 'Selecione o Tamanho'}
                   </span>
                   <span className="text-[9px] uppercase tracking-widest font-bold text-red-600 animate-pulse">Poucas unidades disponíveis</span>
                 </div>
@@ -206,6 +254,31 @@ function ProductDetail() {
                   ))}
                 </div>
               </div>
+
+              {purchaseType === 'combo' && (
+                <motion.div 
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  className="space-y-4 pt-4 border-t border-zinc-900"
+                >
+                  <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">Tamanho da 2ª Peça</span>
+                  <div className="flex gap-3">
+                    {sizes.map((size) => (
+                      <button
+                        key={size + "-2"}
+                        onClick={() => setSelectedSize2(size)}
+                        className={`w-12 h-12 flex items-center justify-center border text-xs font-bold transition-all duration-300 ${
+                          selectedSize2 === size
+                            ? "bg-white text-black border-white"
+                            : "bg-transparent text-white border-zinc-800 hover:border-zinc-500"
+                        }`}
+                      >
+                        {size}
+                      </button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
             </div>
 
             <div className="max-md:fixed max-md:bottom-0 max-md:left-0 max-md:w-full max-md:p-4 max-md:bg-zinc-950/95 max-md:backdrop-blur-lg max-md:border-t max-md:border-zinc-900 max-md:z-[100] max-md:shadow-[0_-10px_40px_rgba(0,0,0,0.8)]">

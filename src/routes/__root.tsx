@@ -214,29 +214,30 @@ function GlobalCartDrawer() {
             </button>
           </div>
           
-          {/* Free Shipping Progress */}
-          <div className="space-y-2">
+          {/* Dynamic Bonus Progress */}
+          <div className="space-y-3">
             <div className="flex justify-between items-end">
-              <p className="text-[10px] uppercase tracking-wider text-zinc-400">
-                {remainingForFreeShipping > 0 
-                  ? `Faltam ${remainingForFreeShipping.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} para Frete Grátis`
-                  : "Você ganhou Frete Grátis! 🩸"}
+              <p className={`text-[9px] uppercase tracking-widest font-black transition-all duration-300 ${cart.reduce((acc, item) => acc + item.quantity, 0) >= 2 ? 'text-red-600 drop-shadow-[0_0_8px_rgba(220,38,38,0.8)]' : 'text-zinc-400'}`}>
+                {cart.reduce((acc, item) => acc + item.quantity, 0) === 0 ? "SEU CARRINHO ESTÁ VAZIO" :
+                 cart.reduce((acc, item) => acc + item.quantity, 0) === 1 ? "Adicione mais 1 peça para ganhar +10% OFF no total!" :
+                 "🔥 BÔNUS DESBLOQUEADO: 10% OFF EXTRA APLICADO!"}
               </p>
-              {savedShippingCost !== null && !cepError && !isCalculating && (
-                <span className="text-[8px] uppercase tracking-widest text-zinc-500 font-bold">
-                  {savedShippingCost === 0 ? "BÔNUS APLICADO" : "ENVIO EXPRESSO"}
-                </span>
-              )}
             </div>
-            <div className="h-1 bg-zinc-800 w-full rounded-full overflow-hidden">
+            <div className="h-1.5 bg-zinc-900 w-full rounded-full overflow-hidden border border-zinc-800/50">
               <div 
-                className="h-full transition-all duration-500"
+                className="h-full transition-all duration-700 ease-out"
                 style={{ 
-                  width: `${freeShippingProgress}%`,
-                  backgroundColor: freeShippingProgress >= 100 ? '#8B0000' : 'white'
+                  width: `${cart.reduce((acc, item) => acc + item.quantity, 0) === 0 ? 0 : cart.reduce((acc, item) => acc + item.quantity, 0) === 1 ? 50 : 100}%`,
+                  backgroundColor: cart.reduce((acc, item) => acc + item.quantity, 0) >= 2 ? '#8B0000' : 'white',
+                  boxShadow: cart.reduce((acc, item) => acc + item.quantity, 0) >= 2 ? '0 0 10px rgba(139, 0, 0, 0.5)' : 'none'
                 }}
               />
             </div>
+            <p className="text-[10px] uppercase tracking-wider text-zinc-500">
+              {remainingForFreeShipping > 0 
+                ? `Faltam ${remainingForFreeShipping.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} para Frete Grátis`
+                : "Você ganhou Frete Grátis! 🩸"}
+            </p>
           </div>
         </div>
 
@@ -381,9 +382,16 @@ function GlobalCartDrawer() {
             <div className="space-y-3 bg-zinc-900/30 p-4 rounded-sm border border-zinc-900 mb-6">
               <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-zinc-500">
                 <span>Subtotal</span>
-                <span>{cartTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+                <span>{(cartTotal / (1 - (activeCoupon ? discountValue : 0)) / (1 - (cart.reduce((acc, item) => acc + item.quantity, 0) >= 2 ? 0.1 : 0))).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
               </div>
               
+              {cart.reduce((acc, item) => acc + item.quantity, 0) >= 2 && (
+                <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-red-600 font-bold">
+                  <span>Bônus 10% OFF (2+ Itens)</span>
+                  <span>-{( (cartTotal / (1 - (activeCoupon ? discountValue : 0))) * 0.1 ).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+                </div>
+              )}
+
               {savedShippingCost !== null && (
                 <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-zinc-500">
                   <span>Frete Estimado</span>
@@ -395,14 +403,14 @@ function GlobalCartDrawer() {
 
               {activeCoupon && (
                 <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-[#8B0000]">
-                  <span>Desconto Cupom</span>
-                  <span>-{(cartTotal * discountValue).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+                  <span>Desconto Cupom ({(discountValue * 100).toFixed(0)}%)</span>
+                  <span>-{( (cartTotal / (1 - discountValue)) * discountValue ).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
                 </div>
               )}
 
               <div className="pt-3 border-t border-zinc-800 flex items-center justify-between">
                 <span className="text-xs uppercase tracking-[0.2em] font-bold text-white">Total Final</span>
-                <span className={`text-lg font-bold ${activeCoupon ? 'text-[#8B0000]' : 'text-white'}`}>
+                <span className={`text-lg font-bold ${(activeCoupon || cart.reduce((acc, item) => acc + item.quantity, 0) >= 2) ? 'text-[#8B0000]' : 'text-white'}`}>
                   {(cartTotal + (savedShippingCost || 0)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                 </span>
               </div>
