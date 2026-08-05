@@ -366,6 +366,7 @@ function RootComponent() {
       }, 6000);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [pathname]);
 
   const copyCoupon = () => {
