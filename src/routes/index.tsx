@@ -16,10 +16,17 @@ interface Product {
   id: number;
   name: string;
   price: string;
+  priceNumber: number;
   installments: string;
   image: string;
   backImage?: string;
 }
+
+interface CartItem extends Product {
+  quantity: number;
+  selectedSize?: string;
+}
+
 
 const STORAGE_KEYS = {
   MODAL_SHOWN: 'arcane_modal_shown_v1',
