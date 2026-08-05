@@ -30,7 +30,7 @@ const THEME = {
     SANS: "'Outfit', sans-serif",
   },
   COLORS: {
-    PRIMARY: "#b91c1c",
+    PRIMARY: "#8B0000",
   }
 };
 
@@ -111,14 +111,14 @@ function Index() {
   const addToCart = useCallback((productName: string, size?: string) => {
     toast(`🩸 Item adicionado ao seu arsenal.`, {
       description: `${productName}${size ? ` - Tamanho: ${size}` : ''}`,
-      className: "bg-[#0a0a0a] text-white border-l-4 border-[#b91c1c] rounded-none shadow-2xl",
+      className: "bg-[#0a0a0a] text-white border-l-4 border-[#8B0000] rounded-none shadow-2xl",
       duration: 3000,
     });
   }, []);
 
   return (
     <div className="min-h-screen bg-[#000000] text-foreground selection:bg-primary/30 overflow-x-hidden" style={{ fontFamily: THEME.FONTS.SANS }}>
-      <header className="fixed top-0 left-0 w-full z-50 bg-black/70 backdrop-blur-md border-b border-zinc-800 p-4 flex items-center justify-between transition-all duration-300">
+      <header className="fixed top-0 left-0 w-full z-50 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50 p-4 flex items-center justify-between transition-all duration-300">
         <div className="flex items-center gap-6">
           <button 
             className="cursor-pointer md:hidden text-zinc-400 hover:text-white"
@@ -151,7 +151,7 @@ function Index() {
         />
         <div className="relative text-center z-20 px-4 flex flex-col items-center">
           <h2 className="text-6xl md:text-8xl uppercase tracking-tighter leading-none mb-6 font-black" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
-            MEMENTO <br /> <span className="text-primary drop-shadow-[0_0_30px_rgba(185,28,28,0.3)]">MORI</span>
+            MEMENTO <br /> <span className="text-[#8B0000] drop-shadow-[0_0_30px_rgba(139,0,0,0.3)]">MORI</span>
           </h2>
           <p className="text-zinc-200 tracking-[0.5em] uppercase text-[10px] md:text-xs max-w-xl mx-auto font-light mb-10">
             BEYOND THE SHADOWS OF MORTALITY LIES THE PATH OF DISCIPLINE
@@ -190,7 +190,7 @@ function Index() {
                 {category === 'arcane' ? 'Drop Arcano' : category === 'oversized' ? 'Camisas Oversized' : 'Moletons e Calças'}
               </h3>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
+            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
               {items.map((p) => (
                 <ProductCard key={p.id} product={p} onAdd={addToCart} />
               ))}
@@ -224,8 +224,12 @@ function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: strin
         <span className="text-xs text-zinc-800 font-sans tracking-widest uppercase">Imagem em breve</span>
         
         {/* Quick Add Overlay */}
-        <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out p-4">
-          <div className="flex flex-row flex-wrap justify-center">
+        <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center 
+          opacity-0 md:group-hover:opacity-100 
+          max-md:relative max-md:opacity-100 max-md:bg-transparent max-md:backdrop-blur-none max-md:p-0 max-md:mt-4
+          transition-all duration-500 ease-out p-4">
+          
+          <div className="flex flex-row flex-wrap justify-center max-md:justify-start">
             {sizes.map(size => (
               <button
                 key={size}
@@ -245,7 +249,7 @@ function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: strin
         </div>
       </div>
       
-      <div className="mt-4 flex flex-col gap-1">
+      <div className="mt-4 flex flex-col gap-1 max-md:mt-2">
         <h4 className="text-sm font-bold uppercase tracking-[0.1em] text-zinc-300">{product.name}</h4>
         <span className="text-base font-semibold text-white">{product.price}</span>
       </div>
