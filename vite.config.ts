@@ -20,7 +20,7 @@ export default defineConfig({
               if (id.includes('@tanstack')) return 'vendor-router';
               if (id.includes('framer-motion')) return 'vendor-motion';
               if (id.includes('lucide-react')) return 'vendor-icons';
-              return 'vendor';
+              return 'vendor-others';
             }
           }
         }
