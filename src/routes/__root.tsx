@@ -659,7 +659,7 @@ function RootComponent() {
             </button>
             <div className="space-y-4">
               <h2 className="text-4xl md:text-5xl font-black tracking-widest text-white font-sans uppercase">
-                BEM-VINDO AO DROP ARCANO
+                BEM-VINDO À ARCANE
               </h2>
               <p className="text-zinc-400 text-sm uppercase tracking-widest leading-relaxed">
                 Garanta 5% de desconto na sua primeira compra usando o cupom abaixo:
