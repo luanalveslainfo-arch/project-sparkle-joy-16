@@ -75,8 +75,8 @@ function Index() {
 
         {/* Content */}
         <div className="relative z-20 flex flex-col items-center justify-center h-full text-center px-4 cursor-default">
-          <h2 className="text-7xl md:text-9xl tracking-normal leading-tight mb-6 font-gothic text-white">
-            MEMENTO <br /> <span className="text-[#8B0000] drop-shadow-[0_0_50px_rgba(139,0,0,0.5)]">MORI</span>
+          <h2 className="text-7xl md:text-[11rem] tracking-tight leading-[0.85] mb-8 font-madness text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+            MEMENTO <br /> <span className="text-red-700 drop-shadow-[0_0_50px_rgba(185,28,28,0.6)]">MORI</span>
           </h2>
           <p className="text-zinc-200 tracking-[0.5em] uppercase text-[10px] md:text-xs max-w-xl mx-auto font-light mb-10">
             BEYOND THE SHADOWS OF MORTALITY LIES THE PATH OF DISCIPLINE
