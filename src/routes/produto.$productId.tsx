@@ -1,6 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useMemo } from "react";
-import { X, Minus, Plus, ShoppingBag, ChevronDown, ChevronUp } from "lucide-react";
+import { X, Minus, Plus, ShoppingBag, ChevronDown, ChevronUp, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { useCartStore, type Product } from "@/lib/cart-store";
 import { mockProducts } from "@/lib/products-data";
@@ -33,6 +33,7 @@ function Accordion({ title, children }: { title: string; children: React.ReactNo
 function ProductDetail() {
   const { productId } = Route.useParams();
   const { addToCart, setIsCartOpen } = useCartStore();
+  const navigate = useNavigate();
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const sizes = ["P", "M", "G", "GG"];
 
@@ -63,7 +64,17 @@ function ProductDetail() {
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white pt-24 pb-20 px-4 md:px-8" style={{ fontFamily: THEME.FONTS.SANS }}>
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <div className="max-w-7xl mx-auto">
+        {/* Back Button */}
+        <button
+          onClick={() => navigate({ to: '/produtos' })}
+          className="relative z-50 pointer-events-auto cursor-pointer flex items-center gap-2 mb-8 text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400 hover:text-white transition-colors duration-300"
+        >
+          <ArrowLeft size={14} />
+          <span>VOLTAR</span>
+        </button>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {/* Left Column: Photos */}
         <div className="flex flex-col gap-4">
           <div className="aspect-[3/4] bg-zinc-900 border border-zinc-800 flex items-center justify-center relative overflow-hidden group">

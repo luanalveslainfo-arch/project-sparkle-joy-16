@@ -24,6 +24,8 @@ interface CartStore {
   updateQuantity: (id: number, size: string | undefined, delta: number) => void;
   setIsCartOpen: (isOpen: boolean) => void;
   cartTotal: number;
+  remainingForFreeShipping: number;
+  freeShippingProgress: number;
 }
 
 export const useCartStore = create<CartStore>()(
@@ -67,6 +69,14 @@ export const useCartStore = create<CartStore>()(
       },
       get cartTotal() {
         return get().cart.reduce((acc, item) => acc + (item.priceNumber * item.quantity), 0);
+      },
+      get remainingForFreeShipping() {
+        const total = get().cartTotal;
+        return Math.max(0, 299 - total);
+      },
+      get freeShippingProgress() {
+        const total = get().cartTotal;
+        return Math.min(100, (total / 299) * 100);
       }
     }),
     {
