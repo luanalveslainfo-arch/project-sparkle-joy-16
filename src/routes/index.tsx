@@ -138,7 +138,7 @@ function Index() {
 
 
       <a 
-        href="https://wa.me/5511999999999" 
+        href="https://wa.me/5521965226593" 
         target="_blank" 
         rel="noopener noreferrer"
         className="fixed bottom-8 right-8 z-[100] bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform duration-300"
@@ -191,7 +191,7 @@ function Footer() {
               <li><Link to="/manifesto" className="transition-colors duration-200 hover:text-white">Nossa Visão (Manifesto)</Link></li>
               <li><a href="#" className="transition-colors duration-200 hover:text-white">Tabela de Medidas</a></li>
               <li><a href="#" className="transition-colors duration-200 hover:text-white">Prazos e Envios</a></li>
-              <li><a href="mailto:contato@arcanestreet.com" className="transition-colors duration-200 hover:text-white">Contato</a></li>
+              <li><a href="https://wa.me/5521965226593" target="_blank" rel="noopener noreferrer" className="transition-colors duration-200 hover:text-white">Contato</a></li>
             </ul>
           </div>
 

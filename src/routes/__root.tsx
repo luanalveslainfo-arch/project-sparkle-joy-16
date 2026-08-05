@@ -512,7 +512,7 @@ function RootComponent() {
               <Link to="/" className="hover:text-white transition-colors duration-300">Home</Link>
               <Link to="/produtos" className="hover:text-white transition-colors duration-300">Produtos</Link>
               <Link to="/manifesto" className="hover:text-white transition-colors duration-300">Manifesto</Link>
-              <a href="mailto:contato@arcanestreet.com" className="hover:text-white transition-colors duration-300">Contato</a>
+              <a href="https://wa.me/5521965226593" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-300">Contato</a>
             </nav>
             <button 
               className="md:hidden text-zinc-400 hover:text-white"
@@ -579,12 +579,15 @@ function RootComponent() {
                   Manifesto
                 </Link>
                 <a 
-                  href="mailto:contato@arcanestreet.com" 
+                  href="https://wa.me/5521965226593" 
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={() => setIsMenuOpen(false)}
                   className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
                 >
                   Contato
                 </a>
+
                 <button 
                   onClick={() => {
                     setIsMenuOpen(false);
