@@ -82,10 +82,10 @@ function Index() {
             BEYOND THE SHADOWS OF MORTALITY LIES THE PATH OF DISCIPLINE
           </p>
           <Link 
-            to="/produtos" 
-            className="relative z-50 pointer-events-auto bg-white text-black px-10 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 ease-in-out hover:bg-zinc-200 hover:scale-[1.02] active:scale-[0.98] mt-8 cursor-pointer"
+            to="/manifesto" 
+            className="relative z-50 pointer-events-auto border border-white bg-black/50 text-white px-10 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 ease-in-out hover:bg-white hover:text-black hover:scale-[1.02] active:scale-[0.98] mt-8 cursor-pointer"
           >
-            EXPLORAR A COLEÇÃO
+            LER O MANIFESTO
           </Link>
         </div>
       </section>
