@@ -101,7 +101,12 @@ function ProductDetail() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Left Column: Photos */}
-          <div className="w-full">
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            className="w-full"
+          >
             <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide md:flex-col gap-4 pb-4 md:pb-0">
               <div className="min-w-full md:min-w-0 snap-center">
                 <ProductImage src={product.image} alt={product.name} />
@@ -113,10 +118,15 @@ function ProductDetail() {
                  <span className="text-[10px] uppercase tracking-widest text-zinc-700 font-bold">ARCANE VISUALS III</span>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Right Column: Info & Checkout */}
-          <div className="lg:sticky lg:top-24 h-fit space-y-8">
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="lg:sticky lg:top-24 h-fit space-y-8"
+          >
             <div className="space-y-4">
               <h1 className="text-4xl md:text-5xl font-black tracking-widest leading-tight uppercase font-sans">
                 {product.name}
@@ -183,7 +193,7 @@ function ProductDetail() {
                 Nosso arsenal é forjado internacionalmente. O tempo de processamento é de 1 a 3 dias úteis. O prazo de entrega estimado para o Brasil é de 7 a 15 dias úteis. Todas as remessas possuem código de rastreio enviado diretamente para o seu e-mail.
                 <div className="mt-4">
                   <Link to="/envios" className="text-white underline decoration-zinc-700 hover:decoration-white transition-colors">Mais detalhes sobre envios</Link>
-                </div>
+          </motion.div>
               </Accordion>
             </div>
           </div>
