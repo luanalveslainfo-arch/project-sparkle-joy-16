@@ -649,39 +649,46 @@ function RootComponent() {
       {/* Welcome Pop-up */}
       {showModal && (
         <div className="fixed inset-0 z-[10002] flex items-center justify-center p-4 pointer-events-auto">
-          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={handleCloseModal} />
-          <div className="relative bg-zinc-950 border border-zinc-800 p-8 md:p-12 max-w-lg w-full text-center space-y-8 animate-in fade-in zoom-in duration-300">
+          <div 
+            className="absolute inset-0 bg-black/85 backdrop-blur-sm animate-in fade-in duration-500" 
+            onClick={handleCloseModal} 
+          />
+          <div className="relative bg-zinc-950 border border-zinc-800 p-8 md:p-12 max-w-lg w-full text-center space-y-10 rounded-none shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-in fade-in zoom-in duration-500">
             <button 
               onClick={handleCloseModal}
-              className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors"
+              className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors duration-300"
+              aria-label="Fechar"
             >
               <X size={20} />
             </button>
+            
             <div className="space-y-4">
-              <h2 className="text-4xl md:text-5xl font-black tracking-widest text-white font-sans uppercase">
+              <h2 className="text-3xl md:text-4xl font-black tracking-[0.2em] text-zinc-100 font-sans uppercase">
                 BEM-VINDO À ARCANE
               </h2>
-              <p className="text-zinc-400 text-sm uppercase tracking-widest leading-relaxed">
-                Garanta 5% de desconto na sua primeira compra usando o cupom abaixo:
+              <p className="text-zinc-400 text-[10px] md:text-xs uppercase tracking-[0.15em] leading-relaxed">
+                GARANTA <span className="text-red-600 font-bold">5% DE DESCONTO</span> NA SUA PRIMEIRA COMPRA USANDO O CUPOM ABAIXO:
               </p>
             </div>
             
-            <div className="flex items-center justify-between bg-zinc-900 border border-zinc-800 p-4 rounded-sm group">
-              <span className="font-mono text-xl font-bold tracking-widest text-white">ARCANE5</span>
+            <div className="flex items-center justify-between bg-zinc-900/90 border border-zinc-800 p-4 rounded-none group transition-all duration-300 hover:border-zinc-700">
+              <span className="font-mono text-xl font-bold tracking-[0.2em] text-red-600">ARCANE5</span>
               <button 
                 onClick={copyCoupon}
-                className="bg-white text-black px-4 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-zinc-200 transition-colors"
+                className="bg-zinc-100 text-black px-6 py-2 text-[10px] font-bold uppercase tracking-wider hover:bg-red-700 hover:text-white transition-all duration-300 rounded-none shadow-sm"
               >
                 {isCopied ? "COPIADO" : "COPIAR"}
               </button>
             </div>
 
-            <button 
-              onClick={handleCloseModal}
-              className="w-full border border-zinc-700 text-zinc-400 py-4 text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-black hover:border-white transition-all duration-300"
-            >
-              FECHAR E EXPLORAR
-            </button>
+            <div className="pt-4">
+              <button 
+                onClick={handleCloseModal}
+                className="text-zinc-500 hover:text-zinc-200 text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-300"
+              >
+                FECHAR E EXPLORAR
+              </button>
+            </div>
           </div>
         </div>
       )}
