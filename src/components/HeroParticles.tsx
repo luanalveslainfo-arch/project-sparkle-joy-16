@@ -36,12 +36,13 @@ export const HeroParticles = () => {
       const particleCount = Math.floor((canvas.width * canvas.height) / 15000);
       particles = [];
       for (let i = 0; i < particleCount; i++) {
+        const color = colors[Math.floor(Math.random() * colors.length)] ?? colors[0];
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
           size: Math.random() * 2 + 0.5,
           speedY: -(Math.random() * 0.5 + 0.2), // Move upwards
-          color: colors[Math.floor(Math.random() * colors.length)],
+          color: color,
         });
       }
     };
