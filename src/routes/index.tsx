@@ -155,7 +155,7 @@ function Index() {
             <a href="#" className="hover:text-white transition-colors">Contato</a>
           </nav>
         </div>
-        <h1 className="text-2xl md:text-3xl absolute left-1/2 -translate-x-1/2 select-none tracking-tighter font-bold" style={{ fontFamily: THEME.FONTS.DISPLAY }}>ARCANE</h1>
+        <h1 className="text-3xl lg:text-4xl absolute left-1/2 -translate-x-1/2 select-none tracking-widest font-bold" style={{ fontFamily: THEME.FONTS.DISPLAY }}>ARCANE</h1>
         <div className="flex items-center gap-5">
           <button aria-label="Buscar"><Search className="text-zinc-400 hover:text-white w-4 transition-colors" /></button>
           <button aria-label="Minha conta"><User className="text-zinc-400 hover:text-white w-4 transition-colors" /></button>
@@ -167,7 +167,7 @@ function Index() {
       </header>
 
       {/* Hero */}
-      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden bg-black">
+      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-zinc-900 to-black">
         <div className="absolute inset-0 bg-gradient-to-b from-black/0 via-black/40 to-black z-10" />
         <div className="relative text-center z-20 px-4">
           <h2 className="text-7xl md:text-[12rem] uppercase tracking-tighter leading-none mb-6 font-black" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
@@ -182,14 +182,14 @@ function Index() {
       {/* Product Sections */}
       <main className="max-w-7xl mx-auto px-4 py-24 space-y-32">
         {Object.entries(products).map(([category, items]) => (
-          <section key={category}>
+          <section key={category} className="py-16 md:py-24">
             <div className="flex items-center justify-between mb-10 border-b border-white/5 pb-6">
-              <h3 className="text-2xl uppercase tracking-[0.2em] font-light" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
+              <h3 className="text-3xl uppercase tracking-[0.2em] font-light" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
                 {category === 'arcane' ? 'Drop Arcano' : category === 'oversized' ? 'Camisas Oversized' : 'Moletons e Calças'}
               </h3>
               <a href="#" className="text-[10px] text-zinc-500 hover:text-primary uppercase tracking-[0.2em] transition-colors font-medium">Shop All</a>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 md:gap-x-8 gap-y-12 md:gap-y-16">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
               {items.map((p) => (
                 <ProductCard key={p.id} product={p} onAdd={addToCart} />
               ))}
@@ -266,24 +266,18 @@ function Index() {
 
 function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: string) => void }) {
   const [hasError, setHasError] = useState(false);
+  const fallbackImage = "https://images.unsplash.com/photo-1584362917165-526a968579e8?q=80&w=800&auto=format&fit=crop";
 
   return (
     <div className="group cursor-pointer">
-      <div className="relative aspect-[3/4] overflow-hidden bg-[#0a0a0a] mb-6 transition-all duration-500">
-        {!hasError ? (
-          <img 
-            src={product.image} 
-            alt={product.name}
-            loading="lazy"
-            onError={() => setHasError(true)}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          />
-        ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center space-y-2 opacity-30">
-            <ShoppingBag size={24} className="text-white" />
-            <span className="text-[8px] uppercase tracking-widest text-white">Image Off</span>
-          </div>
-        )}
+      <div className="relative aspect-[3/4] overflow-hidden bg-[#111111] mb-6 transition-all duration-500">
+        <img 
+          src={hasError || !product.image ? fallbackImage : product.image} 
+          alt={product.name}
+          loading="lazy"
+          onError={() => setHasError(true)}
+          className="w-full aspect-[3/4] object-cover transition-transform duration-700 group-hover:scale-105"
+        />
         
         {/* Quick Add Overlay */}
         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
