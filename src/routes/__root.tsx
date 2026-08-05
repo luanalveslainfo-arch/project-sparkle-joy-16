@@ -390,7 +390,7 @@ function GlobalCartDrawer() {
             <div className="space-y-3 bg-zinc-900/30 p-4 rounded-sm border border-zinc-900 mb-6">
               <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-zinc-500">
                 <span>Subtotal</span>
-                <span>{subtotalBeforeDiscounts.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+                <span>{(subtotalBeforeDiscounts + totalDiscountValue).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
               </div>
               
               {cartItemsCount >= 2 && (
