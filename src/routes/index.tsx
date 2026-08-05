@@ -200,7 +200,7 @@ function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16 mb-20">
           {/* Column 1 */}
           <div className="space-y-6">
-            <h2 className="text-5xl select-none font-gothic text-white">ARCANE</h2>
+            <h2 className="text-5xl select-none font-madness text-white">ARCANE</h2>
             <p className="text-zinc-500 text-xs uppercase tracking-widest leading-relaxed max-w-xs">
               Beyond the shadows of mortality lies the path of discipline.
             </p>
