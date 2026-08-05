@@ -4,6 +4,7 @@ import { Search, ShoppingBag, User, Menu, Mail, Instagram, Twitter, X, Phone, Me
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { toast } from "sonner";
 import { useCartStore } from "@/lib/cart-store";
+import { mockProducts } from "@/lib/products-data";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -54,26 +55,13 @@ function Index() {
   const { cart, isCartOpen, setIsCartOpen, addToCart, removeFromCart, updateQuantity, cartTotal } = useCartStore();
 
 
-  const products = useMemo(() => ({
-    arcane: [
-      { id: 1, name: "COMPRESSION VEIN", price: "R$ 189,90", priceNumber: 189.90, installments: "12x de R$ 15,82", image: "https://images.unsplash.com/photo-1574680096145-d05b474e2158?q=80&w=800", backImage: "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=800" },
-      { id: 2, name: "ANGELIC BLADE", price: "R$ 179,90", priceNumber: 179.90, installments: "12x de R$ 14,99", image: "https://images.unsplash.com/photo-1597452485669-2c7bb5fef90d?q=80&w=800", backImage: "https://images.unsplash.com/photo-1555680202-c86f0e12f086?q=80&w=800" },
-      { id: 7, name: "SHADOW FABRIC", price: "R$ 149,90", priceNumber: 149.90, installments: "12x de R$ 12,49", image: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=800" },
-      { id: 8, name: "DARK TEXTURE", price: "R$ 159,90", priceNumber: 159.90, installments: "12x de R$ 13,32", image: "https://images.unsplash.com/photo-1555680202-c86f0e12f086?q=80&w=800" }
-    ] as Product[],
-    oversized: [
-      { id: 3, name: "GOTHIC CROSS", price: "R$ 159,90", priceNumber: 159.90, installments: "12x de R$ 13,32", image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?q=80&w=800", backImage: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=800" },
-      { id: 4, name: "FALLEN ANGEL", price: "R$ 165,90", priceNumber: 165.90, installments: "12x de R$ 13,82", image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=800" },
-      { id: 9, name: "OBSIDIAN OVER", price: "R$ 175,90", priceNumber: 175.90, installments: "12x de R$ 14,65", image: "https://images.unsplash.com/photo-1571945153237-4929e783ab4a?q=80&w=800" },
-      { id: 10, name: "PHANTOM RELIC", price: "R$ 169,90", priceNumber: 169.90, installments: "12x de R$ 14,15", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=800" }
-    ] as Product[],
-    sweatshirts: [
-      { id: 5, name: "ZIP-UP GOTHIC", price: "R$ 289,90", priceNumber: 289.90, installments: "12x de R$ 24,15", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=800" },
-      { id: 6, name: "TRIBAL BAGGY", price: "R$ 219,90", priceNumber: 219.90, installments: "12x de R$ 18,32", image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?q=80&w=800" },
-      { id: 11, name: "VOID HOODIE", price: "R$ 299,90", priceNumber: 299.90, installments: "12x de R$ 24,99", image: "https://images.unsplash.com/photo-1571731956672-f2b94d7dd0cb?q=80&w=800" },
-      { id: 12, name: "STATIC CARGO", price: "R$ 249,90", priceNumber: 249.90, installments: "12x de R$ 20,82", image: "https://images.unsplash.com/photo-1620188467120-5042ed1eb5da?q=80&w=800" }
-    ] as Product[]
-  }), []);
+  const productsByCategory = useMemo(() => {
+    return {
+      arcane: mockProducts.filter(p => p.category === 'arcane'),
+      oversized: mockProducts.filter(p => p.category === 'oversized'),
+      sweatshirts: mockProducts.filter(p => p.category === 'sweatshirts'),
+    };
+  }, []);
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
@@ -255,8 +243,8 @@ function Index() {
             <Menu />
           </button>
           <nav className="hidden md:flex gap-6 text-[10px] uppercase tracking-[0.2em] text-zinc-400">
-            <Link to="/" className="hover:text-[#8B0000] transition-colors duration-300">Home</Link>
-            <Link to="/produtos" className="hover:text-[#8B0000] transition-colors duration-300">Produtos</Link>
+            <Link to="/" className="relative z-50 pointer-events-auto cursor-pointer hover:text-[#8B0000] transition-colors duration-300">Home</Link>
+            <Link to="/produtos" className="relative z-50 pointer-events-auto cursor-pointer hover:text-[#8B0000] transition-colors duration-300">Produtos</Link>
           </nav>
         </div>
         <h1 className="text-3xl md:text-4xl absolute left-1/2 -translate-x-1/2 select-none tracking-widest font-black" style={{ fontFamily: THEME.FONTS.DISPLAY }}>ARCANE</h1>
@@ -286,7 +274,7 @@ function Index() {
           </p>
           <Link 
             to="/produtos" 
-            className="relative z-10 bg-white text-black px-10 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 ease-in-out hover:bg-zinc-200 hover:scale-[1.02] active:scale-[0.98] mt-8 cursor-pointer"
+            className="relative z-50 pointer-events-auto bg-white text-black px-10 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 ease-in-out hover:bg-zinc-200 hover:scale-[1.02] active:scale-[0.98] mt-8 cursor-pointer"
           >
             EXPLORAR A COLEÇÃO
           </Link>
@@ -314,7 +302,7 @@ function Index() {
       </section>
 
       <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 space-y-32">
-        {Object.entries(products).map(([category, items]) => (
+        {Object.entries(productsByCategory).map(([category, items]) => (
           <section key={category} className="py-20 md:py-32">
             <div className="flex items-center justify-center mb-10 border-b border-zinc-800 pb-8">
               <h3 className="text-2xl md:text-3xl font-sans font-bold tracking-[0.2em] uppercase text-white mb-8 text-center">
@@ -324,7 +312,11 @@ function Index() {
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
               {items.map((p) => (
                 <div key={p.id} className="relative z-10">
-                  <Link to="/produto/$productId" params={{ productId: p.id.toString() }} className="block cursor-pointer">
+                  <Link 
+                    to="/produto/$productId" 
+                    params={{ productId: p.id.toString() }} 
+                    className="block cursor-pointer relative z-10 pointer-events-auto"
+                  >
                     <ProductCard product={p} onAdd={addToCart} />
                   </Link>
                 </div>
