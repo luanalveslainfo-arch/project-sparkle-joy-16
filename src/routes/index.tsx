@@ -132,10 +132,35 @@ function Index() {
               className="flex flex-col items-center justify-center mb-16"
             >
               {category === 'arcane' && (
-                <span className="text-red-600 text-[10px] md:text-xs font-bold font-mono tracking-[0.3em] mb-4 bg-red-600/10 px-4 py-2 border border-red-600/20 animate-pulse">
-                  [ COMPRE 1 LEVE 2 • OPORTUNIDADE DO DROP ]
-                </span>
+                <div className="w-full max-w-2xl mb-12 space-y-6">
+                  <div className="flex flex-col items-center gap-3">
+                    <span className="text-red-600 text-[10px] md:text-xs font-bold font-mono tracking-[0.3em] bg-red-600/10 px-4 py-2 border border-red-600/20 animate-pulse">
+                      [ COMPRE 1 LEVE 2 • OPORTUNIDADE DO DROP ]
+                    </span>
+                    <div className="flex items-center gap-2 text-[9px] text-zinc-500 uppercase font-black tracking-widest">
+                      <div className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
+                      14 PESSOAS VENDO ESTE COMBO AGORA
+                    </div>
+                  </div>
+
+                  {/* Progressive Discount Bar */}
+                  <div className="space-y-3 bg-zinc-900/40 p-6 border border-zinc-800/50 rounded-sm">
+                    <div className="flex justify-between items-end text-[10px] uppercase tracking-widest font-black">
+                      <span className="text-zinc-400">Progresso do Desconto</span>
+                      <span className="text-red-600">NÍVEL 2 ATIVADO: 50% OFF NO 2º ITEM</span>
+                    </div>
+                    <div className="h-1.5 bg-zinc-800 w-full rounded-full overflow-hidden">
+                      <div className="h-full bg-red-600 w-[85%] shadow-[0_0_10px_rgba(220,38,38,0.5)]" />
+                    </div>
+                    <div className="flex justify-between text-[8px] text-zinc-500 font-bold tracking-tighter">
+                      <span>1 ITEM (PREÇO REGULAR)</span>
+                      <span className="text-zinc-300">2 ITENS (50% OFF)</span>
+                      <span>3 ITENS (FRETE GRÁTIS + BRINDE)</span>
+                    </div>
+                  </div>
+                </div>
               )}
+              
               <h3 className="text-2xl md:text-4xl font-sans font-black tracking-[0.2em] uppercase text-white text-center">
                 {category === 'arcane' ? 'DROP ARCANO /// COMBOS EXCLUSIVOS' : category === 'oversized' ? 'Camisas Oversized' : 'Moletons e Calças'}
               </h3>
@@ -148,8 +173,9 @@ function Index() {
             </motion.div>
 
             {category === 'arcane' ? (
-              <div className="max-w-4xl mx-auto">
-                {items.filter(p => p.isCombo).map((p) => (
+              <div className="space-y-24">
+                <div className="max-w-4xl mx-auto">
+                  {items.filter(p => p.isCombo).map((p) => (
                   <motion.div 
                     key={p.id}
                     initial={{ opacity: 0, scale: 0.95 }}
@@ -212,6 +238,64 @@ function Index() {
                     </div>
                   </motion.div>
                 ))}
+                
+                {/* Related Combos Showcase */}
+                <div className="pt-24 md:pt-32 border-t border-zinc-900/50">
+                  <div className="flex flex-col items-center mb-12">
+                    <h4 className="text-lg md:text-xl font-black uppercase tracking-[0.3em] text-white text-center">
+                      COMBOS QUE COMBINAM /// ELEVE SEU TICKET
+                    </h4>
+                    <div className="w-12 h-px bg-red-900/50 mt-4" />
+                  </div>
+                  
+                  <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                    {[
+                      {
+                        id: 101,
+                        name: "COMBO TRIO: ESSENTIALS",
+                        price: "R$ 259,90",
+                        image: "https://images.unsplash.com/photo-1571388208497-71bedc66e932?auto=format&fit=crop&q=80&w=800",
+                        badge: "MAIS VENDIDO"
+                      },
+                      {
+                        id: 102,
+                        name: "COMBO FULL DARK SET",
+                        price: "R$ 319,90",
+                        image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=800",
+                        badge: "MELHOR VALOR"
+                      }
+                    ].map((combo) => (
+                      <Link 
+                        key={combo.id}
+                        to="/produto/$productId" 
+                        params={{ productId: "1" }}
+                        className="group relative bg-zinc-900/20 border border-zinc-800/50 p-3 md:p-6 transition-all duration-500 hover:border-red-900/50"
+                      >
+                        <div className="absolute top-4 left-4 z-20">
+                          <span className="bg-white text-black text-[8px] px-2 py-1 font-black tracking-widest">
+                            {combo.badge}
+                          </span>
+                        </div>
+                        <div className="aspect-square mb-4 overflow-hidden bg-black/50">
+                          <img 
+                            src={combo.image} 
+                            alt={combo.name} 
+                            className="w-full h-full object-cover opacity-60 group-hover:scale-110 group-hover:opacity-80 transition-all duration-700" 
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <h5 className="text-[10px] md:text-xs font-black uppercase tracking-widest text-zinc-300 leading-tight">
+                            {combo.name}
+                          </h5>
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs md:text-sm font-black text-white">{combo.price}</span>
+                            <span className="text-[8px] text-red-600 font-black tracking-widest group-hover:translate-x-1 transition-transform">VER COMBO +</span>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
               </div>
             ) : (
               <motion.div 

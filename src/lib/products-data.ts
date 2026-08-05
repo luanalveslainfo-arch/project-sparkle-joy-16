@@ -9,6 +9,7 @@ export interface Product {
   category: string;
   isCombo?: boolean;
   originalPrice?: string;
+  comboItems?: { name: string; price: number }[];
 }
 
 export const mockProducts: Product[] = [
@@ -21,7 +22,11 @@ export const mockProducts: Product[] = [
     image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&q=80&w=800",
     category: "arcane",
     isCombo: true,
-    originalPrice: "R$ 379,80"
+    originalPrice: "R$ 379,80",
+    comboItems: [
+      { name: "Peça 1", price: 94.95 },
+      { name: "Peça 2", price: 94.95 }
+    ]
   },
   { 
     id: 2, 
