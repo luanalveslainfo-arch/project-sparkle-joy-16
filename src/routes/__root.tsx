@@ -149,7 +149,8 @@ function GlobalCartDrawer() {
     const price = typeof item.priceNumber === 'number' ? item.priceNumber : parseFloat(String(item.price).replace(/[R$\s.]/g, '').replace(',', '.'));
     return acc + (price * item.quantity);
   }, 0);
-  const totalDiscountValue = cartItemsCount >= 2 ? subtotalBeforeDiscounts * 0.1 : 0;
+  const totalDiscountValue = cartItemsCount >= 2 ? subtotalBeforeDiscounts * 0.11111111 : 0; // Reverse-calc to show original subtotal correctly if subtotalBeforeDiscounts is already discounted in logic
+  
   
   
   const [couponInput, setCouponInput] = useState("");
