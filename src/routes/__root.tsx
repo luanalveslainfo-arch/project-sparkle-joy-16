@@ -416,7 +416,7 @@ function GlobalCartDrawer() {
                   </span>
                 </div>
                 <p className="text-[8px] text-zinc-600 uppercase tracking-widest text-right italic font-medium">
-                  ou até 6x de {((cartTotal + (savedShippingCost || 0)) / 6).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} sem juros
+                  ou até 12x de {((cartTotal + (savedShippingCost || 0)) / 12).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} sem juros
                 </p>
               </div>
             </div>
