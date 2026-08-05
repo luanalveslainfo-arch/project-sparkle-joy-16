@@ -362,8 +362,8 @@ function RevealOnScroll({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!ref) return;
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
           setIsVisible(true);
           observer.unobserve(ref);
         }
