@@ -523,7 +523,7 @@ function RootComponent() {
             </button>
           </div>
           
-          <Link to="/" className="text-2xl md:text-4xl absolute left-1/2 -translate-x-1/2 select-none tracking-widest font-black text-white hover:text-white/90" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
+          <Link to="/" className="text-3xl md:text-5xl absolute left-1/2 -translate-x-1/2 select-none font-gothic text-white hover:text-white/90">
             ARCANE
           </Link>
 
@@ -551,7 +551,7 @@ function RootComponent() {
             <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setIsMenuOpen(false)} />
             <div className="relative w-[300px] h-full bg-zinc-950 border-r border-zinc-900 flex flex-col p-8 animate-in slide-in-from-left duration-300">
               <div className="flex items-center justify-between mb-12">
-                <span className="text-xl font-black tracking-widest uppercase" style={{ fontFamily: THEME.FONTS.DISPLAY }}>ARCANE</span>
+                <span className="text-3xl font-gothic text-white">ARCANE</span>
                 <button onClick={() => setIsMenuOpen(false)} className="text-zinc-500 hover:text-white">
                   <X size={24} />
                 </button>
@@ -622,7 +622,7 @@ function RootComponent() {
               <X size={20} />
             </button>
             <div className="space-y-4">
-              <h2 className="text-3xl md:text-4xl font-black tracking-widest uppercase" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
+              <h2 className="text-4xl md:text-5xl font-gothic text-white">
                 BEM-VINDO AO DROP ARCANO
               </h2>
               <p className="text-zinc-400 text-sm uppercase tracking-widest leading-relaxed">
