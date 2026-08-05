@@ -12,11 +12,11 @@ export interface Product {
   category?: string;
   isCombo?: boolean;
   originalPrice?: string;
+  comboItems?: { name: string; price: number }[];
 }
 import { toast } from 'sonner';
 
 export interface CartItem extends Product {
-
   quantity: number;
   selectedSize: string | undefined;
 }
