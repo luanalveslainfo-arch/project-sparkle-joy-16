@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import heroAsset from "@/assets/hero-bg.png.asset.json";
 import { Truck, Shield, Star, Phone } from "lucide-react";
 import { useMemo } from "react";
 
@@ -62,12 +61,19 @@ function Index() {
     <div className={`selection:bg-primary/30 overflow-x-hidden ${isCartOpen ? 'overflow-hidden' : ''}`}>
 
       {/* Hero */}
-      <section 
-        className="relative min-h-[80vh] flex items-center justify-center bg-cover bg-center bg-no-repeat overflow-hidden" 
-        style={{ backgroundImage: `url('${heroAsset.url}')` }}
-      >
-        <div className="absolute inset-0 bg-black/80 z-0" />
-        <div className="relative text-center z-10 px-4 flex flex-col items-center cursor-default">
+      <section className="relative w-full h-screen overflow-hidden">
+        {/* Background Image using Native <img> for Vite optimization */}
+        <img 
+          src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop" 
+          alt="Memento Mori" 
+          className="absolute inset-0 w-full h-full object-cover object-center z-0" 
+        />
+        
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/85 z-10" />
+
+        {/* Content */}
+        <div className="relative z-20 flex flex-col items-center justify-center h-full text-center px-4 cursor-default">
           <h2 className="text-6xl md:text-8xl uppercase tracking-tighter leading-none mb-6 font-black" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
             MEMENTO <br /> <span className="text-[#8B0000] drop-shadow-[0_0_40px_rgba(139,0,0,0.4)]">MORI</span>
           </h2>
