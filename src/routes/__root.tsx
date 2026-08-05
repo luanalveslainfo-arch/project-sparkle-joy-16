@@ -199,10 +199,10 @@ function GlobalCartDrawer() {
   return (
     <>
       <div 
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] transition-opacity duration-300"
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] transition-opacity duration-300"
         onClick={() => setIsCartOpen(false)}
       />
-      <div className={`fixed top-0 right-0 h-full w-full md:w-[400px] bg-zinc-950 border-l border-zinc-800 shadow-2xl z-[70] flex flex-col transform transition-transform duration-300 ease-in-out`}>
+      <div className={`fixed top-0 right-0 h-full w-full md:w-[400px] bg-zinc-950 border-l border-zinc-800 shadow-2xl z-[10000] flex flex-col transform transition-transform duration-300 ease-in-out`}>
         {/* Cart Header */}
         <div className="p-6 border-b border-zinc-900">
           <div className="flex items-center justify-between mb-4">
