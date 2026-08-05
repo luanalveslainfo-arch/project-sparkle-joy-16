@@ -12,7 +12,7 @@ import {
 import { useEffect, type ReactNode, useState, useCallback } from "react";
 import { X, ShoppingBag, Minus, Plus, Trash2, Menu } from "lucide-react";
 import { useCartStore } from "@/lib/cart-store";
-import { Toaster } from "sonner";
+import { Toaster, toast as sonnerToast } from "sonner";
 
 
 import appCss from "../styles.css?url";
