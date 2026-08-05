@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import heroAsset from "@/assets/hero-bg.png.asset.json";
 import { Search, ShoppingBag, User, Menu, Mail, Instagram, Twitter, X, Phone, MessageSquare, Truck, Shield, Star, ArrowRight } from "lucide-react";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { toast } from "sonner";
@@ -142,21 +143,16 @@ function Index() {
       </header>
 
       {/* Hero */}
-      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden pt-[72px]">
-        <div className="absolute inset-0 bg-black/85 z-10" />
-        <img 
-          src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1920&auto=format&fit=crop" 
-          alt="Dark Aesthetic Streetwear Background" 
-          className="absolute inset-0 w-full h-full object-cover grayscale opacity-60"
-        />
-        <div className="relative text-center z-20 px-4 flex flex-col items-center">
+      <section className="relative min-h-[80vh] flex items-center justify-center bg-cover bg-center bg-no-repeat overflow-hidden" style={{ backgroundImage: `url(${heroAsset.url})` }}>
+        <div className="absolute inset-0 bg-black/80 z-0" />
+        <div className="relative text-center z-10 px-4 flex flex-col items-center">
           <h2 className="text-6xl md:text-8xl uppercase tracking-tighter leading-none mb-6 font-black" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
             MEMENTO <br /> <span className="text-[#8B0000] drop-shadow-[0_0_40px_rgba(139,0,0,0.4)]">MORI</span>
           </h2>
           <p className="text-zinc-200 tracking-[0.5em] uppercase text-[10px] md:text-xs max-w-xl mx-auto font-light mb-10">
             BEYOND THE SHADOWS OF MORTALITY LIES THE PATH OF DISCIPLINE
           </p>
-          <button className="bg-white text-black px-10 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 ease-in-out hover:bg-zinc-200 hover:scale-[1.02] active:scale-[0.98]">
+          <button className="bg-white text-black px-10 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 ease-in-out hover:bg-zinc-200 hover:scale-[1.02] active:scale-[0.98] mt-8">
             EXPLORAR A COLEÇÃO
           </button>
         </div>
