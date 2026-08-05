@@ -93,9 +93,9 @@ export const TrustBadges = ({ className = "" }: { className?: string }) => {
       <BadgeItem 
         badgeKey="payment"
         icon={<CreditCard size={14} />}
-        label="Até 6x s/ Juros ou PIX"
-        ariaLabel="Pagamento parcelado em 6 vezes sem juros ou desconto via PIX"
-        description="Parcele em até 6x sem juros no cartão. Pagamentos via PIX possuem 5% de desconto automático calculado no checkout final."
+        label="Até 12x s/ Juros ou PIX"
+        ariaLabel="Pagamento parcelado em 12 vezes sem juros ou desconto via PIX"
+        description="Parcele em até 12x sem juros no cartão. Pagamentos via PIX possuem 5% de desconto automático calculado no checkout final."
       />
       <BadgeItem 
         badgeKey="shipping"
