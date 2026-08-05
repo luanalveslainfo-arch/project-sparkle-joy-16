@@ -523,7 +523,7 @@ function RootComponent() {
             </button>
           </div>
           
-          <Link to="/" className="text-3xl md:text-5xl absolute left-1/2 -translate-x-1/2 select-none font-gothic text-white hover:text-white/90">
+          <Link to="/" className="text-4xl md:text-6xl absolute left-1/2 -translate-x-1/2 select-none font-madness text-white hover:text-white/90">
             ARCANE
           </Link>
 
