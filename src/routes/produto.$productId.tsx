@@ -113,7 +113,7 @@ function ProductDetail() {
           {/* Right Column: Info & Checkout */}
           <div className="lg:sticky lg:top-24 h-fit space-y-8">
             <div className="space-y-4">
-              <h1 className="text-3xl md:text-4xl font-black tracking-widest leading-tight uppercase" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
+              <h1 className="text-4xl md:text-5xl font-black tracking-widest leading-tight uppercase font-madness">
                 {product.name}
               </h1>
               <div className="flex items-center gap-4">
