@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion } from "framer-motion";
 import { useCartStore } from "@/lib/cart-store";
 import { toast as sonnerToast } from "sonner";
+import { motion } from "framer-motion";
 
 export const Route = createFileRoute("/manifesto")({
   component: Manifesto,
@@ -80,7 +80,13 @@ function Manifesto() {
 
       {/* Aesthetic Divider */}
       <div className="w-full flex justify-center py-20">
-        <div className="w-px h-32 bg-gradient-to-b from-zinc-800 to-transparent" />
+        <motion.div 
+          initial={{ height: 0 }}
+          whileInView={{ height: 128 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.5, ease: "easeInOut" }}
+          className="w-px bg-gradient-to-b from-zinc-800 to-transparent" 
+        />
       </div>
 
       <Footer />
