@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Search, ShoppingBag, User, Menu, Mail, Instagram, Twitter, X, Phone, MessageSquare, Truck, Shield, Star, ArrowRight } from "lucide-react";
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/")({
@@ -44,6 +44,7 @@ function Index() {
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Use useMemo to prevent unnecessary re-renders of static data
   const products = useMemo(() => ({
@@ -54,16 +55,16 @@ function Index() {
       { id: 8, name: "DARK TEXTURE", price: "R$ 159,90", installments: "12x de R$ 13,32", image: "https://images.unsplash.com/photo-1555680202-c86f0e12f086?q=80&w=800" }
     ] as Product[],
     oversized: [
-      { id: 3, name: "GOTHIC CROSS", price: "R$ 159,90", installments: "12x de R$ 13,32", image: "https://images.unsplash.com/photo-1594381898411-846e7d193883?q=80&w=800" },
-      { id: 4, name: "FALLEN ANGEL", price: "R$ 165,90", installments: "12x de R$ 13,82", image: "https://images.unsplash.com/photo-1599058917233-57c0e62097b9?q=80&w=800" },
-      { id: 9, name: "OBSIDIAN OVER", price: "R$ 175,90", installments: "12x de R$ 14,65", image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?q=80&w=800" },
-      { id: 10, name: "PHANTOM RELIC", price: "R$ 169,90", installments: "12x de R$ 14,15", image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=800" }
+      { id: 3, name: "GOTHIC CROSS", price: "R$ 159,90", installments: "12x de R$ 13,32", image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?q=80&w=800" },
+      { id: 4, name: "FALLEN ANGEL", price: "R$ 165,90", installments: "12x de R$ 13,82", image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=800" },
+      { id: 9, name: "OBSIDIAN OVER", price: "R$ 175,90", installments: "12x de R$ 14,65", image: "https://images.unsplash.com/photo-1571945153237-4929e783ab4a?q=80&w=800" },
+      { id: 10, name: "PHANTOM RELIC", price: "R$ 169,90", installments: "12x de R$ 14,15", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=800" }
     ] as Product[],
     sweatshirts: [
-      { id: 5, name: "ZIP-UP GOTHIC", price: "R$ 289,90", installments: "12x de R$ 24,15", image: "https://images.unsplash.com/photo-1571731956672-f2b94d7dd0cb?q=80&w=800" },
-      { id: 6, name: "TRIBAL BAGGY", price: "R$ 219,90", installments: "12x de R$ 18,32", image: "https://images.unsplash.com/photo-1620188467120-5042ed1eb5da?q=80&w=800" },
-      { id: 11, name: "VOID HOODIE", price: "R$ 299,90", installments: "12x de R$ 24,99", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=800" },
-      { id: 12, name: "STATIC CARGO", price: "R$ 249,90", installments: "12x de R$ 20,82", image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?q=80&w=800" }
+      { id: 5, name: "ZIP-UP GOTHIC", price: "R$ 289,90", installments: "12x de R$ 24,15", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=800" },
+      { id: 6, name: "TRIBAL BAGGY", price: "R$ 219,90", installments: "12x de R$ 18,32", image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?q=80&w=800" },
+      { id: 11, name: "VOID HOODIE", price: "R$ 299,90", installments: "12x de R$ 24,99", image: "https://images.unsplash.com/photo-1571731956672-f2b94d7dd0cb?q=80&w=800" },
+      { id: 12, name: "STATIC CARGO", price: "R$ 249,90", installments: "12x de R$ 20,82", image: "https://images.unsplash.com/photo-1620188467120-5042ed1eb5da?q=80&w=800" }
     ] as Product[]
   }), []);
 
@@ -116,9 +117,9 @@ function Index() {
     }
   };
 
-  const addToCart = useCallback((productName: string) => {
+  const addToCart = useCallback((productName: string, size?: string) => {
     toast(`🩸 Item adicionado ao seu arsenal.`, {
-      description: productName,
+      description: `${productName}${size ? ` - Tamanho: ${size}` : ''}`,
       className: "bg-[#0a0a0a] text-white border-l-4 border-[#b91c1c] rounded-none shadow-2xl",
       duration: 3000,
     });
@@ -164,7 +165,13 @@ function Index() {
       {/* Header */}
       <header className="sticky top-0 left-0 w-full z-50 bg-black/70 backdrop-blur-md border-b border-white/10 p-4 flex items-center justify-between transition-all duration-300">
         <div className="flex items-center gap-6">
-          <Menu className="cursor-pointer md:hidden text-zinc-400 hover:text-white" />
+          <button 
+            className="cursor-pointer md:hidden text-zinc-400 hover:text-white"
+            onClick={() => setIsMobileMenuOpen(true)}
+            aria-label="Abrir menu"
+          >
+            <Menu />
+          </button>
           <nav className="hidden md:flex gap-6 text-[10px] uppercase tracking-[0.2em] text-zinc-400">
             <a href="#" className="hover:text-primary transition-colors duration-300">Home</a>
             <a href="#" className="hover:text-primary transition-colors duration-300">Produtos</a>
@@ -182,6 +189,25 @@ function Index() {
           </button>
         </div>
       </header>
+
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-lg flex flex-col items-center justify-center animate-in fade-in zoom-in duration-300">
+          <button 
+            className="absolute top-8 right-8 text-white p-2"
+            onClick={() => setIsMobileMenuOpen(false)}
+            aria-label="Fechar menu"
+          >
+            <X size={32} />
+          </button>
+          <nav className="flex flex-col items-center gap-8">
+            <a href="#" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-bold uppercase tracking-widest text-white hover:text-primary transition-colors">Home</a>
+            <a href="#" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-bold uppercase tracking-widest text-white hover:text-primary transition-colors">Produtos</a>
+            <a href="#" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-bold uppercase tracking-widest text-white hover:text-primary transition-colors">Medidas</a>
+            <a href="#" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-bold uppercase tracking-widest text-white hover:text-primary transition-colors">Contato</a>
+          </nav>
+        </div>
+      )}
 
       {/* Hero */}
       <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
