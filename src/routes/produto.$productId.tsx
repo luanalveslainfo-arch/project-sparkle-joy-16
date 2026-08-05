@@ -104,11 +104,11 @@ function ProductDetail() {
     
     if (purchaseType === 'combo') {
       // Add first item
-      addToCart(product, selectedSize, 1);
+      addToCart(product, selectedSize || undefined, 1);
       // Add second item (might be same ID/size, but addToCart handles it)
-      addToCart(product, selectedSize2, 1);
+      addToCart(product, selectedSize2 || undefined, 1);
     } else {
-      addToCart(product, selectedSize, 1);
+      addToCart(product, selectedSize || undefined, 1);
     }
     
     setIsCartOpen(true);
