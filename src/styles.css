@@ -1,5 +1,6 @@
 @import "tailwindcss" source(none);
 @source "../src";
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap');
 @import "tw-animate-css";
 
 @utility animate-marquee {
@@ -42,6 +43,9 @@
  */
 
 @theme inline {
+  --font-gothic: "UnifrakturMaguntia", cursive;
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);

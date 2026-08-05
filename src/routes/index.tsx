@@ -38,8 +38,8 @@ const STORAGE_KEYS = {
 
 const THEME = {
   FONTS: {
-    DISPLAY: "'Almendra Display', serif",
-    SANS: "'Outfit', sans-serif",
+    DISPLAY: "font-gothic",
+    SANS: "font-sans",
   },
   COLORS: {
     PRIMARY: "#8B0000",
@@ -75,8 +75,8 @@ function Index() {
 
         {/* Content */}
         <div className="relative z-20 flex flex-col items-center justify-center h-full text-center px-4 cursor-default">
-          <h2 className="text-6xl md:text-8xl uppercase tracking-tighter leading-none mb-6 font-black" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
-            MEMENTO <br /> <span className="text-[#8B0000] drop-shadow-[0_0_40px_rgba(139,0,0,0.4)]">MORI</span>
+          <h2 className="text-7xl md:text-9xl tracking-normal leading-tight mb-6 font-gothic text-white">
+            MEMENTO <br /> <span className="text-[#8B0000] drop-shadow-[0_0_50px_rgba(139,0,0,0.5)]">MORI</span>
           </h2>
           <p className="text-zinc-200 tracking-[0.5em] uppercase text-[10px] md:text-xs max-w-xl mx-auto font-light mb-10">
             BEYOND THE SHADOWS OF MORTALITY LIES THE PATH OF DISCIPLINE
@@ -200,7 +200,7 @@ function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16 mb-20">
           {/* Column 1 */}
           <div className="space-y-6">
-            <h2 className="text-4xl select-none tracking-widest font-black uppercase" style={{ fontFamily: THEME.FONTS.DISPLAY }}>ARCANE</h2>
+            <h2 className="text-5xl select-none font-gothic text-white">ARCANE</h2>
             <p className="text-zinc-500 text-xs uppercase tracking-widest leading-relaxed max-w-xs">
               Beyond the shadows of mortality lies the path of discipline.
             </p>
