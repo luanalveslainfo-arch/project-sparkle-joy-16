@@ -378,10 +378,15 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="flex flex-col min-h-screen bg-black text-white font-sans">
-        <div className={`h-8 bg-red-950 fixed top-0 w-full z-[40] transition-transform duration-500 ${showTopBar ? 'translate-y-0' : '-translate-y-full'}`}>
+        <div className={`h-8 bg-[#660000] fixed top-0 w-full z-[40] transition-transform duration-500 ${showTopBar ? 'translate-y-0' : '-translate-y-full'} border-b border-black/20`}>
           <div className="flex animate-marquee py-1">
             {[1, 2, 3, 4].map(i => (
-              <span key={i} className="text-[10px] uppercase font-bold text-white px-4">FRETE GRÁTIS ACIMA DE R$ 299 • 5% DE DESCONTO NO PIX •</span>
+              <span key={i} className="text-[9px] uppercase font-black text-white/90 px-6 tracking-[0.2em] flex items-center gap-2">
+                <span>FRETE GRÁTIS ACIMA DE R$ 299</span>
+                <span className="w-1 h-1 bg-white/30 rounded-full" />
+                <span>5% DE DESCONTO NO PIX</span>
+                <span className="w-1 h-1 bg-white/30 rounded-full" />
+              </span>
             ))}
           </div>
         </div>
