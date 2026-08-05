@@ -62,18 +62,19 @@ function Index() {
   }), []);
 
   useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
     try {
       const hasShownModal = localStorage.getItem(STORAGE_KEYS.MODAL_SHOWN);
       if (!hasShownModal) {
-        const timer = setTimeout(() => setShowModal(true), 1500);
-        return () => clearTimeout(timer);
+        timer = setTimeout(() => setShowModal(true), 1500);
       }
     } catch (e) {
-      // Gracefully handle localStorage errors (e.g. Private Browsing mode)
       console.error("LocalStorage access error:", e);
-      const timer = setTimeout(() => setShowModal(true), 1500);
-      return () => clearTimeout(timer);
+      timer = setTimeout(() => setShowModal(true), 1500);
     }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
   }, []);
 
   const handleCloseModal = useCallback(() => {
