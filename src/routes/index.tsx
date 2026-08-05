@@ -115,7 +115,7 @@ function Index() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-red-900/50" style={{ fontFamily: THEME.FONTS.SANS }}>
+    <div className="min-h-screen bg-background text-foreground selection:bg-primary/30" style={{ fontFamily: THEME.FONTS.SANS }}>
       {/* Discount Modal */}
       {showModal && (
         <div 
