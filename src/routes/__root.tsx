@@ -423,8 +423,13 @@ function GlobalCartDrawer() {
             
             {activeCoupon && (
               <div className="flex items-center justify-between mb-6 px-1">
-                <span className="text-[10px] uppercase tracking-widest text-zinc-500">CUPOM ATIVO: {activeCoupon}</span>
-                <button onClick={removeCoupon} className="text-[8px] uppercase tracking-widest text-red-900 hover:text-red-700 font-bold">REMOVER</button>
+                <span className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-bold">CUPOM ATIVO: {activeCoupon}</span>
+                <button 
+                  onClick={removeCoupon} 
+                  className="text-[8px] uppercase tracking-[0.2em] text-red-900 hover:text-red-700 font-black border-b border-red-900/30 hover:border-red-700 transition-colors"
+                >
+                  REMOVER
+                </button>
               </div>
             )}
             <button 
