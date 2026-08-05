@@ -129,8 +129,8 @@ function Index() {
             <Menu />
           </button>
           <nav className="hidden md:flex gap-6 text-[10px] uppercase tracking-[0.2em] text-zinc-400">
-            <a href="#" className="hover:text-primary transition-colors duration-300">Home</a>
-            <a href="#" className="hover:text-primary transition-colors duration-300">Produtos</a>
+            <a href="#" className="hover:text-[#8B0000] transition-colors duration-300">Home</a>
+            <a href="#" className="hover:text-[#8B0000] transition-colors duration-300">Produtos</a>
           </nav>
         </div>
         <h1 className="text-3xl md:text-4xl absolute left-1/2 -translate-x-1/2 select-none tracking-widest font-black" style={{ fontFamily: THEME.FONTS.DISPLAY }}>ARCANE</h1>
