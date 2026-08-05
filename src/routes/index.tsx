@@ -378,7 +378,7 @@ function Index() {
   );
 }
 
-function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: string, size?: string) => void }) {
+function ProductCard({ product, onAdd }: { product: Product, onAdd: (product: Product, size?: string) => void }) {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const sizes = ["P", "M", "G", "GG"];
 
