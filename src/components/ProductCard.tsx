@@ -29,7 +29,7 @@ export function ProductCard({ product }: { product: Product }) {
           }}
           className="group flex flex-col items-start text-left relative z-10"
         >
-          <div className="relative w-full aspect-[3/4] bg-zinc-950 flex items-center justify-center overflow-hidden mb-4 shadow-xl transition-shadow duration-300 group-hover:shadow-[0_10px_25px_rgba(185,28,28,0.2)]">
+          <div className="relative w-full aspect-[3/4] bg-zinc-950 flex items-center justify-center overflow-hidden mb-4 shadow-xl transition-all duration-500 group-hover:shadow-[0_20px_40px_rgba(139,0,0,0.15)] group-hover:border-zinc-800 border border-transparent">
             <motion.img 
               src={product.image} 
               alt={product.name} 
@@ -45,8 +45,8 @@ export function ProductCard({ product }: { product: Product }) {
           </div>
           
           <div className="flex flex-col gap-1">
-            <h4 className="text-sm font-bold uppercase tracking-[0.1em] text-zinc-300">{product.name}</h4>
-            <span className="text-base font-semibold text-white">{product.price}</span>
+            <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500 group-hover:text-zinc-300 transition-colors">{product.name}</h4>
+            <span className="text-sm font-black text-white tracking-widest">{product.price}</span>
           </div>
         </motion.div>
       </Link>

@@ -126,21 +126,34 @@ function Index() {
         </div>
       </section>
 
-      {/* Trust Badges Section */}
-      <section className="bg-zinc-950 border-y border-zinc-800 py-6">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center justify-around gap-8 md:gap-4 text-center">
-            <div className="flex flex-col items-center gap-2">
-              <Truck size={20} className="text-zinc-400" />
-              <span className="text-xs font-bold tracking-widest text-zinc-400 uppercase">FRETE GRÁTIS ACIMA DE R$299</span>
+      {/* Featured Categories / Drops */}
+      <section className="bg-zinc-950 border-y border-zinc-900 py-16">
+        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div className="flex flex-col items-center text-center gap-4 group">
+            <div className="w-16 h-16 rounded-full bg-zinc-900 flex items-center justify-center border border-zinc-800 transition-colors group-hover:border-red-900/50">
+              <Truck size={24} className="text-zinc-500 group-hover:text-red-700 transition-colors" />
             </div>
-            <div className="flex flex-col items-center gap-2">
-              <Shield size={20} className="text-zinc-400" />
-              <span className="text-xs font-bold tracking-widest text-zinc-400 uppercase">COMPRA 100% SEGURA</span>
+            <div className="space-y-1">
+              <h4 className="text-[10px] font-black tracking-[0.3em] uppercase text-white">Logística Premium</h4>
+              <p className="text-[9px] tracking-widest text-zinc-500 uppercase">Frete grátis acima de R$299</p>
             </div>
-            <div className="flex flex-col items-center gap-2">
-              <Star size={20} className="text-zinc-400" />
-              <span className="text-xs font-bold tracking-widest text-zinc-400 uppercase">QUALIDADE PREMIUM GARANTIDA</span>
+          </div>
+          <div className="flex flex-col items-center text-center gap-4 group">
+            <div className="w-16 h-16 rounded-full bg-zinc-900 flex items-center justify-center border border-zinc-800 transition-colors group-hover:border-red-900/50">
+              <Shield size={24} className="text-zinc-500 group-hover:text-red-700 transition-colors" />
+            </div>
+            <div className="space-y-1">
+              <h4 className="text-[10px] font-black tracking-[0.3em] uppercase text-white">Fortaleza Blindada</h4>
+              <p className="text-[9px] tracking-widest text-zinc-500 uppercase">Compra 100% Segura</p>
+            </div>
+          </div>
+          <div className="flex flex-col items-center text-center gap-4 group">
+            <div className="w-16 h-16 rounded-full bg-zinc-900 flex items-center justify-center border border-zinc-800 transition-colors group-hover:border-red-900/50">
+              <Star size={24} className="text-zinc-500 group-hover:text-red-700 transition-colors" />
+            </div>
+            <div className="space-y-1">
+              <h4 className="text-[10px] font-black tracking-[0.3em] uppercase text-white">Forjado no Caos</h4>
+              <p className="text-[9px] tracking-widest text-zinc-500 uppercase">Qualidade Premium Garantida</p>
             </div>
           </div>
         </div>
@@ -154,11 +167,12 @@ function Index() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="flex items-center justify-center mb-10 border-b border-zinc-800 pb-8"
+              className="flex flex-col items-center justify-center mb-16"
             >
-              <h3 className="text-2xl md:text-3xl font-sans font-bold tracking-[0.2em] uppercase text-white mb-8 text-center">
+              <h3 className="text-2xl md:text-4xl font-madness tracking-wider text-white mb-4 text-center">
                 {category === 'arcane' ? 'Drop Arcane' : category === 'oversized' ? 'Camisas Oversized' : 'Moletons e Calças'}
               </h3>
+              <div className="w-12 h-[1px] bg-red-800" />
             </motion.div>
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
               {isLoading 
