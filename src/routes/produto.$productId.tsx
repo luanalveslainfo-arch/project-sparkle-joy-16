@@ -346,6 +346,41 @@ function ProductDetail() {
           </motion.div>
         </div>
       </div>
+      {/* Compact Modal for Item 2 selection */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" onClick={() => setIsModalOpen(false)} />
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="relative bg-zinc-950 border border-zinc-800 w-full max-w-lg max-h-[80vh] overflow-y-auto p-6 rounded-sm space-y-6"
+          >
+            <div className="flex items-center justify-between border-b border-zinc-900 pb-4">
+              <h2 className="text-sm font-black uppercase tracking-widest">Escolher 2ª Peça</h2>
+              <button onClick={() => setIsModalOpen(false)}><X size={20} /></button>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+              {mockProducts.filter(p => p.id !== product.id).map((p) => (
+                <button 
+                  key={p.id}
+                  onClick={() => {
+                    setItem2Product(p as Product);
+                    setItem2Option("other");
+                    setIsModalOpen(false);
+                  }}
+                  className="group space-y-2 text-left"
+                >
+                  <div className="aspect-[3/4] overflow-hidden border border-zinc-900 group-hover:border-red-600 transition-colors">
+                    <img src={p.image} alt={p.name} className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all" />
+                  </div>
+                  <p className="text-[9px] uppercase font-bold tracking-widest text-zinc-400 group-hover:text-white transition-colors">{p.name}</p>
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 }
