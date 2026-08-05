@@ -193,6 +193,8 @@ function GlobalCartDrawer() {
     return () => clearTimeout(timer);
   }, [savedCep, freeShippingProgress]);
 
+  const isCheckoutDisabled = isCalculating || !!cepError || savedShippingCost === null;
+
   return (
     <>
       <div 
