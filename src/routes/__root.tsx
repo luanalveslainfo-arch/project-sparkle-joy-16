@@ -506,7 +506,7 @@ function RootComponent() {
         </div>
 
         {/* Global Header */}
-        <header className={`fixed left-0 w-full z-[100] bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50 flex items-center justify-between ${transitionClass} ${showTopBar ? 'translate-y-8' : 'translate-y-0'} top-0 h-16 md:h-20 px-4 md:px-12`}>
+        <header className={`fixed left-0 w-full z-[30] bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50 flex items-center justify-between ${transitionClass} ${showTopBar ? 'translate-y-8' : 'translate-y-0'} top-0 h-16 md:h-20 px-4 md:px-12`}>
           <div className="flex items-center gap-6">
             <nav className="hidden md:flex gap-6 text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-bold">
               <Link to="/" className="hover:text-white transition-colors duration-300">Home</Link>
