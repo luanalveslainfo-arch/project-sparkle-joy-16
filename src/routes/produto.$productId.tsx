@@ -126,12 +126,15 @@ function ProductDetail() {
               </div>
             </div>
 
-            <button
-              onClick={handleAddToCart}
-              className="relative z-50 pointer-events-auto cursor-pointer w-full bg-white text-black py-5 text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-300 hover:bg-zinc-200 active:scale-[0.98]"
-            >
-              ADICIONAR AO CARRINHO
-            </button>
+            <div className="max-md:fixed max-md:bottom-0 max-md:left-0 max-md:w-full max-md:p-4 max-md:bg-zinc-950/90 max-md:backdrop-blur-md max-md:border-t max-md:border-zinc-900 max-md:z-50">
+              <button
+                onClick={handleAddToCart}
+                className="relative z-50 pointer-events-auto cursor-pointer w-full bg-white text-black py-5 text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-300 hover:bg-zinc-200 active:scale-[0.98]"
+              >
+                ADICIONAR AO CARRINHO
+              </button>
+            </div>
+
 
             <div className="pt-8">
               <Accordion title="Descrição da Peça">
