@@ -193,17 +193,13 @@ function GlobalCartDrawer() {
     return () => clearTimeout(timer);
   }, [savedCep, freeShippingProgress]);
 
-  if (!isCartOpen) return null;
-
-  const isCheckoutDisabled = isCalculating || !!cepError || savedShippingCost === null;
-
   return (
     <>
       <div 
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] transition-opacity duration-300"
+        className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] transition-opacity duration-500 ease-in-out ${isCartOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         onClick={() => setIsCartOpen(false)}
       />
-      <div className={`fixed top-0 right-0 h-full w-full md:w-[400px] bg-zinc-950 border-l border-zinc-800 shadow-2xl z-[10000] flex flex-col transform transition-transform duration-300 ease-in-out`}>
+      <div className={`fixed top-0 right-0 h-full w-full md:w-[400px] bg-zinc-950 border-l border-zinc-800 shadow-2xl z-[10000] flex flex-col transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${isCartOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         {/* Cart Header */}
         <div className="p-6 border-b border-zinc-900">
           <div className="flex items-center justify-between mb-4">
