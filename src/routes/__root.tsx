@@ -122,7 +122,7 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <GlowCursor />
+        
         {children}
         <Scripts />
       </body>
