@@ -455,14 +455,14 @@ function RootComponent() {
 
               <div className="space-y-12">
                 <div className="space-y-4">
-                  <span className="text-[10px] tracking-[0.5em] text-red-700 uppercase font-black">ENTRE NO FLOW</span>
+                  <span className="text-[10px] tracking-[0.5em] text-red-700 uppercase font-black">ENTRE NAS SOMBRAS</span>
                   <h2 className="text-5xl md:text-6xl font-madness text-white tracking-tighter">ARCANE</h2>
                 </div>
 
                 <div className="space-y-6">
                   <p className="text-zinc-400 text-[10px] uppercase tracking-[0.2em] leading-relaxed">
-                    SEU PRIMEIRO PASSO NA DISCIPLINA ESTÁ GARANTIDO.<br />
-                    USE O CÓDIGO ABAIXO PARA LIBERAR SEU DESCONTO.
+                    UMA OFERENDA À SEITA: USE O CÓDIGO ABAIXO PARA<br />
+                    DESBLOQUEAR SEU PODER NAS SOMBRAS.
                   </p>
 
                   <div 
