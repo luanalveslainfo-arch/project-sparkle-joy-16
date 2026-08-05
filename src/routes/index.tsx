@@ -166,7 +166,7 @@ function ProductCard({ product }: { product: Product }) {
       
       <div className="flex flex-col gap-1">
         <h4 className="text-sm font-bold uppercase tracking-[0.1em] text-zinc-300">{product.name}</h4>
-        <span className="text-base font-semibold text-white">{product.price}</span>
+        <span className="text-base font-semibold text-white">por 12x</span>
       </div>
     </div>
   );

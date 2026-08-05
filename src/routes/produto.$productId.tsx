@@ -121,7 +121,7 @@ function ProductDetail() {
                 {product.name}
               </h1>
               <div className="flex items-center gap-4">
-                <span className="text-2xl font-bold tracking-wider">{product.price}</span>
+                <span className="text-2xl font-bold tracking-wider">por 12x</span>
                 <span className="px-2 py-1 bg-red-950/30 text-red-700 text-[10px] font-bold uppercase tracking-widest border border-red-900/30">
                   7% OFF
                 </span>
