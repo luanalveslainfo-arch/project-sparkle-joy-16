@@ -13,6 +13,7 @@ export const HeroParticles = () => {
 
   useEffect(() => {
     // Disable if reduced motion is preferred
+    if (typeof window === 'undefined') return;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
@@ -36,7 +37,7 @@ export const HeroParticles = () => {
       const particleCount = Math.floor((canvas.width * canvas.height) / 15000);
       particles = [];
       for (let i = 0; i < particleCount; i++) {
-        const color = colors[Math.floor(Math.random() * colors.length)] ?? colors[0];
+        const color = colors[Math.floor(Math.random() * colors.length)] || colors[0] || '#000';
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
@@ -82,7 +83,7 @@ export const HeroParticles = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 z-15 pointer-events-none opacity-40"
+      className="absolute inset-0 z-10 pointer-events-none opacity-40"
       style={{ mixBlendMode: 'screen' }}
     />
   );
