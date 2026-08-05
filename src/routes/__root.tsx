@@ -169,9 +169,17 @@ function GlobalCartDrawer() {
         {/* Cart Items */}
         <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
           {cart.length === 0 ? (
-            <div className="flex-1 flex flex-col items-center justify-center text-zinc-500 gap-4 opacity-50">
-              <ShoppingBag size={48} strokeWidth={1} />
-              <p className="text-[10px] uppercase tracking-[0.2em]">Seu arsenal está vazio</p>
+            <div className="flex-1 flex flex-col items-center justify-center text-center px-8 gap-8">
+              <div className="space-y-2">
+                <p className="text-[10px] uppercase tracking-[0.4em] text-zinc-500 font-bold">SEU ARSENAL ESTÁ VAZIO</p>
+                <p className="text-[8px] uppercase tracking-[0.2em] text-zinc-600 italic">EQUIPE-SE PARA A BATALHA</p>
+              </div>
+              <button 
+                onClick={() => setIsCartOpen(false)}
+                className="border border-white/20 px-8 py-3 text-[10px] uppercase tracking-[0.2em] font-bold text-white hover:bg-white hover:text-black transition-all duration-300"
+              >
+                VOLTAR ÀS SOMBRAS
+              </button>
             </div>
           ) : (
             cart.map((item, idx) => (
@@ -288,7 +296,32 @@ function RootComponent() {
   const { pathname } = useLocation();
   const [showModal, setShowModal] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showTopBar, setShowTopBar] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const { cart, setIsCartOpen } = useCartStore();
+
+  // Task 1: Intelligent Header/Top Bar behavior
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY < 50) {
+        setShowTopBar(true);
+      } else if (currentScrollY > lastScrollY) {
+        // Scrolling down
+        setShowTopBar(false);
+      } else {
+        // Scrolling up
+        setShowTopBar(true);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   // Task 4: Scroll restoration fix using useLocation and window.scrollTo
   useEffect(() => {
@@ -334,7 +367,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <div className="flex flex-col min-h-screen bg-black text-white selection:bg-red-900/30" style={{ fontFamily: THEME.FONTS.SANS }}>
         {/* Top Bar Marquee */}
-        <div className="h-8 bg-red-950 flex items-center overflow-hidden border-b border-red-900/30 sticky top-0 z-[100] w-full">
+        <div className={`h-8 bg-red-950 flex items-center overflow-hidden border-b border-red-900/30 fixed top-0 left-0 right-0 z-[101] w-full transition-transform duration-500 ease-in-out ${showTopBar ? 'translate-y-0' : '-translate-y-full'}`}>
           <div className="flex whitespace-nowrap animate-marquee py-1">
             {[1, 2, 3, 4].map((i) => (
               <span key={i} className="text-[10px] uppercase tracking-[0.2em] font-bold text-white px-4">
@@ -345,13 +378,16 @@ function RootComponent() {
         </div>
 
         {/* Global Header */}
-        <header className="sticky top-8 left-0 w-full z-50 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50 p-4 flex items-center justify-between transition-all duration-300">
+        <header className={`fixed left-0 w-full z-[100] bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50 p-4 flex items-center justify-between transition-all duration-500 ease-in-out ${showTopBar ? 'top-8' : 'top-0'}`}>
           <div className="flex items-center gap-6">
             <nav className="hidden md:flex gap-6 text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-bold">
               <Link to="/" className="hover:text-white transition-colors duration-300">Home</Link>
               <Link to="/produtos" className="hover:text-white transition-colors duration-300">Produtos</Link>
             </nav>
-            <button className="md:hidden text-zinc-400 hover:text-white">
+            <button 
+              className="md:hidden text-zinc-400 hover:text-white"
+              onClick={() => setIsMenuOpen(true)}
+            >
               <Menu size={20} />
             </button>
           </div>
@@ -373,6 +409,52 @@ function RootComponent() {
             </button>
           </div>
         </header>
+
+        {/* Padding to prevent content under fixed header */}
+        <div className="h-20" />
+
+        {/* Mobile Menu Overlay */}
+        {isMenuOpen && (
+          <div className="fixed inset-0 z-[200] flex">
+            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setIsMenuOpen(false)} />
+            <div className="relative w-[300px] h-full bg-zinc-950 border-r border-zinc-900 flex flex-col p-8 animate-in slide-in-from-left duration-300">
+              <div className="flex items-center justify-between mb-12">
+                <span className="text-xl font-black tracking-widest uppercase" style={{ fontFamily: THEME.FONTS.DISPLAY }}>ARCANE</span>
+                <button onClick={() => setIsMenuOpen(false)} className="text-zinc-500 hover:text-white">
+                  <X size={24} />
+                </button>
+              </div>
+              <nav className="flex flex-col gap-0">
+                <Link 
+                  to="/" 
+                  onClick={() => setIsMenuOpen(false)}
+                  className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
+                >
+                  Home
+                </Link>
+                <Link 
+                  to="/produtos" 
+                  onClick={() => setIsMenuOpen(false)}
+                  className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
+                >
+                  Produtos
+                </Link>
+                <button 
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    setIsCartOpen(true);
+                  }}
+                  className="py-6 text-sm font-bold text-left uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
+                >
+                  Carrinho
+                </button>
+              </nav>
+              <div className="mt-auto">
+                <p className="text-[10px] uppercase tracking-widest text-zinc-600">Arcane • Memento Mori</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         <main className="flex-1">
           <Outlet />
