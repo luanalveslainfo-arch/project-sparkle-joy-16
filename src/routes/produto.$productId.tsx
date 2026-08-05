@@ -240,45 +240,22 @@ function ProductDetail() {
                 </div>
               </div>
 
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">
-                    {purchaseType === 'combo' ? 'Tamanho da 1ª Peça' : 'Selecione o Tamanho'}
-                  </span>
-                  <span className="text-[9px] uppercase tracking-widest font-bold text-red-600 animate-pulse">Poucas unidades disponíveis</span>
-                </div>
-                <div className="flex gap-3">
-                  {sizes.map((size) => (
-                    <button
-                      key={size}
-                      onClick={() => setSelectedSize(size)}
-                      className={`w-12 h-12 flex items-center justify-center border text-xs font-bold transition-all duration-300 ${
-                        selectedSize === size
-                          ? "bg-white text-black border-white"
-                          : "bg-transparent text-white border-zinc-800 hover:border-zinc-500"
-                      }`}
-                    >
-                      {size}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {purchaseType === 'combo' && (
-                <motion.div 
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  className="space-y-4 pt-4 border-t border-zinc-900"
-                >
-                  <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">Tamanho da 2ª Peça</span>
+              <div className="space-y-6">
+                <div className="space-y-4 pt-4 border-t border-zinc-900">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">
+                      {purchaseType === 'combo' ? 'ITEM 1: ' + product.name : 'Selecione o Tamanho'}
+                    </span>
+                    <span className="text-[9px] uppercase tracking-widest font-bold text-red-600 animate-pulse">Poucas unidades disponíveis</span>
+                  </div>
                   <div className="flex gap-3">
                     {sizes.map((size) => (
                       <button
-                        key={size + "-2"}
-                        onClick={() => setSelectedSize2(size)}
+                        key={size}
+                        onClick={() => setSelectedSize(size)}
                         className={`w-12 h-12 flex items-center justify-center border text-xs font-bold transition-all duration-300 ${
-                          selectedSize2 === size
-                            ? "bg-white text-black border-white"
+                          selectedSize === size
+                            ? "bg-red-600 text-white border-red-600"
                             : "bg-transparent text-white border-zinc-800 hover:border-zinc-500"
                         }`}
                       >
@@ -286,8 +263,53 @@ function ProductDetail() {
                       </button>
                     ))}
                   </div>
-                </motion.div>
-              )}
+                </div>
+
+                {purchaseType === 'combo' && (
+                  <motion.div 
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    className="space-y-6 pt-6 border-t border-zinc-900"
+                  >
+                    <div className="space-y-4">
+                      <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">ITEM 2: CONFIGURAÇÃO</span>
+                      <div className="flex gap-2">
+                        <button 
+                          onClick={() => setItem2Option("same")}
+                          className={`flex-1 py-2 text-[9px] uppercase tracking-widest font-bold border transition-all ${item2Option === 'same' ? 'bg-zinc-900 border-red-600 text-white' : 'border-zinc-800 text-zinc-500'}`}
+                        >
+                          Mesma Peça
+                        </button>
+                        <button 
+                          onClick={() => setIsModalOpen(true)}
+                          className={`flex-1 py-2 text-[9px] uppercase tracking-widest font-bold border transition-all ${item2Option === 'other' ? 'bg-zinc-900 border-red-600 text-white' : 'border-zinc-800 text-zinc-500'}`}
+                        >
+                          {item2Option === 'other' && item2Product ? item2Product.name : "Escolher Outro Modelo"}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">Tamanho da 2ª Peça</span>
+                      <div className="flex gap-3">
+                        {sizes.map((size) => (
+                          <button
+                            key={size + "-2"}
+                            onClick={() => setSelectedSize2(size)}
+                            className={`w-12 h-12 flex items-center justify-center border text-xs font-bold transition-all duration-300 ${
+                              selectedSize2 === size
+                                ? "bg-red-600 text-white border-red-600"
+                                : "bg-transparent text-white border-zinc-800 hover:border-zinc-500"
+                            }`}
+                          >
+                            {size}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </div>
             </div>
 
             <div className="max-md:fixed max-md:bottom-0 max-md:left-0 max-md:w-full max-md:p-4 max-md:bg-zinc-950/95 max-md:backdrop-blur-lg max-md:border-t max-md:border-zinc-900 max-md:z-[100] max-md:shadow-[0_-10px_40px_rgba(0,0,0,0.8)]">
