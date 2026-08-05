@@ -125,6 +125,23 @@ function RootShell({ children }: { children: ReactNode }) {
 function GlobalCartDrawer() {
   const { cart, isCartOpen, setIsCartOpen, removeFromCart, updateQuantity, cartTotal, remainingForFreeShipping, freeShippingProgress, activeCoupon, discountValue, applyCoupon, removeCoupon } = useCartStore();
   const [couponInput, setCouponInput] = useState("");
+  const [checkoutStep, setCheckoutStep] = useState<'cart' | 'address'>('cart');
+  const [address, setAddress] = useState({
+    nome: '',
+    cep: '',
+    rua: '',
+    numero: '',
+    cidade: ''
+  });
+  const [shippingCost, setShippingCost] = useState<number | null>(null);
+
+  const calculateShipping = () => {
+    if (address.cep.length >= 8) {
+      // Mock shipping calculation
+      const cost = freeShippingProgress >= 100 ? 0 : 25;
+      setShippingCost(cost);
+    }
+  };
 
   if (!isCartOpen) return null;
 
@@ -138,7 +155,16 @@ function GlobalCartDrawer() {
         {/* Cart Header */}
         <div className="p-6 border-b border-zinc-900">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="font-sans text-lg font-bold tracking-widest text-white uppercase">SEU CARRINHO</h2>
+            <div className="flex items-center gap-3">
+              {checkoutStep === 'address' && (
+                <button onClick={() => setCheckoutStep('cart')} className="text-zinc-500 hover:text-white">
+                  <X size={20} className="rotate-90" />
+                </button>
+              )}
+              <h2 className="font-sans text-lg font-bold tracking-widest text-white uppercase">
+                {checkoutStep === 'cart' ? 'SEU CARRINHO' : 'ENDEREÇO'}
+              </h2>
+            </div>
             <button 
               onClick={() => setIsCartOpen(false)}
               className="text-zinc-400 hover:text-white p-1"
@@ -166,9 +192,11 @@ function GlobalCartDrawer() {
           </div>
         </div>
 
-        {/* Cart Items */}
+        {/* Content Area */}
         <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
-          {cart.length === 0 ? (
+          {checkoutStep === 'cart' ? (
+            <>
+              {cart.length === 0 ? (
             <div className="flex-1 flex flex-col items-center justify-center text-center px-8 gap-8">
               <div className="space-y-2">
                 <p className="text-[10px] uppercase tracking-[0.4em] text-zinc-500 font-bold">SEU ARSENAL ESTÁ VAZIO</p>
@@ -228,8 +256,80 @@ function GlobalCartDrawer() {
                     </button>
                   </div>
                 </div>
+                </div>
+              ))
+            )}
+            </>
+          ) : (
+            <div className="space-y-6 px-2">
+              <div className="space-y-4">
+                <div className="flex flex-col gap-1">
+                  <label className="text-[10px] text-zinc-500 uppercase tracking-widest">Nome Completo</label>
+                  <input 
+                    type="text"
+                    value={address.nome}
+                    onChange={e => setAddress({...address, nome: e.target.value})}
+                    className="bg-transparent border-b border-zinc-800 text-white text-xs py-2 focus:outline-none focus:border-zinc-500 transition-colors"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-1">
+                    <label className="text-[10px] text-zinc-500 uppercase tracking-widest">CEP</label>
+                    <input 
+                      type="text"
+                      value={address.cep}
+                      onChange={e => {
+                        const val = e.target.value.replace(/\D/g, '').slice(0, 8);
+                        setAddress({...address, cep: val});
+                        if (val.length === 8) calculateShipping();
+                      }}
+                      placeholder="00000-000"
+                      className="bg-transparent border-b border-zinc-800 text-white text-xs py-2 focus:outline-none focus:border-zinc-500 transition-colors"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <label className="text-[10px] text-zinc-500 uppercase tracking-widest">Cidade</label>
+                    <input 
+                      type="text"
+                      value={address.cidade}
+                      onChange={e => setAddress({...address, cidade: e.target.value})}
+                      className="bg-transparent border-b border-zinc-800 text-white text-xs py-2 focus:outline-none focus:border-zinc-500 transition-colors"
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="col-span-2 flex flex-col gap-1">
+                    <label className="text-[10px] text-zinc-500 uppercase tracking-widest">Rua</label>
+                    <input 
+                      type="text"
+                      value={address.rua}
+                      onChange={e => setAddress({...address, rua: e.target.value})}
+                      className="bg-transparent border-b border-zinc-800 text-white text-xs py-2 focus:outline-none focus:border-zinc-500 transition-colors"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <label className="text-[10px] text-zinc-500 uppercase tracking-widest">Nº</label>
+                    <input 
+                      type="text"
+                      value={address.numero}
+                      onChange={e => setAddress({...address, numero: e.target.value})}
+                      className="bg-transparent border-b border-zinc-800 text-white text-xs py-2 focus:outline-none focus:border-zinc-500 transition-colors"
+                    />
+                  </div>
+                </div>
               </div>
-            ))
+              
+              {shippingCost !== null && (
+                <div className="p-4 bg-zinc-900/50 border border-zinc-800 rounded-sm">
+                  <div className="flex justify-between items-center text-xs uppercase tracking-widest">
+                    <span className="text-zinc-400">Frete Estimado</span>
+                    <span className="text-white font-bold">
+                      {shippingCost === 0 ? 'GRÁTIS' : shippingCost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
           )}
         </div>
 
@@ -266,7 +366,7 @@ function GlobalCartDrawer() {
                   </span>
                 )}
                 <span className={`text-lg font-bold ${activeCoupon ? 'text-[#8B0000]' : 'text-white'}`}>
-                  {cartTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                  {(cartTotal + (shippingCost || 0)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                 </span>
               </div>
             </div>
@@ -278,12 +378,25 @@ function GlobalCartDrawer() {
               </div>
             )}
 
-            <p className="text-[10px] text-zinc-500 mt-2 mb-6 text-center uppercase tracking-wider italic">
-              Frete calculado no checkout
-            </p>
-            <button className="w-full bg-white text-black hover:bg-zinc-200 transition-colors py-4 font-bold tracking-[0.2em] text-xs uppercase">
-              FINALIZAR COMPRA
-            </button>
+            {checkoutStep === 'cart' ? (
+              <>
+                <p className="text-[10px] text-zinc-500 mt-2 mb-6 text-center uppercase tracking-wider italic">
+                  Frete calculado no próximo passo
+                </p>
+                <button 
+                  onClick={() => setCheckoutStep('address')}
+                  className="w-full bg-white text-black hover:bg-zinc-200 transition-colors py-4 font-bold tracking-[0.2em] text-xs uppercase"
+                >
+                  CONTINUAR
+                </button>
+              </>
+            ) : (
+              <button 
+                className="w-full bg-white text-black hover:bg-zinc-200 transition-colors py-4 font-bold tracking-[0.2em] text-xs uppercase mt-6"
+              >
+                IR PARA PAGAMENTO
+              </button>
+            )}
           </div>
         )}
       </div>
