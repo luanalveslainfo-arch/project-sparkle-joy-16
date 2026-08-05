@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import { X, Minus, Plus, ShoppingBag, ChevronDown, ChevronUp, ArrowLeft, Loader2, ShieldCheck, CreditCard, Truck } from "lucide-react";
 import { TrustBadges } from "@/components/TrustBadges";
 import { motion } from "framer-motion";
@@ -58,9 +58,22 @@ function ProductImage({ src, alt }: { src: string; alt: string }) {
 function ProductDetail() {
   const { productId } = Route.useParams();
   const { addToCart, setIsCartOpen } = useCartStore();
-  const navigate = useNavigate();
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const sizes = ["P", "M", "G", "GG"];
+  const totalSlides = 3;
+
+  const handleScroll = useCallback(() => {
+    if (scrollContainerRef.current) {
+      const scrollLeft = scrollContainerRef.current.scrollLeft;
+      const width = scrollContainerRef.current.offsetWidth;
+      const newActiveSlide = Math.round(scrollLeft / width);
+      if (newActiveSlide !== activeSlide) {
+        setActiveSlide(newActiveSlide);
+      }
+    }
+  }, [activeSlide]);
 
   // Force cast to Product since we have a fallback
   const product = useMemo(() => {
@@ -108,7 +121,11 @@ function ProductDetail() {
             className="w-full"
           >
             <div className="relative group/carousel">
-              <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide md:flex-col gap-4 pb-4 md:pb-0 scroll-smooth">
+              <div 
+                ref={scrollContainerRef}
+                onScroll={handleScroll}
+                className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide md:flex-col gap-4 pb-4 md:pb-0 scroll-smooth"
+              >
                 <div className="min-w-full md:min-w-0 snap-center">
                   <ProductImage src={product.image} alt={product.name} />
                 </div>
@@ -121,16 +138,23 @@ function ProductDetail() {
               </div>
               
               {/* Mobile Carousel Indicators */}
-              <div className="flex md:hidden justify-center gap-2 mt-2">
-                <div className="w-8 h-[2px] bg-white opacity-100"></div>
-                <div className="w-8 h-[2px] bg-zinc-800 opacity-50"></div>
-                <div className="w-8 h-[2px] bg-zinc-800 opacity-50"></div>
+              <div className="flex md:hidden justify-center gap-2 mt-4">
+                {[...Array(totalSlides)].map((_, i) => (
+                  <div 
+                    key={i}
+                    className={`h-[2px] transition-all duration-300 ${
+                      activeSlide === i ? "w-8 bg-white opacity-100" : "w-4 bg-zinc-800 opacity-50"
+                    }`}
+                  ></div>
+                ))}
               </div>
 
               {/* Swipe Hint */}
-              <div className="md:hidden absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-md p-2 rounded-full border border-white/10 animate-pulse pointer-events-none">
-                <span className="text-[8px] text-white font-bold tracking-widest uppercase vertical-text">DESLIZE</span>
-              </div>
+              {activeSlide === 0 && (
+                <div className="md:hidden absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-md p-2 rounded-full border border-white/10 animate-pulse pointer-events-none">
+                  <span className="text-[8px] text-white font-bold tracking-widest uppercase vertical-text">DESLIZE</span>
+                </div>
+              )}
             </div>
           </motion.div>
 
