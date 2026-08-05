@@ -129,31 +129,111 @@ function Index() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="flex items-center justify-center mb-10 border-b border-zinc-800 pb-8"
+              className="flex flex-col items-center justify-center mb-16"
             >
-              <h3 className="text-2xl md:text-3xl font-sans font-bold tracking-[0.2em] uppercase text-white mb-8 text-center">
-                {category === 'arcane' ? 'Drop Arcano' : category === 'oversized' ? 'Camisas Oversized' : 'Moletons e Calças'}
+              {category === 'arcane' && (
+                <span className="text-red-600 text-[10px] md:text-xs font-bold font-mono tracking-[0.3em] mb-4 bg-red-600/10 px-4 py-2 border border-red-600/20 animate-pulse">
+                  [ COMPRE 1 LEVE 2 • OPORTUNIDADE DO DROP ]
+                </span>
+              )}
+              <h3 className="text-2xl md:text-4xl font-sans font-black tracking-[0.2em] uppercase text-white text-center">
+                {category === 'arcane' ? 'DROP ARCANO /// COMBOS EXCLUSIVOS' : category === 'oversized' ? 'Camisas Oversized' : 'Moletons e Calças'}
               </h3>
+              {category === 'arcane' && (
+                <p className="text-zinc-500 text-[10px] md:text-xs tracking-[0.4em] uppercase mt-4 font-medium">
+                  FORJE SEU ARSENAL COMPLETO COM DESCONTO PROGRESSIVO
+                </p>
+              )}
+              <div className="w-24 h-px bg-zinc-800 mt-8" />
             </motion.div>
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12"
-            >
-              {items.map((p) => (
-                <div key={p.id} className="relative z-10">
-                  <Link 
-                    to="/produto/$productId" 
-                    params={{ productId: p.id.toString() }} 
-                    className="block cursor-pointer relative z-10 pointer-events-auto"
+
+            {category === 'arcane' ? (
+              <div className="max-w-4xl mx-auto">
+                {items.filter(p => p.isCombo).map((p) => (
+                  <motion.div 
+                    key={p.id}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8 }}
+                    viewport={{ once: true }}
+                    className="relative group bg-zinc-900/30 border border-zinc-800 p-4 md:p-8 rounded-sm overflow-hidden"
                   >
-                    <ProductCard product={p} />
-                  </Link>
-                </div>
-              ))}
-            </motion.div>
+                    <div className="absolute top-6 left-6 z-30">
+                      <span className="bg-red-600 text-white text-[10px] px-4 py-1.5 font-bold font-mono tracking-widest shadow-[0_0_15px_rgba(220,38,38,0.5)]">
+                        LEVE 2ª PEÇA GRÁTIS
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                      <div className="relative aspect-[4/5] overflow-hidden bg-black">
+                        <img 
+                          src={p.image} 
+                          alt={p.name} 
+                          className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                      </div>
+                      
+                      <div className="space-y-6 text-center md:text-left">
+                        <h4 className="text-xl md:text-3xl font-black uppercase tracking-tighter text-white leading-tight">
+                          {p.name}
+                        </h4>
+                        <div className="space-y-1">
+                          <span className="block text-zinc-500 line-through text-lg tracking-widest uppercase">
+                            {p.originalPrice}
+                          </span>
+                          <span className="block text-3xl md:text-5xl font-black text-red-600 tracking-tighter">
+                            {p.price}
+                          </span>
+                          <span className="block text-[10px] text-zinc-500 uppercase tracking-[0.2em]">
+                            OU 12X S/ JUROS NO PIX/CARTÃO
+                          </span>
+                        </div>
+                        
+                        <Link 
+                          to="/produto/$productId" 
+                          params={{ productId: p.id.toString() }}
+                          className="block w-full bg-zinc-100 text-black font-black uppercase tracking-widest text-xs py-5 text-center transition-all duration-300 hover:bg-red-700 hover:text-white"
+                        >
+                          GARANTIR MEU COMBO
+                        </Link>
+
+                        <div className="pt-4 flex items-center gap-4 text-[9px] text-zinc-500 uppercase tracking-widest font-bold">
+                          <div className="flex items-center gap-1.5">
+                            <div className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
+                            OFERTA LIMITADA
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <Truck size={12} />
+                            FRETE GRÁTIS
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            ) : (
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12"
+              >
+                {items.map((p) => (
+                  <div key={p.id} className="relative z-10">
+                    <Link 
+                      to="/produto/$productId" 
+                      params={{ productId: p.id.toString() }} 
+                      className="block cursor-pointer relative z-10 pointer-events-auto"
+                    >
+                      <ProductCard product={p} />
+                    </Link>
+                  </div>
+                ))}
+              </motion.div>
+            )}
           </section>
         ))}
       </main>

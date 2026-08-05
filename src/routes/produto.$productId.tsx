@@ -59,6 +59,7 @@ function ProductDetail() {
   const { productId } = Route.useParams();
   const { addToCart, setIsCartOpen } = useCartStore();
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [selectedSize2, setSelectedSize2] = useState<string | null>(null);
   const [activeSlide, setActiveSlide] = useState(0);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const sizes = ["P", "M", "G", "GG"];
@@ -91,11 +92,17 @@ function ProductDetail() {
 
   const handleAddToCart = () => {
     if (!selectedSize) {
-      sonnerToast.error("Por favor, selecione um tamanho.");
+      sonnerToast.error("Por favor, selecione o tamanho da primeira peça.");
       return;
     }
     
-    addToCart(product, selectedSize);
+    if (product.isCombo && !selectedSize2) {
+      sonnerToast.error("Por favor, selecione o tamanho da segunda peça.");
+      return;
+    }
+    
+    const finalSize = product.isCombo ? `1: ${selectedSize} / 2: ${selectedSize2}` : selectedSize;
+    addToCart(product, finalSize);
     setIsCartOpen(true);
     
     sonnerToast.success(`🩸 ${product.name} adicionado ao arsenal.`);
@@ -181,26 +188,56 @@ function ProductDetail() {
               <p className="text-[10px] text-zinc-400 uppercase tracking-[0.2em]">ou {product.installments}</p>
             </div>
 
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">Selecione o Tamanho</span>
-                <span className="text-[9px] uppercase tracking-widest font-bold text-red-600 animate-pulse">Poucas unidades disponíveis para este drop</span>
+            <div className="space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">
+                    {product.isCombo ? "Tamanho da Peça 1" : "Selecione o Tamanho"}
+                  </span>
+                  {!product.isCombo && <span className="text-[9px] uppercase tracking-widest font-bold text-red-600 animate-pulse">Poucas unidades disponíveis</span>}
+                </div>
+                <div className="flex gap-3">
+                  {sizes.map((size) => (
+                    <button
+                      key={size}
+                      onClick={() => setSelectedSize(size)}
+                      className={`w-12 h-12 flex items-center justify-center border text-xs font-bold transition-all duration-300 ${
+                        selectedSize === size
+                          ? "bg-white text-black border-white"
+                          : "bg-transparent text-white border-zinc-800 hover:border-zinc-500"
+                      }`}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
               </div>
-              <div className="flex gap-3">
-                {sizes.map((size) => (
-                  <button
-                    key={size}
-                    onClick={() => setSelectedSize(size)}
-                    className={`w-12 h-12 flex items-center justify-center border text-xs font-bold transition-all duration-300 ${
-                      selectedSize === size
-                        ? "bg-white text-black border-white"
-                        : "bg-transparent text-white border-zinc-800 hover:border-zinc-500"
-                    }`}
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
+
+              {product.isCombo && (
+                <div className="space-y-4 pt-4 border-t border-zinc-900">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">
+                      Tamanho da Peça 2
+                    </span>
+                    <span className="text-[9px] uppercase tracking-widest font-bold text-red-600 animate-pulse">Combo Limitado</span>
+                  </div>
+                  <div className="flex gap-3">
+                    {sizes.map((size) => (
+                      <button
+                        key={size + "-2"}
+                        onClick={() => setSelectedSize2(size)}
+                        className={`w-12 h-12 flex items-center justify-center border text-xs font-bold transition-all duration-300 ${
+                          selectedSize2 === size
+                            ? "bg-white text-black border-white"
+                            : "bg-transparent text-white border-zinc-800 hover:border-zinc-500"
+                        }`}
+                      >
+                        {size}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="max-md:fixed max-md:bottom-0 max-md:left-0 max-md:w-full max-md:p-4 max-md:bg-zinc-950/95 max-md:backdrop-blur-lg max-md:border-t max-md:border-zinc-900 max-md:z-[100] max-md:shadow-[0_-10px_40px_rgba(0,0,0,0.8)]">
