@@ -143,15 +143,15 @@ function Index() {
 
       {/* Hero */}
       <section className="relative h-[90vh] flex items-center justify-center overflow-hidden pt-[72px]">
-        <div className="absolute inset-0 bg-black/75 z-10" />
+        <div className="absolute inset-0 bg-black/85 z-10" />
         <img 
-          src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1920&auto=format&fit=crop" 
-          alt="Gym Dark Background" 
-          className="absolute inset-0 w-full h-full object-cover"
+          src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1920&auto=format&fit=crop" 
+          alt="Dark Aesthetic Streetwear Background" 
+          className="absolute inset-0 w-full h-full object-cover grayscale opacity-60"
         />
         <div className="relative text-center z-20 px-4 flex flex-col items-center">
           <h2 className="text-6xl md:text-8xl uppercase tracking-tighter leading-none mb-6 font-black" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
-            MEMENTO <br /> <span className="text-[#8B0000] drop-shadow-[0_0_30px_rgba(139,0,0,0.3)]">MORI</span>
+            MEMENTO <br /> <span className="text-[#8B0000] drop-shadow-[0_0_40px_rgba(139,0,0,0.4)]">MORI</span>
           </h2>
           <p className="text-zinc-200 tracking-[0.5em] uppercase text-[10px] md:text-xs max-w-xl mx-auto font-light mb-10">
             BEYOND THE SHADOWS OF MORTALITY LIES THE PATH OF DISCIPLINE
