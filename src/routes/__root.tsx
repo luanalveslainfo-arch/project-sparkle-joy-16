@@ -143,6 +143,14 @@ function GlobalCartDrawer() {
     setSavedCep,
     setSavedShippingCost
   } = useCartStore();
+
+  const cartItemsCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+  const subtotalBeforeDiscounts = cart.reduce((acc, item) => {
+    const price = typeof item.priceNumber === 'number' ? item.priceNumber : parseFloat(String(item.price).replace(/[R$\s.]/g, '').replace(',', '.'));
+    return acc + (price * item.quantity);
+  }, 0);
+  const totalDiscountValue = cartItemsCount >= 2 ? subtotalBeforeDiscounts * 0.1 : 0;
+  
   
   const [couponInput, setCouponInput] = useState("");
   const [cepError, setCepError] = useState<string | null>(null);
