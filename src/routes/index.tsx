@@ -115,7 +115,14 @@ function Index() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#000000] text-foreground selection:bg-primary/30" style={{ fontFamily: THEME.FONTS.SANS }}>
+    <div className="min-h-screen bg-[#000000] text-foreground selection:bg-primary/30 overflow-x-hidden" style={{ fontFamily: THEME.FONTS.SANS }}>
+      {/* Marquee Announcement Bar */}
+      <div className="bg-[#b91c1c] text-white py-2 overflow-hidden whitespace-nowrap border-b border-black/20">
+        <div className="inline-block animate-marquee uppercase text-[10px] md:text-xs font-bold tracking-[0.3em]">
+          ⚔️ FRETE GRÁTIS PARA TODO O BRASIL ACIMA DE R$ 299 ⚔️ MEMENTO MORI ⚔️ ENVIOS EM ATÉ 24H ⚔️ FRETE GRÁTIS PARA TODO O BRASIL ACIMA DE R$ 299 ⚔️ MEMENTO MORI ⚔️ ENVIOS EM ATÉ 24H ⚔️
+        </div>
+      </div>
+
       {/* Discount Modal */}
       {showModal && (
         <div 
@@ -145,7 +152,7 @@ function Index() {
       )}
 
       {/* Header */}
-      <header className="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/5 p-4 flex items-center justify-between transition-all duration-300">
+      <header className="sticky top-0 left-0 w-full z-50 bg-black/70 backdrop-blur-md border-b border-white/10 p-4 flex items-center justify-between transition-all duration-300">
         <div className="flex items-center gap-6">
           <Menu className="cursor-pointer md:hidden text-zinc-400 hover:text-white" />
           <nav className="hidden md:flex gap-6 text-[10px] uppercase tracking-[0.2em] text-zinc-400">
@@ -155,7 +162,7 @@ function Index() {
             <a href="#" className="hover:text-white transition-colors">Contato</a>
           </nav>
         </div>
-        <h1 className="text-3xl lg:text-4xl absolute left-1/2 -translate-x-1/2 select-none tracking-widest font-bold" style={{ fontFamily: THEME.FONTS.DISPLAY }}>ARCANE</h1>
+        <h1 className="text-3xl md:text-4xl absolute left-1/2 -translate-x-1/2 select-none tracking-widest font-black" style={{ fontFamily: THEME.FONTS.DISPLAY }}>ARCANE</h1>
         <div className="flex items-center gap-5">
           <button aria-label="Buscar"><Search className="text-zinc-400 hover:text-white w-4 transition-colors" /></button>
           <button aria-label="Minha conta"><User className="text-zinc-400 hover:text-white w-4 transition-colors" /></button>
@@ -167,8 +174,14 @@ function Index() {
       </header>
 
       {/* Hero */}
-      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-zinc-900 to-black">
-        <div className="absolute inset-0 bg-gradient-to-b from-black/0 via-black/40 to-black z-10" />
+      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-black/80 z-10" />
+        <img 
+          src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1920&auto=format&fit=crop" 
+          alt="Gym Dark Background" 
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-black/40 z-10" />
         <div className="relative text-center z-20 px-4">
           <h2 className="text-7xl md:text-[12rem] uppercase tracking-tighter leading-none mb-6 font-black" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
             MEMENTO <br /> <span className="text-primary drop-shadow-[0_0_30px_rgba(185,28,28,0.3)]">MORI</span>
@@ -189,7 +202,7 @@ function Index() {
               </h3>
               <a href="#" className="text-[10px] text-zinc-500 hover:text-primary uppercase tracking-[0.2em] transition-colors font-medium">Shop All</a>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {items.map((p) => (
                 <ProductCard key={p.id} product={p} onAdd={addToCart} />
               ))}
@@ -266,18 +279,24 @@ function Index() {
 
 function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: string) => void }) {
   const [hasError, setHasError] = useState(false);
-  const fallbackImage = "https://images.unsplash.com/photo-1584362917165-526a968579e8?q=80&w=800&auto=format&fit=crop";
+  const fallbackImage = null; // We will handle fallback manually now
 
   return (
     <div className="group cursor-pointer">
-      <div className="relative aspect-[3/4] overflow-hidden bg-[#111111] mb-6 transition-all duration-500">
-        <img 
-          src={hasError || !product.image ? fallbackImage : product.image} 
-          alt={product.name}
-          loading="lazy"
-          onError={() => setHasError(true)}
-          className="w-full aspect-[3/4] object-cover transition-transform duration-700 group-hover:scale-105"
-        />
+      <div className="relative aspect-[3/4] overflow-hidden bg-[#111111] mb-6 transition-all duration-500 flex items-center justify-center">
+        {!hasError && product.image ? (
+          <img 
+            src={product.image} 
+            alt={product.name}
+            loading="lazy"
+            onError={() => setHasError(true)}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+        ) : (
+          <div className="text-center">
+            <span className="text-[10px] uppercase tracking-widest text-zinc-600 font-bold">IMAGE UNAVAILABLE</span>
+          </div>
+        )}
         
         {/* Quick Add Overlay */}
         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
