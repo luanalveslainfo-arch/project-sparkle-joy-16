@@ -156,7 +156,7 @@ function Index() {
           <p className="text-zinc-200 tracking-[0.5em] uppercase text-[10px] md:text-xs max-w-xl mx-auto font-light mb-10">
             BEYOND THE SHADOWS OF MORTALITY LIES THE PATH OF DISCIPLINE
           </p>
-          <button className="bg-white text-black px-10 py-4 text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors duration-300">
+          <button className="bg-white text-black px-10 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 ease-in-out hover:bg-zinc-200 hover:scale-[1.02] active:scale-[0.98]">
             EXPLORAR A COLEÇÃO
           </button>
         </div>
@@ -224,7 +224,7 @@ function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: strin
         <span className="text-xs text-zinc-800 font-sans tracking-widest uppercase">Imagem em breve</span>
         
         {/* Quick Add Overlay */}
-        <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4">
+        <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 ease-out p-4">
           <div className="flex flex-row flex-wrap justify-center">
             {sizes.map(size => (
               <button
@@ -245,9 +245,9 @@ function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: strin
         </div>
       </div>
       
-      <h4 className="text-sm font-bold uppercase tracking-[0.1em] text-white mb-1">{product.name}</h4>
-      <div className="flex flex-col">
-        <span className="text-base font-bold text-white">{product.price}</span>
+      <div className="mt-4 flex flex-col gap-1">
+        <h4 className="text-sm font-bold uppercase tracking-[0.1em] text-zinc-300">{product.name}</h4>
+        <span className="text-base font-semibold text-white">{product.price}</span>
       </div>
     </div>
   );
@@ -255,7 +255,7 @@ function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: strin
 
 function Footer() {
   return (
-    <footer className="bg-black border-t border-zinc-800 pt-16 pb-10 mt-32">
+    <footer className="bg-black border-t border-zinc-800 pt-16 pb-12 mt-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16 mb-20">
           {/* Column 1 */}
@@ -270,10 +270,10 @@ function Footer() {
           <div className="space-y-6">
             <h4 className="text-white text-xs font-bold uppercase tracking-[0.2em]">Links Úteis</h4>
             <ul className="space-y-4 text-[10px] uppercase tracking-widest text-zinc-400">
-              <li><a href="#" className="hover:text-white transition-colors">Rastrear Pedido</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Trocas e Devoluções</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Termos de Serviço</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Fale Conosco</a></li>
+              <li><a href="#" className="transition-colors duration-200 hover:text-white">Rastrear Pedido</a></li>
+              <li><a href="#" className="transition-colors duration-200 hover:text-white">Trocas e Devoluções</a></li>
+              <li><a href="#" className="transition-colors duration-200 hover:text-white">Termos de Serviço</a></li>
+              <li><a href="#" className="transition-colors duration-200 hover:text-white">Fale Conosco</a></li>
             </ul>
           </div>
 
@@ -281,13 +281,13 @@ function Footer() {
           <div className="space-y-6">
             <h4 className="text-white text-xs font-bold uppercase tracking-[0.2em]">JUNTE-SE À SEITA</h4>
             <form className="flex flex-col space-y-4" onSubmit={(e) => e.preventDefault()}>
-              <div className="flex">
+              <div className="flex items-center gap-4">
                 <input 
                   type="email" 
                   placeholder="SEU MELHOR E-MAIL" 
-                  className="bg-zinc-900 border-none text-[10px] tracking-widest p-4 flex-grow focus:ring-1 focus:ring-white/20 outline-none text-white"
+                  className="border-b border-zinc-700 bg-transparent focus:border-white focus:outline-none py-2 text-sm text-white w-full placeholder:text-zinc-600 tracking-widest transition-colors"
                 />
-                <button className="bg-white text-black px-6 text-[10px] font-bold uppercase tracking-widest hover:bg-zinc-200 transition-colors">
+                <button className="text-xs tracking-widest font-bold text-white hover:text-zinc-400 transition-colors whitespace-nowrap">
                   ASSINAR
                 </button>
               </div>
