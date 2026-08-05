@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { X, Minus, Plus, ShoppingBag, ChevronDown, ChevronUp } from "lucide-react";
 import { toast } from "sonner";
+import { useCartStore } from "@/lib/cart-store";
 
 export const Route = createFileRoute("/produto/$productId")({
   component: ProductDetail,
@@ -55,6 +56,7 @@ function Accordion({ title, children }: { title: string; children: React.ReactNo
 
 function ProductDetail() {
   const { productId } = Route.useParams();
+  const { addToCart, setIsCartOpen } = useCartStore();
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const sizes = ["P", "M", "G", "GG"];
 
@@ -68,20 +70,16 @@ function ProductDetail() {
     image: "https://images.unsplash.com/photo-1574680096145-d05b474e2158?q=80&w=800",
   };
 
-  // Function to add to cart (this would normally be in a Context or global state)
-  // For now, we simulate the interaction by showing the toast
   const handleAddToCart = () => {
     if (!selectedSize) {
       toast.error("Por favor, selecione um tamanho.");
       return;
     }
     
-    // In a real app, this would dispatch to a store
-    toast.success(`🩸 ${product.name} adicionado ao arsenal.`);
+    addToCart(product, selectedSize);
+    setIsCartOpen(true);
     
-    // Trigger cart drawer - this would require a global state
-    // For this implementation, we assume the user will handle the state management
-    // but we provide the visual feedback
+    toast.success(`🩸 ${product.name} adicionado ao arsenal.`);
   };
 
   return (

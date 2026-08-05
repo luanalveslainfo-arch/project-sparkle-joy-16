@@ -3,6 +3,7 @@ import heroAsset from "@/assets/hero-bg.png.asset.json";
 import { Search, ShoppingBag, User, Menu, Mail, Instagram, Twitter, X, Phone, MessageSquare, Truck, Shield, Star, ArrowRight, Minus, Plus, Trash2 } from "lucide-react";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { toast } from "sonner";
+import { useCartStore } from "@/lib/cart-store";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -49,8 +50,8 @@ function Index() {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cart, setCart] = useState<CartItem[]>([]);
+  
+  const { cart, isCartOpen, setIsCartOpen, addToCart, removeFromCart, updateQuantity, cartTotal } = useCartStore();
 
 
   const products = useMemo(() => ({
@@ -121,46 +122,6 @@ function Index() {
     }
   };
 
-  const addToCart = useCallback((product: Product, size?: string) => {
-    setCart(prev => {
-      const existing = prev.find(item => item.id === product.id && item.selectedSize === size);
-      if (existing) {
-        return prev.map(item => 
-          (item.id === product.id && item.selectedSize === size) 
-            ? { ...item, quantity: item.quantity + 1 } 
-            : item
-        );
-      }
-      return [...prev, { ...product, quantity: 1, selectedSize: size }];
-    });
-    
-    setIsCartOpen(true);
-    
-    toast(`🩸 Item adicionado ao seu arsenal.`, {
-      description: `${product.name}${size ? ` - Tamanho: ${size}` : ''}`,
-      className: "bg-[#0a0a0a] text-white border-l-4 border-[#8B0000] rounded-none shadow-2xl",
-      duration: 3000,
-    });
-  }, []);
-
-  const removeFromCart = useCallback((id: number, size?: string) => {
-    setCart(prev => prev.filter(item => !(item.id === id && item.selectedSize === size)));
-  }, []);
-
-  const updateQuantity = useCallback((id: number, size: string | undefined, delta: number) => {
-    setCart(prev => prev.map(item => {
-      if (item.id === id && item.selectedSize === size) {
-        const newQty = Math.max(1, item.quantity + delta);
-        return { ...item, quantity: newQty };
-      }
-      return item;
-    }));
-  }, []);
-
-  const cartTotal = useMemo(() => 
-    cart.reduce((acc, item) => acc + (item.priceNumber * item.quantity), 0)
-  , [cart]);
-
   const FREE_SHIPPING_THRESHOLD = 299;
   const remainingForFreeShipping = Math.max(0, FREE_SHIPPING_THRESHOLD - cartTotal);
   const freeShippingProgress = Math.min(100, (cartTotal / FREE_SHIPPING_THRESHOLD) * 100);
@@ -197,8 +158,11 @@ function Index() {
             </p>
             <div className="h-1 bg-zinc-800 w-full rounded-full overflow-hidden">
               <div 
-                className="h-full bg-white transition-all duration-500"
-                style={{ width: `${freeShippingProgress}%` }}
+                className="h-full transition-all duration-500"
+                style={{ 
+                  width: `${freeShippingProgress}%`,
+                  backgroundColor: freeShippingProgress >= 100 ? '#8B0000' : 'white'
+                }}
               />
             </div>
           </div>
@@ -291,8 +255,8 @@ function Index() {
             <Menu />
           </button>
           <nav className="hidden md:flex gap-6 text-[10px] uppercase tracking-[0.2em] text-zinc-400">
-            <a href="#" className="hover:text-[#8B0000] transition-colors duration-300">Home</a>
-            <a href="#" className="hover:text-[#8B0000] transition-colors duration-300">Produtos</a>
+            <Link to="/" className="hover:text-[#8B0000] transition-colors duration-300">Home</Link>
+            <Link to="/produtos" className="hover:text-[#8B0000] transition-colors duration-300">Produtos</Link>
           </nav>
         </div>
         <h1 className="text-3xl md:text-4xl absolute left-1/2 -translate-x-1/2 select-none tracking-widest font-black" style={{ fontFamily: THEME.FONTS.DISPLAY }}>ARCANE</h1>
@@ -321,8 +285,7 @@ function Index() {
             BEYOND THE SHADOWS OF MORTALITY LIES THE PATH OF DISCIPLINE
           </p>
           <Link 
-            to="/produto/$productId" 
-            params={{ productId: "1" }}
+            to="/produtos" 
             className="relative z-10 bg-white text-black px-10 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 ease-in-out hover:bg-zinc-200 hover:scale-[1.02] active:scale-[0.98] mt-8 cursor-pointer"
           >
             EXPLORAR A COLEÇÃO
