@@ -143,7 +143,7 @@ function Index() {
 
       {/* Hero */}
       <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-black/60 z-10" />
+        <div className="absolute inset-0 bg-black/75 z-10" />
         <img 
           src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1920&auto=format&fit=crop" 
           alt="Gym Dark Background" 
@@ -162,18 +162,40 @@ function Index() {
         </div>
       </section>
 
+      {/* Trust Badges Section */}
+      <section className="bg-zinc-950 border-y border-zinc-800 py-6">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex flex-col md:flex-row items-center justify-around gap-8 md:gap-4 text-center">
+            <div className="flex flex-col items-center gap-2">
+              <Truck size={20} className="text-zinc-400" />
+              <span className="text-xs font-bold tracking-widest text-zinc-400 uppercase">FRETE GRÁTIS ACIMA DE R$299</span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <Shield size={20} className="text-zinc-400" />
+              <span className="text-xs font-bold tracking-widest text-zinc-400 uppercase">COMPRA 100% SEGURA</span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <Star size={20} className="text-zinc-400" />
+              <span className="text-xs font-bold tracking-widest text-zinc-400 uppercase">QUALIDADE PREMIUM GARANTIDA</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 space-y-32">
         {Object.entries(products).map(([category, items]) => (
           <section key={category} className="py-16 md:py-24">
-            <div className="flex items-center justify-between mb-10 border-b border-white/5 pb-6">
-              <h3 className="text-3xl uppercase tracking-[0.2em] font-light" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
+            <div className="flex items-center justify-center mb-10 border-b border-zinc-800 pb-8">
+              <h3 className="text-2xl font-bold tracking-[0.2em] uppercase text-white">
                 {category === 'arcane' ? 'Drop Arcano' : category === 'oversized' ? 'Camisas Oversized' : 'Moletons e Calças'}
               </h3>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-              {items.filter(p => p.image).map((p) => (
-                <ProductCard key={p.id} product={p} onAdd={addToCart} />
-              ))}
+              {items
+                .filter(p => p.image && !p.image.includes('broken') && p.image.startsWith('http'))
+                .map((p) => (
+                  <ProductCard key={p.id} product={p} onAdd={addToCart} />
+                ))}
             </div>
           </section>
         ))}
@@ -203,7 +225,7 @@ function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: strin
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#111111] mb-6">
+      <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#0a0a0a] mb-6">
         <div className="w-full h-full relative">
           <img 
             src={product.image} 
@@ -222,12 +244,12 @@ function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: strin
         </div>
         
         <div className="absolute bottom-0 left-0 w-full translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out z-10">
-          <div className="bg-black/80 backdrop-blur-sm border-t border-white/5 p-3 flex justify-center gap-2">
+          <div className="bg-black/75 backdrop-blur-md border-t border-white/5 p-4 flex justify-center gap-2">
             {sizes.map(size => (
               <button
                 key={size}
                 onClick={(e) => { e.stopPropagation(); setSelectedSize(size); }}
-                className={`w-8 h-8 flex items-center justify-center text-[10px] border transition-colors ${selectedSize === size ? "bg-[#b91c1c] border-[#b91c1c] text-white" : "bg-transparent border-gray-600 text-white hover:bg-[#b91c1c] hover:border-[#b91c1c]"}`}
+                className={`w-10 h-10 flex items-center justify-center text-xs border transition-all duration-200 uppercase ${selectedSize === size ? "bg-white text-black border-white" : "bg-transparent border-white text-white hover:bg-white hover:text-black"}`}
               >
                 {size}
               </button>
@@ -235,7 +257,7 @@ function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: strin
           </div>
           <button 
             onClick={(e) => { e.stopPropagation(); onAdd(product.name, selectedSize || undefined); }}
-            className="w-full bg-black/90 hover:bg-[#b91c1c] text-white py-3 text-[10px] font-bold uppercase tracking-[0.2em] transition-colors border-t border-white/5"
+            className="w-full bg-zinc-900/95 hover:bg-zinc-800 text-white py-4 text-[11px] font-bold uppercase tracking-[0.2em] transition-colors border-t border-white/5"
           >
             + Quick Add
           </button>
