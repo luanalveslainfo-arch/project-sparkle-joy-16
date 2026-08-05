@@ -24,8 +24,9 @@ interface Product {
 
 interface CartItem extends Product {
   quantity: number;
-  selectedSize?: string;
+  selectedSize?: string | null;
 }
+
 
 
 const STORAGE_KEYS = {
