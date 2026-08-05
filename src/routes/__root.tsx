@@ -17,7 +17,7 @@ import { Toaster } from "sonner";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { TrustBadges } from "@/components/TrustBadges";
 import { motion, AnimatePresence } from "framer-motion";
-import { GlowCursor } from "@/components/GlowCursor";
+
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -122,7 +122,7 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <GlowCursor />
+        
         {children}
         <Scripts />
       </body>
