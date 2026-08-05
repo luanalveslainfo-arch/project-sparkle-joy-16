@@ -148,7 +148,7 @@ function GlobalCartDrawer() {
           <div className="space-y-2">
             <p className="text-[10px] uppercase tracking-wider text-zinc-400">
               {remainingForFreeShipping > 0 
-                ? `Faltam R$ ${remainingForFreeShipping.toFixed(2).replace('.', ',')} para Frete Grátis`
+                ? `Faltam ${remainingForFreeShipping.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} para Frete Grátis`
                 : "Você ganhou Frete Grátis! 🩸"}
             </p>
             <div className="h-1 bg-zinc-800 w-full rounded-full overflow-hidden">
@@ -227,7 +227,7 @@ function GlobalCartDrawer() {
           <div className="p-6 border-t border-zinc-900 bg-zinc-950">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs uppercase tracking-widest text-zinc-400">Subtotal</span>
-              <span className="text-lg font-bold text-white">R$ {cartTotal.toFixed(2).replace('.', ',')}</span>
+              <span className="text-lg font-bold text-white">{cartTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
             </div>
             <p className="text-[10px] text-zinc-500 mt-2 mb-6 text-center uppercase tracking-wider italic">
               Frete calculado no checkout
