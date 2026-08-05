@@ -115,7 +115,7 @@ function Index() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground selection:bg-primary/30" style={{ fontFamily: THEME.FONTS.SANS }}>
+    <div className="min-h-screen bg-[#000000] text-foreground selection:bg-primary/30" style={{ fontFamily: THEME.FONTS.SANS }}>
       {/* Discount Modal */}
       {showModal && (
         <div 
@@ -145,36 +145,37 @@ function Index() {
       )}
 
       {/* Header */}
-      <header className="fixed top-0 left-0 w-full z-50 bg-background/60 backdrop-blur-xl border-b border-border/40 p-5 flex items-center justify-between transition-all duration-300">
+      <header className="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/5 p-4 flex items-center justify-between transition-all duration-300">
         <div className="flex items-center gap-6">
           <Menu className="cursor-pointer md:hidden text-zinc-400 hover:text-white" />
-          <nav className="hidden md:flex gap-6 text-xs uppercase tracking-widest text-zinc-400">
-            <a href="#" className="hover:text-red-700 transition-colors">Home</a>
-            <a href="#" className="hover:text-red-700 transition-colors">Produtos</a>
-            <a href="#" className="hover:text-red-700 transition-colors">Tabela de Medidas</a>
-            <a href="#" className="hover:text-red-700 transition-colors">Contato</a>
+          <nav className="hidden md:flex gap-6 text-[10px] uppercase tracking-[0.2em] text-zinc-400">
+            <a href="#" className="hover:text-white transition-colors">Home</a>
+            <a href="#" className="hover:text-white transition-colors">Produtos</a>
+            <a href="#" className="hover:text-white transition-colors">Medidas</a>
+            <a href="#" className="hover:text-white transition-colors">Contato</a>
           </nav>
         </div>
-        <h1 className="text-4xl absolute left-1/2 -translate-x-1/2 select-none" style={{ fontFamily: THEME.FONTS.DISPLAY }}>ARCANE</h1>
+        <h1 className="text-3xl absolute left-1/2 -translate-x-1/2 select-none tracking-tighter" style={{ fontFamily: THEME.FONTS.DISPLAY }}>ARCANE</h1>
         <div className="flex items-center gap-5">
-          <button aria-label="Buscar"><Search className="text-zinc-400 hover:text-white w-5 transition-colors" /></button>
-          <button aria-label="Minha conta"><User className="text-zinc-400 hover:text-white w-5 transition-colors" /></button>
+          <button aria-label="Buscar"><Search className="text-zinc-400 hover:text-white w-4 transition-colors" /></button>
+          <button aria-label="Minha conta"><User className="text-zinc-400 hover:text-white w-4 transition-colors" /></button>
           <button aria-label="Carrinho" className="relative group">
-            <ShoppingBag className="text-zinc-400 hover:text-white w-5 transition-colors" />
-            <span className="absolute -top-1 -right-1 bg-red-700 text-[8px] px-1 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity">0</span>
+            <ShoppingBag className="text-zinc-400 hover:text-white w-4 transition-colors" />
+            <span className="absolute -top-1 -right-1 bg-primary text-[8px] px-1 rounded-full text-white">0</span>
           </button>
         </div>
       </header>
 
       {/* Hero */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2000')] bg-cover bg-center brightness-[0.2] scale-105" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black" />
-        <div className="relative text-center z-10 px-4">
-          <h2 className="text-6xl md:text-[10rem] uppercase tracking-tighter leading-none mb-4 font-black" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
-            MEMENTO <br /> <span className="text-red-800 drop-shadow-[0_0_15px_rgba(185,28,28,0.5)]">MORI</span>
+      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden bg-black">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/0 via-black/40 to-black z-10" />
+        <div className="relative text-center z-20 px-4">
+          <h2 className="text-7xl md:text-[12rem] uppercase tracking-tighter leading-none mb-6 font-black" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
+            MEMENTO <br /> <span className="text-primary drop-shadow-[0_0_30px_rgba(185,28,28,0.3)]">MORI</span>
           </h2>
-          <p className="text-zinc-500 tracking-[0.3em] uppercase text-sm md:text-base">Streetwear Essentials for the Fallen</p>
+          <p className="text-zinc-500 tracking-[0.5em] uppercase text-xs md:text-sm max-w-xl mx-auto font-light">
+            Beyond the shadows of mortality lies the path of discipline.
+          </p>
         </div>
       </section>
 
@@ -182,13 +183,13 @@ function Index() {
       <main className="container mx-auto px-4 py-24 space-y-32">
         {Object.entries(products).map(([category, items]) => (
           <section key={category}>
-            <div className="flex items-center justify-between mb-12 border-b border-red-900/20 pb-4">
-              <h3 className="text-3xl uppercase tracking-widest capitalize" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
+            <div className="flex items-center justify-between mb-12 border-b border-white/5 pb-6">
+              <h3 className="text-2xl uppercase tracking-[0.2em] font-light" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
                 {category === 'arcane' ? 'Drop Arcano' : category === 'oversized' ? 'Camisas Oversized' : 'Moletons e Calças'}
               </h3>
-              <a href="#" className="text-xs text-red-700 hover:text-red-500 uppercase tracking-widest transition-colors">Ver tudo</a>
+              <a href="#" className="text-[10px] text-zinc-500 hover:text-primary uppercase tracking-[0.2em] transition-colors font-medium">Shop All</a>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 md:gap-x-8 gap-y-12 md:gap-y-16">
               {items.map((p) => (
                 <ProductCard key={p.id} product={p} onAdd={addToCart} />
               ))}
@@ -264,30 +265,40 @@ function Index() {
 }
 
 function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: string) => void }) {
+  const [hasError, setHasError] = useState(false);
+
   return (
     <div className="group cursor-pointer">
-      <div className="relative aspect-[3/4] overflow-hidden bg-muted mb-8 group-hover:shadow-2xl group-hover:shadow-primary/10 transition-all duration-500">
+      <div className="relative aspect-[3/4] overflow-hidden bg-zinc-900 mb-6 transition-all duration-500">
         <img 
-          src={product.image} 
+          src={hasError ? "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800" : product.image} 
           alt={product.name}
           loading="lazy"
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:brightness-75 grayscale hover:grayscale-0"
+          onError={() => setHasError(true)}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-red-900/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-        <button 
-          onClick={(e) => {
-            e.stopPropagation();
-            onAdd(product.name);
-          }}
-          className="absolute bottom-0 left-0 w-full bg-primary text-primary-foreground py-5 translate-y-full group-hover:translate-y-0 transition-transform duration-500 font-bold text-[10px] tracking-[0.2em] hover:bg-primary/90 uppercase"
-        >
-          ADICIONAR AO CARRINHO
-        </button>
+        
+        {/* Quick Add Overlay */}
+        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute bottom-0 left-0 w-full p-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-10">
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              onAdd(product.name);
+            }}
+            className="w-full bg-white text-black py-3 font-bold text-[9px] tracking-[0.2em] hover:bg-primary hover:text-white transition-colors uppercase"
+          >
+            + Quick Add
+          </button>
+        </div>
       </div>
-      <div className="space-y-2">
-        <h4 className="text-sm font-bold uppercase tracking-widest group-hover:text-red-700 transition-colors">{product.name}</h4>
-        <p className="text-red-700 font-bold">{product.price}</p>
-        <p className="text-zinc-600 text-[10px] uppercase tracking-wider">{product.installments}</p>
+      
+      <div className="space-y-1">
+        <h4 className="text-[11px] font-semibold uppercase tracking-[0.15em] text-white transition-colors">{product.name}</h4>
+        <div className="flex flex-col">
+          <span className="text-xs font-medium text-white">{product.price}</span>
+          <span className="text-[10px] text-zinc-500 uppercase tracking-wider">{product.installments}</span>
+        </div>
       </div>
     </div>
   );
