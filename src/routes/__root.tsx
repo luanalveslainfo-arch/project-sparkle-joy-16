@@ -12,6 +12,8 @@ import {
 import { useEffect, type ReactNode, useState } from "react";
 import { X, ShoppingBag, Minus, Plus, Trash2 } from "lucide-react";
 import { useCartStore } from "@/lib/cart-store";
+import { Toaster } from "sonner";
+
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -256,7 +258,9 @@ function RootComponent() {
       <Outlet />
       {/* Task 3: Render Cart Drawer globally */}
       <GlobalCartDrawer />
+      <Toaster position="bottom-right" theme="dark" closeButton />
       <ScrollRestoration />
+
     </QueryClientProvider>
   );
 }

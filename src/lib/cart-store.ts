@@ -11,8 +11,10 @@ export interface Product {
   backImage?: string;
   category?: string;
 }
+import { toast } from 'sonner';
 
 export interface CartItem extends Product {
+
   quantity: number;
   selectedSize: string | undefined;
 }
@@ -86,7 +88,19 @@ export const useCartStore = create<CartStore>()(
           remainingForFreeShipping: totals.remaining,
           freeShippingProgress: totals.progress
         });
+        
+        toast.success("Produto adicionado ao carrinho com sucesso", {
+          style: {
+            backgroundColor: '#000',
+            color: '#fff',
+            border: '1px solid #27272a',
+            fontSize: '10px',
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em'
+          }
+        });
       },
+
 
       removeFromCart: (id, size) => {
         const { cart, calculateTotals } = get();

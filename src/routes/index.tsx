@@ -51,9 +51,9 @@ function Index() {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
   
   const { cart, isCartOpen, setIsCartOpen, addToCart, removeFromCart, updateQuantity, cartTotal, remainingForFreeShipping, freeShippingProgress } = useCartStore();
-
 
   const productsByCategory = useMemo(() => {
     return {
@@ -68,11 +68,11 @@ function Index() {
     try {
       const hasShownModal = localStorage.getItem(STORAGE_KEYS.MODAL_SHOWN);
       if (!hasShownModal) {
-        timer = setTimeout(() => setShowModal(true), 1500);
+        timer = setTimeout(() => setShowModal(true), 3000);
       }
     } catch (e) {
       console.error("LocalStorage access error:", e);
-      timer = setTimeout(() => setShowModal(true), 1500);
+      timer = setTimeout(() => setShowModal(true), 3000);
     }
     return () => {
       if (timer) clearTimeout(timer);
@@ -87,6 +87,13 @@ function Index() {
       console.warn("Could not save modal state to localStorage", e);
     }
   }, []);
+
+  const copyCoupon = () => {
+    navigator.clipboard.writeText("ARCANE5");
+    setIsCopied(true);
+    toast.success("Cupom copiado para a área de transferência!");
+    setTimeout(() => setIsCopied(false), 2000);
+  };
 
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -113,8 +120,19 @@ function Index() {
 
   return (
     <div className={`min-h-screen bg-[#000000] text-foreground selection:bg-primary/30 overflow-x-hidden ${isCartOpen ? 'overflow-hidden' : ''}`} style={{ fontFamily: THEME.FONTS.SANS }}>
+      {/* Top Bar Marquee */}
+      <div className="h-8 bg-red-950 flex items-center overflow-hidden border-b border-red-900/30 relative z-[60]">
+        <div className="flex whitespace-nowrap animate-marquee py-1">
+          {[1, 2, 3, 4].map((i) => (
+            <span key={i} className="text-[10px] uppercase tracking-[0.2em] font-bold text-white px-4">
+              FRETE GRÁTIS ACIMA DE R$ 299 • 5% DE DESCONTO NO PIX • QUALIDADE PREMIUM GARANTIDA • MEMENTO MORI •
+            </span>
+          ))}
+        </div>
+      </div>
 
-      <header className="fixed top-0 left-0 w-full z-50 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50 p-4 flex items-center justify-between transition-all duration-300">
+      <header className="fixed top-8 left-0 w-full z-50 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50 p-4 flex items-center justify-between transition-all duration-300">
+
 
         <div className="flex items-center gap-6">
           <button 
@@ -210,6 +228,46 @@ function Index() {
 
       <Footer />
 
+      {/* Welcome Pop-up */}
+      {showModal && (
+        <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 pointer-events-auto">
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={handleCloseModal} />
+          <div className="relative bg-zinc-950 border border-zinc-800 p-8 md:p-12 max-w-lg w-full text-center space-y-8 animate-in fade-in zoom-in duration-300">
+            <button 
+              onClick={handleCloseModal}
+              className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors"
+            >
+              <X size={20} />
+            </button>
+            <div className="space-y-4">
+              <h2 className="text-3xl md:text-4xl font-black tracking-widest uppercase" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
+                BEM-VINDO AO DROP ARCANO
+              </h2>
+              <p className="text-zinc-400 text-sm uppercase tracking-widest leading-relaxed">
+                Garanta 5% de desconto na sua primeira compra usando o cupom abaixo:
+              </p>
+            </div>
+            
+            <div className="flex items-center justify-between bg-zinc-900 border border-zinc-800 p-4 rounded-sm group">
+              <span className="font-mono text-xl font-bold tracking-widest text-white">ARCANE5</span>
+              <button 
+                onClick={copyCoupon}
+                className="bg-white text-black px-4 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-zinc-200 transition-colors"
+              >
+                {isCopied ? "COPIADO" : "COPIAR"}
+              </button>
+            </div>
+
+            <button 
+              onClick={handleCloseModal}
+              className="w-full border border-zinc-700 text-zinc-400 py-4 text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-black hover:border-white transition-all duration-300"
+            >
+              FECHAR E EXPLORAR
+            </button>
+          </div>
+        </div>
+      )}
+
       <a 
         href="https://wa.me/5511999999999" 
         target="_blank" 
@@ -219,6 +277,7 @@ function Index() {
       >
         <Phone size={24} fill="currentColor" />
       </a>
+
     </div>
   );
 }
@@ -230,7 +289,13 @@ function ProductCard({ product, onAdd }: { product: Product, onAdd: (product: Pr
   return (
     <div className="group flex flex-col items-start text-left relative z-10">
       <div className="relative w-full aspect-[3/4] bg-zinc-950 flex items-center justify-center overflow-hidden mb-4 rounded-sm">
-        <span className="text-xs text-zinc-800 font-sans tracking-widest uppercase select-none">Imagem em breve</span>
+        <img 
+          src={product.image} 
+          alt={product.name} 
+          className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" 
+        />
+        <div className="absolute inset-0 bg-black/20" />
+
         
         {/* Quick Add Overlay */}
         <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center 
