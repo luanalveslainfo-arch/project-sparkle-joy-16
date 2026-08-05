@@ -1,5 +1,12 @@
 @import "tailwindcss" source(none);
 @source "../src";
+@font-face {
+  font-family: 'MadnessFont';
+  src: url('/fonts/Art_Dystopia.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 @import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap');
 @import "tw-animate-css";
 
@@ -44,6 +51,7 @@
 
 @theme inline {
   --font-gothic: "UnifrakturMaguntia", cursive;
+  --font-madness: "MadnessFont", cursive;
   --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
   
   --radius-sm: calc(var(--radius) - 4px);
