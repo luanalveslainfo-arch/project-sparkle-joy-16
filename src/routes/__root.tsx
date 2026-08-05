@@ -84,7 +84,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Arcane | Streetwear & Fitness" },
+      { title: "Arcane | Memento Mori" },
       { name: "description", content: "Premium Dark Fitness Streetwear" },
       { property: "og:title", content: "Arcane | Streetwear & Fitness" },
       { property: "og:description", content: "Premium Dark Fitness Streetwear" },
@@ -100,7 +100,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Almendra+Display&family=Metal+Mania&family=Outfit:wght@300;400;700;900&display=swap",
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", type: "image/svg+xml", href: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%2309090b'/><text x='50' y='65' font-family='Georgia, serif' font-size='65' font-weight='bold' fill='%23ffffff' text-anchor='middle'>A</text></svg>" },
     ],
   }),
   shellComponent: RootShell,
