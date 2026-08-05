@@ -9,6 +9,8 @@ import { mockProducts } from "@/lib/products-data";
 import { AshParticles } from "@/components/AshParticles";
 import { ProductSkeleton } from "@/components/Skeleton";
 import { ProductCard } from "@/components/ProductCard";
+import { InteractiveGrid } from "@/components/InteractiveGrid";
+import { MagneticButton } from "@/components/MagneticButton";
 import { useState, useEffect } from "react";
 
 export const Route = createFileRoute("/")({
@@ -116,12 +118,14 @@ function Index() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut", delay: 0.4 }}
           >
-            <Link 
-              to="/manifesto" 
-              className="relative z-50 pointer-events-auto border border-white bg-black/50 text-white px-10 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 ease-in-out hover:bg-white hover:text-black hover:scale-[1.02] active:scale-[0.98] mt-8 cursor-pointer"
-            >
-              LER O MANIFESTO
-            </Link>
+            <MagneticButton className="flex items-center justify-center mt-8">
+              <Link 
+                to="/manifesto" 
+                className="relative z-50 pointer-events-auto border border-white bg-black/50 text-white px-10 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 ease-in-out hover:bg-white hover:text-black cursor-pointer"
+              >
+                LER O MANIFESTO
+              </Link>
+            </MagneticButton>
           </motion.div>
         </div>
       </section>
@@ -174,14 +178,16 @@ function Index() {
               </h3>
               <div className="w-12 h-[1px] bg-red-800" />
             </motion.div>
-            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
-              {isLoading 
-                ? Array.from({ length: 4 }).map((_, i) => <ProductSkeleton key={i} />)
-                : items.map((p) => (
-                    <ProductCard key={p.id} product={p} />
-                  ))
-              }
-            </div>
+            <InteractiveGrid>
+              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12 relative z-10">
+                {isLoading 
+                  ? Array.from({ length: 4 }).map((_, i) => <ProductSkeleton key={i} />)
+                  : items.map((p) => (
+                      <ProductCard key={p.id} product={p} />
+                    ))
+                }
+              </div>
+            </InteractiveGrid>
           </section>
         ))}
       </main>

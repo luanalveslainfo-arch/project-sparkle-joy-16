@@ -11,6 +11,7 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode, useState, useCallback, useRef } from "react";
 import { X, ShoppingBag, Minus, Plus, Trash2, Menu } from "lucide-react";
+import { MagneticButton } from "@/components/MagneticButton";
 import { useCartStore } from "@/lib/cart-store";
 import { Toaster } from "sonner";
 import { useMediaQuery } from "@/hooks/use-media-query";
@@ -319,9 +320,11 @@ function GlobalCartDrawer() {
                     </div>
                   </div>
                 </div>
-                <button disabled={isCheckoutDisabled} className="w-full bg-white text-black py-4 font-bold uppercase text-xs">
-                  {isCalculating ? 'CALCULANDO...' : 'FINALIZAR COMPRA'}
-                </button>
+                <MagneticButton className="w-full">
+                  <button disabled={isCheckoutDisabled} className="w-full bg-white text-black py-4 font-bold uppercase text-xs">
+                    {isCalculating ? 'CALCULANDO...' : 'FINALIZAR COMPRA'}
+                  </button>
+                </MagneticButton>
                 <div className="pt-6 border-t border-zinc-900 mt-4">
                   <TrustBadges />
                 </div>
