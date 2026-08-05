@@ -417,17 +417,82 @@ function RootComponent() {
         <main className="flex-1"><Outlet /></main>
       </div>
 
-      {showModal && (
-        <div className="fixed inset-0 z-[10002] flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/85 backdrop-blur-sm" onClick={() => setShowModal(false)} />
-          <div className="relative bg-zinc-950 border border-zinc-800 p-8 md:p-12 max-w-lg w-full text-center space-y-10">
-            <button onClick={() => setShowModal(false)} className="absolute top-4 right-4"><X size={20} /></button>
-            <h2 className="text-3xl font-black uppercase font-sans">BEM-VINDO À ARCANE</h2>
-            <p className="text-zinc-400 text-[10px] uppercase">GARANTA <span className="text-red-600 font-bold">5% DE DESCONTO</span> NA PRIMEIRA COMPRA: <span className="font-mono text-red-600">ARCANE5</span></p>
-            <button onClick={copyCoupon} className="bg-zinc-100 text-black px-6 py-2 uppercase text-[10px] font-bold">{isCopied ? "COPIADO" : "COPIAR"}</button>
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {showModal && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[10002] flex items-center justify-center p-4 overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-black/90 backdrop-blur-md" onClick={() => setShowModal(false)} />
+            
+            {/* Visual background element */}
+            <div className="absolute inset-0 pointer-events-none opacity-20">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-900/30 rounded-full blur-[120px]" />
+            </div>
+
+            <motion.div 
+              initial={{ scale: 0.9, y: 20, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.9, y: 20, opacity: 0 }}
+              transition={{ type: "spring", damping: 20, stiffness: 100 }}
+              className="relative bg-zinc-950 border border-zinc-900 p-8 md:p-16 max-w-lg w-full text-center overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)]"
+            >
+              {/* Decorative corner */}
+              <div className="absolute top-0 right-0 w-24 h-24 border-t border-r border-red-900/30 pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-24 h-24 border-b border-l border-red-900/30 pointer-events-none" />
+              
+              <button 
+                onClick={() => setShowModal(false)} 
+                className="absolute top-6 right-6 text-zinc-600 hover:text-white transition-colors"
+              >
+                <X size={20} />
+              </button>
+
+              <div className="space-y-12">
+                <div className="space-y-4">
+                  <span className="text-[10px] tracking-[0.5em] text-red-700 uppercase font-black">ENTRE NAS SOMBRAS</span>
+                  <h2 className="text-5xl md:text-6xl font-madness text-white tracking-tighter">ARCANE</h2>
+                </div>
+
+                <div className="space-y-6">
+                  <p className="text-zinc-400 text-[10px] uppercase tracking-[0.2em] leading-relaxed">
+                    SUA PRIMEIRA OFERENDA À SEITA ESTÁ GARANTIDA.<br />
+                    USE O CÓDIGO ABAIXO PARA LIBERAR O DESCONTO.
+                  </p>
+
+                  <div 
+                    onClick={copyCoupon}
+                    className="group relative cursor-pointer border border-zinc-800 bg-zinc-900/50 py-6 px-4 transition-all hover:border-red-900/50"
+                  >
+                    <div className="absolute inset-0 bg-red-950/0 group-hover:bg-red-950/10 transition-colors" />
+                    <span className="relative text-3xl md:text-4xl font-black tracking-[0.3em] text-white font-sans uppercase">
+                      ARCANE5
+                    </span>
+                    <div className="mt-4 flex items-center justify-center gap-2">
+                      <div className="h-[1px] w-4 bg-zinc-800 group-hover:bg-red-900" />
+                      <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500 group-hover:text-red-700">
+                        {isCopied ? "MANTRA COPIADO" : "CLIQUE PARA COPIAR"}
+                      </span>
+                      <div className="h-[1px] w-4 bg-zinc-800 group-hover:bg-red-900" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-4">
+                  <button 
+                    onClick={() => setShowModal(false)}
+                    className="text-[9px] uppercase tracking-[0.4em] text-zinc-600 hover:text-white transition-colors underline underline-offset-8 decoration-zinc-800 hover:decoration-red-900"
+                  >
+                    CONTINUAR NO ANONIMATO
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <GlobalCartDrawer />
       <Toaster position="bottom-right" />
