@@ -197,7 +197,7 @@ function ProductCard({ product }: { product: Product }) {
         <h4 className="text-sm font-bold uppercase tracking-[0.1em] text-zinc-300">{product.name}</h4>
         <div className="flex flex-col">
           <span className="text-base font-semibold text-white">{product.price}</span>
-          <span className="text-[10px] text-zinc-500 uppercase tracking-widest mt-0.5">ATÉ 6X S/ JUROS OU PIX</span>
+          <span className="text-[10px] text-zinc-500 uppercase tracking-widest mt-0.5">POR 12X S/ JUROS OU PIX</span>
         </div>
       </div>
     </motion.div>
