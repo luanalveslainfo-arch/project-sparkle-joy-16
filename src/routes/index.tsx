@@ -155,7 +155,7 @@ function Index() {
 function ProductCard({ product }: { product: Product }) {
   return (
     <div className="group flex flex-col items-start text-left relative z-10">
-      <div className="relative w-full aspect-[3/4] bg-zinc-950 flex items-center justify-center overflow-hidden mb-4 rounded-sm">
+      <div className="relative w-full aspect-[3/4] bg-zinc-950 flex items-center justify-center overflow-hidden mb-4">
         <img 
           src={product.image} 
           alt={product.name} 
