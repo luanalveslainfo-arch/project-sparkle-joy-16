@@ -67,7 +67,7 @@ function ProductDetail() {
       <div className="max-w-7xl mx-auto">
         {/* Back Button */}
         <button
-          onClick={() => navigate({ to: '/produtos' })}
+          onClick={() => navigate({ to: '..' })}
           className="relative z-50 pointer-events-auto cursor-pointer flex items-center gap-2 mb-8 text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400 hover:text-white transition-colors duration-300"
         >
           <ArrowLeft size={14} />
