@@ -3,20 +3,14 @@ import { useState, useMemo } from "react";
 import { X, Minus, Plus, ShoppingBag, ChevronDown, ChevronUp } from "lucide-react";
 import { toast } from "sonner";
 import { useCartStore } from "@/lib/cart-store";
+import { mockProducts } from "@/lib/products-data";
 
 export const Route = createFileRoute("/produto/$productId")({
   component: ProductDetail,
 });
 
-interface Product {
-  id: number;
-  name: string;
-  price: string;
-  priceNumber: number;
-  installments: string;
-  image: string;
-  backImage?: string;
-}
+// No interfaces needed here anymore, importing from products-data or using types from store
+import { type Product } from "@/lib/cart-store";
 
 interface CartItem extends Product {
   quantity: number;
@@ -60,15 +54,9 @@ function ProductDetail() {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const sizes = ["P", "M", "G", "GG"];
 
-  // Mock product data (matching index.tsx)
-  const product: Product = {
-    id: Number(productId),
-    name: "CAMISA DE COMPRESSÃO MEMENTO MORI",
-    price: "R$ 189,90",
-    priceNumber: 189.9,
-    installments: "12x de R$ 15,82",
-    image: "https://images.unsplash.com/photo-1574680096145-d05b474e2158?q=80&w=800",
-  };
+  const product = useMemo(() => {
+    return mockProducts.find(p => p.id === Number(productId)) || mockProducts[0];
+  }, [productId]);
 
   const handleAddToCart = () => {
     if (!selectedSize) {
@@ -139,7 +127,7 @@ function ProductDetail() {
 
           <button
             onClick={handleAddToCart}
-            className="w-full bg-white text-black py-5 text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-300 hover:bg-zinc-200 active:scale-[0.98]"
+            className="relative z-50 pointer-events-auto cursor-pointer w-full bg-white text-black py-5 text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-300 hover:bg-zinc-200 active:scale-[0.98]"
           >
             ADICIONAR AO CARRINHO
           </button>
