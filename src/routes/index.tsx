@@ -186,7 +186,7 @@ function Index() {
         {Object.entries(products).map(([category, items]) => (
           <section key={category} className="py-16 md:py-24">
             <div className="flex items-center justify-center mb-10 border-b border-zinc-800 pb-8">
-              <h3 className="text-2xl font-bold tracking-[0.2em] uppercase text-white">
+              <h3 className="font-sans text-2xl font-bold tracking-[0.2em] uppercase text-white">
                 {category === 'arcane' ? 'Drop Arcano' : category === 'oversized' ? 'Camisas Oversized' : 'Moletons e Calças'}
               </h3>
             </div>
@@ -200,6 +200,8 @@ function Index() {
           </section>
         ))}
       </main>
+
+      <Footer />
 
       <a 
         href="https://wa.me/5511999999999" 
@@ -215,62 +217,88 @@ function Index() {
 }
 
 function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: string, size?: string) => void }) {
-  const [isHovered, setIsHovered] = useState(false);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const sizes = ["P", "M", "G", "GG"];
 
   return (
-    <div 
-      className="group cursor-pointer overflow-hidden"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#0a0a0a] mb-6">
-        <div className="w-full h-full relative">
-          <img 
-            src={product.image} 
-            alt={product.name}
-            loading="lazy"
-            className={`w-full h-full object-cover transition-all duration-700 ease-in-out ${isHovered ? 'scale-105 opacity-0' : 'opacity-100'}`}
-          />
-          {product.backImage && (
-            <img 
-              src={product.backImage} 
-              alt={`${product.name} back`}
-              loading="lazy"
-              className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out ${isHovered ? 'scale-105 opacity-100' : 'opacity-0'}`}
-            />
-          )}
-        </div>
-        
-        <div className="absolute bottom-0 left-0 w-full translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out z-10">
-          <div className="bg-black/75 backdrop-blur-md border-t border-white/5 p-4 flex justify-center gap-2">
-            {sizes.map(size => (
-              <button
-                key={size}
-                onClick={(e) => { e.stopPropagation(); setSelectedSize(size); }}
-                className={`w-10 h-10 flex items-center justify-center text-xs border transition-all duration-200 uppercase ${selectedSize === size ? "bg-white text-black border-white" : "bg-transparent border-white text-white hover:bg-white hover:text-black"}`}
-              >
-                {size}
-              </button>
-            ))}
-          </div>
-          <button 
-            onClick={(e) => { e.stopPropagation(); onAdd(product.name, selectedSize || undefined); }}
-            className="w-full bg-zinc-900/95 hover:bg-zinc-800 text-white py-4 text-[11px] font-bold uppercase tracking-[0.2em] transition-colors border-t border-white/5"
-          >
-            + Quick Add
-          </button>
+    <div className="group bg-zinc-900 border border-zinc-800 p-6 md:p-8 rounded-lg text-center flex flex-col items-center">
+      <div className="w-full space-y-4 mb-8">
+        <h4 className="text-sm font-bold uppercase tracking-[0.1em] text-white line-clamp-2">{product.name}</h4>
+        <div className="flex flex-col items-center">
+          <span className="text-lg font-bold text-white">{product.price}</span>
+          <span className="text-xs text-zinc-400 font-medium uppercase tracking-wider">{product.installments}</span>
         </div>
       </div>
       
-      <div className="space-y-1 text-left min-h-[4rem]">
-        <h4 className="text-sm font-bold uppercase tracking-tight text-white transition-colors line-clamp-2">{product.name}</h4>
-        <div className="flex flex-col">
-          <span className="text-base font-bold text-white">{product.price}</span>
-          <span className="text-sm text-zinc-400 font-medium">{product.installments}</span>
+      <div className="w-full space-y-6 mt-auto">
+        <div className="flex justify-center gap-2">
+          {sizes.map(size => (
+            <button
+              key={size}
+              onClick={(e) => { e.stopPropagation(); setSelectedSize(size); }}
+              className={`w-9 h-9 flex items-center justify-center text-[10px] border transition-all duration-200 uppercase ${selectedSize === size ? "bg-white text-black border-white" : "bg-transparent border-white/20 text-zinc-400 hover:border-white hover:text-white"}`}
+            >
+              {size}
+            </button>
+          ))}
         </div>
+        <button 
+          onClick={(e) => { e.stopPropagation(); onAdd(product.name, selectedSize || undefined); }}
+          className="w-full bg-black hover:bg-zinc-800 text-white py-4 text-[10px] font-bold uppercase tracking-[0.2em] transition-all border border-white/10"
+        >
+          ADICIONAR AO CARRINHO
+        </button>
       </div>
     </div>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="bg-black border-t border-zinc-800 pt-20 pb-10 mt-32">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-16 mb-20">
+          {/* Column 1 */}
+          <div className="space-y-6">
+            <h2 className="text-4xl select-none tracking-widest font-black" style={{ fontFamily: THEME.FONTS.DISPLAY }}>ARCANE</h2>
+            <p className="text-zinc-500 text-xs uppercase tracking-widest leading-relaxed max-w-xs">
+              Beyond the shadows of mortality lies the path of discipline.
+            </p>
+          </div>
+
+          {/* Column 2 */}
+          <div className="space-y-6">
+            <h4 className="text-white text-xs font-bold uppercase tracking-[0.2em]">Links Úteis</h4>
+            <ul className="space-y-4 text-[10px] uppercase tracking-widest text-zinc-400">
+              <li><a href="#" className="hover:text-white transition-colors">Rastrear Pedido</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Trocas e Devoluções</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Termos de Serviço</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Fale Conosco</a></li>
+            </ul>
+          </div>
+
+          {/* Column 3 */}
+          <div className="space-y-6">
+            <h4 className="text-white text-xs font-bold uppercase tracking-[0.2em]">JUNTE-SE À SEITA</h4>
+            <form className="flex flex-col space-y-4" onSubmit={(e) => e.preventDefault()}>
+              <div className="flex">
+                <input 
+                  type="email" 
+                  placeholder="SEU MELHOR E-MAIL" 
+                  className="bg-zinc-900 border-none text-[10px] tracking-widest p-4 flex-grow focus:ring-1 focus:ring-white/20 outline-none text-white"
+                />
+                <button className="bg-white text-black px-6 text-[10px] font-bold uppercase tracking-widest hover:bg-zinc-200 transition-colors">
+                  ASSINAR
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div className="border-t border-zinc-900 pt-10 text-center">
+          <p className="text-xs text-zinc-500 uppercase tracking-widest">© 2024 Arcane. Todos os direitos reservados.</p>
+        </div>
+      </div>
+    </footer>
   );
 }
