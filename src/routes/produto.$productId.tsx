@@ -80,7 +80,7 @@ function ProductDetail() {
               <img 
                 src={product.image} 
                 alt={product.name} 
-                className="w-full h-full object-cover grayscale brightness-75 hover:grayscale-0 transition-all duration-700"
+                className="w-full h-full object-cover transition-all duration-700"
               />
               <div className="absolute inset-0 bg-black/20" />
             </div>

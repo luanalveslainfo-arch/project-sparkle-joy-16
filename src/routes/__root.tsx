@@ -9,10 +9,10 @@ import {
   ScrollRestoration,
   useLocation,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode, useState, useCallback } from "react";
+import { useEffect, type ReactNode, useState, useCallback, useRef } from "react";
 import { X, ShoppingBag, Minus, Plus, Trash2, Menu } from "lucide-react";
 import { useCartStore } from "@/lib/cart-store";
-import { Toaster } from "sonner";
+import { Toaster, toast as sonnerToast } from "sonner";
 
 
 import appCss from "../styles.css?url";
@@ -420,7 +420,7 @@ function RootComponent() {
   const [isCopied, setIsCopied] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showTopBar, setShowTopBar] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const lastScrollY = useRef(0);
   const { cart, setIsCartOpen } = useCartStore();
 
   // Task 1: Intelligent Header/Top Bar behavior
@@ -430,7 +430,7 @@ function RootComponent() {
       
       if (currentScrollY < 50) {
         setShowTopBar(true);
-      } else if (currentScrollY > lastScrollY) {
+      } else if (currentScrollY > lastScrollY.current) {
         // Scrolling down
         setShowTopBar(false);
       } else {
@@ -438,12 +438,12 @@ function RootComponent() {
         setShowTopBar(true);
       }
       
-      setLastScrollY(currentScrollY);
+      lastScrollY.current = currentScrollY;
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+  }, []);
 
   // Task 4: Scroll restoration fix using useLocation and window.scrollTo
   useEffect(() => {
@@ -500,7 +500,7 @@ function RootComponent() {
         </div>
 
         {/* Global Header */}
-        <header className={`fixed left-0 w-full z-[100] bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50 p-4 flex items-center justify-between transition-all duration-500 ease-in-out ${showTopBar ? 'top-8' : 'top-0'}`}>
+        <header className={`fixed left-0 w-full z-[100] bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50 p-4 flex items-center justify-between transition-all duration-500 ease-in-out ${showTopBar ? 'translate-y-8' : 'translate-y-0'} top-0`}>
           <div className="flex items-center gap-6">
             <nav className="hidden md:flex gap-6 text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-bold">
               <Link to="/" className="hover:text-white transition-colors duration-300">Home</Link>
@@ -625,7 +625,18 @@ function RootComponent() {
 
       {/* Global Cart Drawer */}
       <GlobalCartDrawer />
-      <Toaster position="bottom-right" theme="dark" closeButton />
+      <Toaster 
+        position="bottom-right" 
+        toastOptions={{
+          className: 'bg-zinc-950 text-zinc-100 border border-zinc-800 rounded-none font-sans uppercase tracking-widest text-[10px] font-bold py-4',
+          style: {
+            background: '#09090b',
+            color: '#f4f4f5',
+            borderColor: '#27272a',
+          },
+        }}
+        closeButton 
+      />
       <ScrollRestoration />
     </QueryClientProvider>
   );
