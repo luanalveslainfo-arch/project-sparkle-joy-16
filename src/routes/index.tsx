@@ -137,7 +137,7 @@ function Index() {
         <div className="flex items-center gap-5">
           <button aria-label="Carrinho" className="relative group">
             <ShoppingBag className="text-zinc-400 hover:text-white w-4 transition-colors" />
-            <span className="absolute -top-1 -right-1 bg-primary text-[8px] px-1 rounded-full text-white">0</span>
+            <span className="absolute -top-1 -right-1 bg-[#8B0000] text-[8px] px-1 rounded-full text-white">0</span>
           </button>
         </div>
       </header>
