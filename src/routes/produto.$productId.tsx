@@ -107,15 +107,29 @@ function ProductDetail() {
             transition={{ duration: 0.6 }}
             className="w-full"
           >
-            <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide md:flex-col gap-4 pb-4 md:pb-0 scroll-smooth">
-              <div className="min-w-full md:min-w-0 snap-center">
-                <ProductImage src={product.image} alt={product.name} />
+            <div className="relative group/carousel">
+              <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide md:flex-col gap-4 pb-4 md:pb-0 scroll-smooth">
+                <div className="min-w-full md:min-w-0 snap-center">
+                  <ProductImage src={product.image} alt={product.name} />
+                </div>
+                <div className="min-w-full md:min-w-0 snap-center aspect-[3/4] bg-zinc-900 border border-zinc-800 flex items-center justify-center relative overflow-hidden">
+                   <span className="text-[10px] uppercase tracking-widest text-zinc-700 font-bold">ARCANE VISUALS II</span>
+                </div>
+                <div className="min-w-full md:min-w-0 snap-center aspect-[3/4] bg-zinc-900 border border-zinc-800 flex items-center justify-center relative overflow-hidden">
+                   <span className="text-[10px] uppercase tracking-widest text-zinc-700 font-bold">ARCANE VISUALS III</span>
+                </div>
               </div>
-              <div className="min-w-full md:min-w-0 snap-center aspect-[3/4] bg-zinc-900 border border-zinc-800 flex items-center justify-center relative overflow-hidden">
-                 <span className="text-[10px] uppercase tracking-widest text-zinc-700 font-bold">ARCANE VISUALS II</span>
+              
+              {/* Mobile Carousel Indicators */}
+              <div className="flex md:hidden justify-center gap-2 mt-2">
+                <div className="w-8 h-[2px] bg-white opacity-100"></div>
+                <div className="w-8 h-[2px] bg-zinc-800 opacity-50"></div>
+                <div className="w-8 h-[2px] bg-zinc-800 opacity-50"></div>
               </div>
-              <div className="min-w-full md:min-w-0 snap-center aspect-[3/4] bg-zinc-900 border border-zinc-800 flex items-center justify-center relative overflow-hidden">
-                 <span className="text-[10px] uppercase tracking-widest text-zinc-700 font-bold">ARCANE VISUALS III</span>
+
+              {/* Swipe Hint */}
+              <div className="md:hidden absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-md p-2 rounded-full border border-white/10 animate-pulse pointer-events-none">
+                <span className="text-[8px] text-white font-bold tracking-widest uppercase vertical-text">DESLIZE</span>
               </div>
             </div>
           </motion.div>
