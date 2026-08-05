@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Truck, Shield, Star, Phone } from "lucide-react";
 import { useMemo } from "react";
+import { toast as sonnerToast } from "sonner";
 
 import { useCartStore } from "@/lib/cart-store";
 import { mockProducts } from "@/lib/products-data";
@@ -172,6 +173,27 @@ function ProductCard({ product }: { product: Product }) {
 }
 
 function Footer() {
+  const handleNewsletter = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const input = form.querySelector('input');
+    
+    sonnerToast("Bem-vindo à Seita. Aguarde nossas instruções nas sombras.", {
+      style: {
+        background: '#09090b',
+        border: '1px solid #18181b',
+        color: 'white',
+        letterSpacing: '0.1em',
+        textTransform: 'uppercase',
+        fontSize: '10px',
+        fontWeight: 'bold',
+        fontFamily: THEME.FONTS.SANS
+      }
+    });
+
+    if (input) input.value = '';
+  };
+
   return (
     <footer className="bg-black border-t border-zinc-800 pt-16 pb-12 mt-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -189,23 +211,36 @@ function Footer() {
             <h4 className="text-white text-xs font-bold uppercase tracking-[0.2em]">Links Úteis</h4>
             <ul className="space-y-4 text-[10px] uppercase tracking-widest text-zinc-400">
               <li><Link to="/manifesto" className="transition-colors duration-200 hover:text-white">Nossa Visão (Manifesto)</Link></li>
-              <li><a href="#" className="transition-colors duration-200 hover:text-white">Tabela de Medidas</a></li>
-              <li><a href="#" className="transition-colors duration-200 hover:text-white">Prazos e Envios</a></li>
-              <li><a href="https://wa.me/5521965226593" target="_blank" rel="noopener noreferrer" className="transition-colors duration-200 hover:text-white">Contato</a></li>
+              <li><Link to="/medidas" className="transition-colors duration-200 hover:text-white">Tabela de Medidas</Link></li>
+              <li><Link to="/envios" className="transition-colors duration-200 hover:text-white">Prazos e Envios</Link></li>
+              <li>
+                <a 
+                  href="https://wa.me/5521965226593" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="transition-colors duration-200 hover:text-white"
+                >
+                  Contato
+                </a>
+              </li>
             </ul>
           </div>
 
           {/* Column 3 */}
           <div className="space-y-6">
             <h4 className="text-white text-xs font-bold uppercase tracking-[0.2em]">JUNTE-SE À SEITA</h4>
-            <form className="flex flex-col space-y-4" onSubmit={(e) => e.preventDefault()}>
+            <form className="flex flex-col space-y-4" onSubmit={handleNewsletter}>
               <div className="flex items-center border-b border-zinc-600 pb-2 focus-within:border-white transition-colors duration-300 w-full md:w-2/3">
                 <input 
                   type="email" 
+                  required
                   placeholder="SEU MELHOR E-MAIL" 
                   className="bg-transparent w-full text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-0 border-none p-0 tracking-widest"
                 />
-                <button className="text-xs font-bold tracking-widest uppercase text-white hover:text-zinc-400 transition-colors bg-transparent border-none p-0 ml-4 whitespace-nowrap">
+                <button 
+                  type="submit"
+                  className="text-xs font-bold tracking-widest uppercase text-white hover:text-zinc-400 transition-colors bg-transparent border-none p-0 ml-4 whitespace-nowrap"
+                >
                   ASSINAR
                 </button>
               </div>
