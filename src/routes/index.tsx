@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import heroAsset from "@/assets/hero-bg.png.asset.json";
 import { Truck, Shield, Star, Phone } from "lucide-react";
 import { useMemo } from "react";
 
@@ -65,7 +64,7 @@ function Index() {
       <section className="relative w-full h-screen overflow-hidden">
         {/* Background Image using Native <img> for Vite optimization */}
         <img 
-          src={heroAsset.url} 
+          src="/hero.png" 
           alt="Memento Mori" 
           className="absolute inset-0 w-full h-full object-cover object-top z-0" 
         />
