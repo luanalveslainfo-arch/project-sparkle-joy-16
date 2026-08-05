@@ -378,40 +378,58 @@ function GlobalCartDrawer() {
               </button>
             </div>
 
-            <div className="space-y-3 bg-zinc-900/30 p-4 rounded-sm border border-zinc-900 mb-6">
-              <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-zinc-500">
-                <span>Subtotal</span>
+            <div className="space-y-3 bg-zinc-950 p-5 rounded-sm border border-zinc-900 mb-6">
+              <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-medium">
+                <span>Subtotal Itens</span>
                 <span>{cartTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
               </div>
               
               {savedShippingCost !== null && (
-                <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-zinc-500">
-                  <span>Frete Estimado</span>
-                  <span className={savedShippingCost === 0 ? "text-[#8B0000] font-bold" : ""}>
+                <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-medium">
+                  <span>Envio Estimado</span>
+                  <span className={savedShippingCost === 0 ? "text-[#8B0000] font-black" : ""}>
                     {savedShippingCost === 0 ? 'GRÁTIS' : savedShippingCost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                   </span>
                 </div>
               )}
 
               {activeCoupon && (
-                <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-[#8B0000]">
-                  <span>Desconto Cupom</span>
+                <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.2em] text-[#8B0000] font-black">
+                  <span className="flex items-center gap-1.5">
+                    Cupom: {activeCoupon}
+                  </span>
                   <span>-{(cartTotal * discountValue).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
                 </div>
               )}
 
-              <div className="pt-3 border-t border-zinc-800 flex items-center justify-between">
-                <span className="text-xs uppercase tracking-[0.2em] font-bold text-white">Total Final</span>
-                <span className={`text-lg font-bold ${activeCoupon ? 'text-[#8B0000]' : 'text-white'}`}>
-                  {(cartTotal + (savedShippingCost || 0)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                </span>
+              {/* PIX Discount Simulation (Visual Only for Trust) */}
+              <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.2em] text-emerald-900 font-black">
+                <span>Desconto PIX (5%)</span>
+                <span>-{(cartTotal * 0.05).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+              </div>
+
+              <div className="pt-4 mt-2 border-t border-zinc-900 flex flex-col gap-1">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs uppercase tracking-[0.3em] font-black text-white">Total Final</span>
+                  <span className={`text-xl font-black ${activeCoupon ? 'text-[#8B0000]' : 'text-white'}`}>
+                    {(cartTotal + (savedShippingCost || 0)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                  </span>
+                </div>
+                <p className="text-[8px] text-zinc-600 uppercase tracking-widest text-right italic font-medium">
+                  ou até 6x de {((cartTotal + (savedShippingCost || 0)) / 6).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} sem juros
+                </p>
               </div>
             </div>
             
             {activeCoupon && (
               <div className="flex items-center justify-between mb-6 px-1">
-                <span className="text-[10px] uppercase tracking-widest text-zinc-500">CUPOM ATIVO: {activeCoupon}</span>
-                <button onClick={removeCoupon} className="text-[8px] uppercase tracking-widest text-red-900 hover:text-red-700 font-bold">REMOVER</button>
+                <span className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-bold">CUPOM ATIVO: {activeCoupon}</span>
+                <button 
+                  onClick={removeCoupon} 
+                  className="text-[8px] uppercase tracking-[0.2em] text-red-900 hover:text-red-700 font-black border-b border-red-900/30 hover:border-red-700 transition-colors"
+                >
+                  REMOVER
+                </button>
               </div>
             )}
             <button 

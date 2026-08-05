@@ -160,7 +160,11 @@ function ProductDetail() {
               </button>
             </div>
 
-            <div className="pt-4 border-t border-zinc-900">
+            <div className="pt-6 border-t border-zinc-900 bg-zinc-950/50 p-4 rounded-sm">
+              <div className="flex items-center justify-between mb-4 text-[9px] uppercase tracking-[0.2em] text-zinc-500 font-bold border-b border-zinc-900 pb-2">
+                <span>Garantias Arcane</span>
+                <span className="text-emerald-900">5% OFF NO PIX</span>
+              </div>
               <TrustBadges />
             </div>
 
