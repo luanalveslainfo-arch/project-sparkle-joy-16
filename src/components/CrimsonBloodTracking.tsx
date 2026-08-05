@@ -19,6 +19,7 @@ export function CrimsonBloodTracking({ mouseX, mouseY, isNearEdge }: { mouseX: n
       }, 2000);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [isNearEdge, mouseX, mouseY]);
 
   return (
