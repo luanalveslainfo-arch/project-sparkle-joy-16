@@ -106,10 +106,16 @@ function ProductDetail() {
     }
     
     if (purchaseType === 'combo') {
-      // Add first item
-      addToCart(product, selectedSize || undefined, 1);
-      // Add second item (might be same ID/size, but addToCart handles it)
-      addToCart(product, selectedSize2 || undefined, 1);
+      const product2 = item2Option === 'other' && item2Product ? item2Product : product;
+      
+      // We'll add them as a single "Combo" unit or separate units.
+      // The user asked to show two pieces separate in the drawer.
+      // To ensure the combo price (R$ 299,90), we'll add them with a custom price property.
+      
+      const comboUnitPrice = 149.95; // 299.90 / 2
+      
+      addToCart({ ...product, price: "R$ 149,95", priceNumber: 149.95, name: `${product.name} (PEÇA 1)` }, selectedSize || undefined, 1);
+      addToCart({ ...product2, price: "R$ 149,95", priceNumber: 149.95, name: `${product2.name} (PEÇA 2)` }, selectedSize2 || undefined, 1);
     } else {
       addToCart(product, selectedSize || undefined, 1);
     }
