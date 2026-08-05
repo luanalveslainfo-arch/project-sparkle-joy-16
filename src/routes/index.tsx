@@ -115,7 +115,7 @@ function Index() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-red-900/50" style={{ fontFamily: THEME.FONTS.SANS }}>
+    <div className="min-h-screen bg-background text-foreground selection:bg-primary/30" style={{ fontFamily: THEME.FONTS.SANS }}>
       {/* Discount Modal */}
       {showModal && (
         <div 
@@ -124,7 +124,7 @@ function Index() {
           aria-labelledby="modal-title"
           aria-modal="true"
         >
-          <div className="relative bg-[#0a0a0a] border border-red-900/30 p-8 max-w-md w-full text-center shadow-2xl shadow-red-900/10">
+          <div className="relative bg-card border border-border/50 p-10 max-w-lg w-full text-center shadow-2xl ring-1 ring-primary/20 backdrop-blur-xl">
             <button 
               onClick={handleCloseModal} 
               className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors p-2"
@@ -145,7 +145,7 @@ function Index() {
       )}
 
       {/* Header */}
-      <header className="fixed top-0 left-0 w-full z-50 bg-black/40 backdrop-blur-md border-b border-white/5 p-4 flex items-center justify-between">
+      <header className="fixed top-0 left-0 w-full z-50 bg-background/60 backdrop-blur-xl border-b border-border/40 p-5 flex items-center justify-between transition-all duration-300">
         <div className="flex items-center gap-6">
           <Menu className="cursor-pointer md:hidden text-zinc-400 hover:text-white" />
           <nav className="hidden md:flex gap-6 text-xs uppercase tracking-widest text-zinc-400">
@@ -198,7 +198,7 @@ function Index() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-[#050505] border-t border-white/5 py-24 mt-24">
+      <footer className="bg-sidebar border-t border-border/40 py-32 mt-32">
         <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-16">
           <div>
             <h4 className="text-sm font-bold uppercase tracking-widest mb-6" style={{ fontFamily: THEME.FONTS.DISPLAY }}>Join the Coven</h4>
@@ -266,7 +266,7 @@ function Index() {
 function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: string) => void }) {
   return (
     <div className="group cursor-pointer">
-      <div className="relative aspect-[3/4] overflow-hidden bg-[#0a0a0a] mb-6">
+      <div className="relative aspect-[3/4] overflow-hidden bg-muted mb-8 group-hover:shadow-2xl group-hover:shadow-primary/10 transition-all duration-500">
         <img 
           src={product.image} 
           alt={product.name}
@@ -279,7 +279,7 @@ function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: strin
             e.stopPropagation();
             onAdd(product.name);
           }}
-          className="absolute bottom-0 left-0 w-full bg-red-800 text-white py-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 font-bold text-xs tracking-widest hover:bg-red-700"
+          className="absolute bottom-0 left-0 w-full bg-primary text-primary-foreground py-5 translate-y-full group-hover:translate-y-0 transition-transform duration-500 font-bold text-[10px] tracking-[0.2em] hover:bg-primary/90 uppercase"
         >
           ADICIONAR AO CARRINHO
         </button>
