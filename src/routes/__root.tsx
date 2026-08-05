@@ -382,13 +382,20 @@ function GlobalCartDrawer() {
             <div className="space-y-3 bg-zinc-900/30 p-4 rounded-sm border border-zinc-900 mb-6">
               <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-zinc-500">
                 <span>Subtotal</span>
-                <span>{(cartTotal / (1 - (activeCoupon ? discountValue : 0)) / (1 - (cart.reduce((acc, item) => acc + item.quantity, 0) >= 2 ? 0.1 : 0))).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+                <span>{subtotalBeforeDiscounts.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
               </div>
               
-              {cart.reduce((acc, item) => acc + item.quantity, 0) >= 2 && (
+              {cartItemsCount >= 2 && (
                 <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-red-600 font-bold">
-                  <span>Bônus 10% OFF (2+ Itens)</span>
-                  <span>-{( (cartTotal / (1 - (activeCoupon ? discountValue : 0))) * 0.1 ).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+                  <span>Bônus Progressivo (2+ Itens)</span>
+                  <span>-{totalDiscountValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+                </div>
+              )}
+
+              {activeCoupon && (
+                <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-red-600 font-bold">
+                  <span>Cupom {activeCoupon}</span>
+                  <span>-{(subtotalBeforeDiscounts * discountValue).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
                 </div>
               )}
 
