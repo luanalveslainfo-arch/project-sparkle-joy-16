@@ -158,8 +158,11 @@ function Index() {
             </p>
             <div className="h-1 bg-zinc-800 w-full rounded-full overflow-hidden">
               <div 
-                className="h-full bg-white transition-all duration-500"
-                style={{ width: `${freeShippingProgress}%` }}
+                className="h-full transition-all duration-500"
+                style={{ 
+                  width: `${freeShippingProgress}%`,
+                  backgroundColor: freeShippingProgress >= 100 ? '#8B0000' : 'white'
+                }}
               />
             </div>
           </div>
@@ -252,8 +255,8 @@ function Index() {
             <Menu />
           </button>
           <nav className="hidden md:flex gap-6 text-[10px] uppercase tracking-[0.2em] text-zinc-400">
-            <a href="#" className="hover:text-[#8B0000] transition-colors duration-300">Home</a>
-            <a href="#" className="hover:text-[#8B0000] transition-colors duration-300">Produtos</a>
+            <Link to="/" className="hover:text-[#8B0000] transition-colors duration-300">Home</Link>
+            <Link to="/produtos" className="hover:text-[#8B0000] transition-colors duration-300">Produtos</Link>
           </nav>
         </div>
         <h1 className="text-3xl md:text-4xl absolute left-1/2 -translate-x-1/2 select-none tracking-widest font-black" style={{ fontFamily: THEME.FONTS.DISPLAY }}>ARCANE</h1>
@@ -282,8 +285,7 @@ function Index() {
             BEYOND THE SHADOWS OF MORTALITY LIES THE PATH OF DISCIPLINE
           </p>
           <Link 
-            to="/produto/$productId" 
-            params={{ productId: "1" }}
+            to="/produtos" 
             className="relative z-10 bg-white text-black px-10 py-4 text-xs font-bold uppercase tracking-widest transition-all duration-300 ease-in-out hover:bg-zinc-200 hover:scale-[1.02] active:scale-[0.98] mt-8 cursor-pointer"
           >
             EXPLORAR A COLEÇÃO
