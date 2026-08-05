@@ -125,21 +125,28 @@ function RootShell({ children }: { children: ReactNode }) {
 function GlobalCartDrawer() {
   const { cart, isCartOpen, setIsCartOpen, removeFromCart, updateQuantity, cartTotal, remainingForFreeShipping, freeShippingProgress, activeCoupon, discountValue, applyCoupon, removeCoupon } = useCartStore();
   const [couponInput, setCouponInput] = useState("");
-  const [checkoutStep, setCheckoutStep] = useState<'cart' | 'address'>('cart');
-  const [address, setAddress] = useState({
-    nome: '',
-    cep: '',
-    rua: '',
-    numero: '',
-    cidade: ''
-  });
+  const [cep, setCep] = useState('');
   const [shippingCost, setShippingCost] = useState<number | null>(null);
+  const [cepError, setCepError] = useState<string | null>(null);
 
-  const calculateShipping = () => {
-    if (address.cep.length >= 8) {
-      // Mock shipping calculation
-      const cost = freeShippingProgress >= 100 ? 0 : 25;
-      setShippingCost(cost);
+  const calculateShipping = (value: string) => {
+    const cleanCep = value.replace(/\D/g, '');
+    if (cleanCep.length === 8) {
+      // Simulação de validação e cálculo
+      // CEPs começando com 0 são considerados "inválidos" para fins de teste de erro
+      if (cleanCep.startsWith('000')) {
+        setCepError('CEP NÃO ENCONTRADO');
+        setShippingCost(null);
+      } else {
+        setCepError(null);
+        const cost = freeShippingProgress >= 100 ? 0 : 25;
+        setShippingCost(cost);
+      }
+    } else {
+      setShippingCost(null);
+      if (cleanCep.length > 0 && cleanCep.length < 8) {
+        setCepError(null); // Limpa erro enquanto digita
+      }
     }
   };
 
@@ -155,16 +162,7 @@ function GlobalCartDrawer() {
         {/* Cart Header */}
         <div className="p-6 border-b border-zinc-900">
           <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-3">
-              {checkoutStep === 'address' && (
-                <button onClick={() => setCheckoutStep('cart')} className="text-zinc-500 hover:text-white">
-                  <X size={20} className="rotate-90" />
-                </button>
-              )}
-              <h2 className="font-sans text-lg font-bold tracking-widest text-white uppercase">
-                {checkoutStep === 'cart' ? 'SEU CARRINHO' : 'ENDEREÇO'}
-              </h2>
-            </div>
+            <h2 className="font-sans text-lg font-bold tracking-widest text-white uppercase">SEU CARRINHO</h2>
             <button 
               onClick={() => setIsCartOpen(false)}
               className="text-zinc-400 hover:text-white p-1"
@@ -194,9 +192,7 @@ function GlobalCartDrawer() {
 
         {/* Content Area */}
         <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
-          {checkoutStep === 'cart' ? (
-            <>
-              {cart.length === 0 ? (
+          {cart.length === 0 ? (
             <div className="flex-1 flex flex-col items-center justify-center text-center px-8 gap-8">
               <div className="space-y-2">
                 <p className="text-[10px] uppercase tracking-[0.4em] text-zinc-500 font-bold">SEU ARSENAL ESTÁ VAZIO</p>
@@ -259,78 +255,39 @@ function GlobalCartDrawer() {
                 </div>
               ))
             )}
-            </>
-          ) : (
-            <div className="space-y-6 px-2">
-              <div className="space-y-4">
-                <div className="flex flex-col gap-1">
-                  <label className="text-[10px] text-zinc-500 uppercase tracking-widest">Nome Completo</label>
-                  <input 
-                    type="text"
-                    value={address.nome}
-                    onChange={e => setAddress({...address, nome: e.target.value})}
-                    className="bg-transparent border-b border-zinc-800 text-white text-xs py-2 focus:outline-none focus:border-zinc-500 transition-colors"
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="flex flex-col gap-1">
-                    <label className="text-[10px] text-zinc-500 uppercase tracking-widest">CEP</label>
+            
+            {cart.length > 0 && (
+              <div className="mt-8 pt-8 border-t border-zinc-900 space-y-4">
+                <div className="flex flex-col gap-2">
+                  <label className="text-[10px] text-zinc-500 uppercase tracking-widest">Cálculo de Frete</label>
+                  <div className="flex gap-2">
                     <input 
                       type="text"
-                      value={address.cep}
+                      value={cep}
                       onChange={e => {
                         const val = e.target.value.replace(/\D/g, '').slice(0, 8);
-                        setAddress({...address, cep: val});
-                        if (val.length === 8) calculateShipping();
+                        setCep(val);
+                        calculateShipping(val);
                       }}
                       placeholder="00000-000"
-                      className="bg-transparent border-b border-zinc-800 text-white text-xs py-2 focus:outline-none focus:border-zinc-500 transition-colors"
+                      className={`flex-1 bg-transparent border-b ${cepError ? 'border-red-900' : 'border-zinc-800'} text-white text-xs py-2 focus:outline-none focus:border-zinc-500 transition-colors`}
                     />
                   </div>
-                  <div className="flex flex-col gap-1">
-                    <label className="text-[10px] text-zinc-500 uppercase tracking-widest">Cidade</label>
-                    <input 
-                      type="text"
-                      value={address.cidade}
-                      onChange={e => setAddress({...address, cidade: e.target.value})}
-                      className="bg-transparent border-b border-zinc-800 text-white text-xs py-2 focus:outline-none focus:border-zinc-500 transition-colors"
-                    />
-                  </div>
+                  {cepError && (
+                    <span className="text-[8px] text-red-900 uppercase font-bold tracking-widest">{cepError}</span>
+                  )}
                 </div>
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="col-span-2 flex flex-col gap-1">
-                    <label className="text-[10px] text-zinc-500 uppercase tracking-widest">Rua</label>
-                    <input 
-                      type="text"
-                      value={address.rua}
-                      onChange={e => setAddress({...address, rua: e.target.value})}
-                      className="bg-transparent border-b border-zinc-800 text-white text-xs py-2 focus:outline-none focus:border-zinc-500 transition-colors"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label className="text-[10px] text-zinc-500 uppercase tracking-widest">Nº</label>
-                    <input 
-                      type="text"
-                      value={address.numero}
-                      onChange={e => setAddress({...address, numero: e.target.value})}
-                      className="bg-transparent border-b border-zinc-800 text-white text-xs py-2 focus:outline-none focus:border-zinc-500 transition-colors"
-                    />
-                  </div>
-                </div>
-              </div>
-              
-              {shippingCost !== null && (
-                <div className="p-4 bg-zinc-900/50 border border-zinc-800 rounded-sm">
-                  <div className="flex justify-between items-center text-xs uppercase tracking-widest">
-                    <span className="text-zinc-400">Frete Estimado</span>
-                    <span className="text-white font-bold">
+                
+                {shippingCost !== null && (
+                  <div className="flex justify-between items-center text-[10px] uppercase tracking-widest text-zinc-400">
+                    <span>Envio Estimado</span>
+                    <span className="text-white">
                       {shippingCost === 0 ? 'GRÁTIS' : shippingCost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </span>
                   </div>
-                </div>
-              )}
-            </div>
-          )}
+                )}
+              </div>
+            )}
         </div>
 
         {/* Cart Footer */}
@@ -378,25 +335,15 @@ function GlobalCartDrawer() {
               </div>
             )}
 
-            {checkoutStep === 'cart' ? (
-              <>
-                <p className="text-[10px] text-zinc-500 mt-2 mb-6 text-center uppercase tracking-wider italic">
-                  Frete calculado no próximo passo
-                </p>
-                <button 
-                  onClick={() => setCheckoutStep('address')}
-                  className="w-full bg-white text-black hover:bg-zinc-200 transition-colors py-4 font-bold tracking-[0.2em] text-xs uppercase"
-                >
-                  CONTINUAR
-                </button>
-              </>
-            ) : (
-              <button 
-                className="w-full bg-white text-black hover:bg-zinc-200 transition-colors py-4 font-bold tracking-[0.2em] text-xs uppercase mt-6"
-              >
-                IR PARA PAGAMENTO
-              </button>
-            )}
+            <p className="text-[10px] text-zinc-500 mt-2 mb-6 text-center uppercase tracking-wider italic">
+              Envio {shippingCost === 0 ? 'grátis' : 'calculado'} para sua região
+            </p>
+            <button 
+              disabled={shippingCost === null && cartTotal < 299}
+              className="w-full bg-white text-black hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors py-4 font-bold tracking-[0.2em] text-xs uppercase"
+            >
+              FINALIZAR COMPRA
+            </button>
           </div>
         )}
       </div>
