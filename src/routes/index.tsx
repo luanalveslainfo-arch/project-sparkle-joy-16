@@ -352,5 +352,30 @@ function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: strin
         </div>
       </div>
     </div>
+
+function RevealOnScroll({ children }: { children: React.ReactNode }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const [ref, setRef] = useState<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!ref) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(ref);
+        }
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(ref);
+    return () => observer.disconnect();
+  }, [ref]);
+
+  return (
+    <div ref={setRef} className={isVisible ? "reveal" : "opacity-0"}>
+      {children}
+    </div>
   );
 }
+
