@@ -224,8 +224,12 @@ function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: strin
         <span className="text-xs text-zinc-800 font-sans tracking-widest uppercase">Imagem em breve</span>
         
         {/* Quick Add Overlay */}
-        <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 md:group-hover:opacity-100 transition-all duration-500 ease-out p-4 md:pointer-events-auto @media-touch:opacity-100">
-          <div className="flex flex-row flex-wrap justify-center">
+        <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center 
+          opacity-0 md:group-hover:opacity-100 
+          max-md:relative max-md:opacity-100 max-md:bg-transparent max-md:backdrop-blur-none max-md:p-0 max-md:mt-4
+          transition-all duration-500 ease-out p-4">
+          
+          <div className="flex flex-row flex-wrap justify-center max-md:justify-start">
             {sizes.map(size => (
               <button
                 key={size}
@@ -245,7 +249,7 @@ function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: strin
         </div>
       </div>
       
-      <div className="mt-4 flex flex-col gap-1">
+      <div className="mt-4 flex flex-col gap-1 max-md:mt-2">
         <h4 className="text-sm font-bold uppercase tracking-[0.1em] text-zinc-300">{product.name}</h4>
         <span className="text-base font-semibold text-white">{product.price}</span>
       </div>
