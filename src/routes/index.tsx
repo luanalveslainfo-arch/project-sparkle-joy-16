@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Search, ShoppingBag, User, Menu, Mail, Instagram, Twitter, X, Phone, MessageSquare } from "lucide-react";
+import { Search, ShoppingBag, User, Menu, Mail, Instagram, Twitter, X, Phone, MessageSquare, Truck, Shield, Star } from "lucide-react";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { toast } from "sonner";
 
@@ -192,8 +192,28 @@ function Index() {
         </div>
       </section>
 
+      {/* Trust Badges Section */}
+      <section className="bg-[#0a0a0a] border-y border-white/5 py-6">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex flex-col md:flex-row items-center justify-around gap-8 md:gap-4 text-center">
+            <div className="flex flex-col items-center gap-2">
+              <Truck size={20} className="text-zinc-400" />
+              <span className="text-xs font-bold tracking-widest text-zinc-400 uppercase">FRETE GRÁTIS ACIMA DE R$299</span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <Shield size={20} className="text-zinc-400" />
+              <span className="text-xs font-bold tracking-widest text-zinc-400 uppercase">COMPRA 100% SEGURA</span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <Star size={20} className="text-zinc-400" />
+              <span className="text-xs font-bold tracking-widest text-zinc-400 uppercase">QUALIDADE PREMIUM GARANTIDA</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Product Sections */}
-      <main className="max-w-7xl mx-auto px-4 py-24 space-y-32">
+      <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 space-y-32">
         {Object.entries(products).map(([category, items]) => (
           <section key={category} className="py-16 md:py-24">
             <div className="flex items-center justify-between mb-10 border-b border-white/5 pb-6">
@@ -202,7 +222,7 @@ function Index() {
               </h3>
               <a href="#" className="text-[10px] text-zinc-500 hover:text-primary uppercase tracking-[0.2em] transition-colors font-medium">Shop All</a>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
               {items.map((p) => (
                 <ProductCard key={p.id} product={p} onAdd={addToCart} />
               ))}
@@ -282,35 +302,32 @@ function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: strin
   const fallbackImage = null; // We will handle fallback manually now
 
   return (
-    <div className="group cursor-pointer">
-      <div className="relative aspect-[3/4] overflow-hidden bg-[#111111] mb-6 transition-all duration-500 flex items-center justify-center">
+    <div className="group cursor-pointer overflow-hidden">
+      <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#111111] mb-6">
         {!hasError && product.image ? (
           <img 
             src={product.image} 
             alt={product.name}
             loading="lazy"
             onError={() => setHasError(true)}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
           />
         ) : (
-          <div className="text-center">
-            <span className="text-[10px] uppercase tracking-widest text-zinc-600 font-bold">IMAGE UNAVAILABLE</span>
+          <div className="w-full h-full flex items-center justify-center">
+            <span className="text-[10px] uppercase tracking-widest text-zinc-600 font-bold opacity-30">IMAGE UNAVAILABLE</span>
           </div>
         )}
         
         {/* Quick Add Overlay */}
-        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        <div className="absolute bottom-0 left-0 w-full p-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-10">
-          <button 
-            onClick={(e) => {
-              e.stopPropagation();
-              onAdd(product.name);
-            }}
-            className="w-full bg-black border border-white/20 text-white py-3 font-bold text-[9px] tracking-[0.2em] hover:bg-[#b91c1c] hover:border-[#b91c1c] transition-colors uppercase"
-          >
-            + Quick Add
-          </button>
-        </div>
+        <button 
+          onClick={(e) => {
+            e.stopPropagation();
+            onAdd(product.name);
+          }}
+          className="absolute bottom-0 left-0 w-full bg-black/90 backdrop-blur-sm text-white py-4 text-sm font-bold uppercase tracking-wider translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out border-t border-white/10 z-10 hover:bg-[#b91c1c] hover:border-[#b91c1c]"
+        >
+          + Quick Add
+        </button>
       </div>
       
       <div className="space-y-1 text-left">
