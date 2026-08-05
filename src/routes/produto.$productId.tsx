@@ -99,21 +99,24 @@ function ProductDetail() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Left Column: Photos */}
-          <div className="flex flex-col gap-4">
-            <ProductImage src={product.image} alt={product.name} />
-            <div className="aspect-[3/4] bg-zinc-900 border border-zinc-800 flex items-center justify-center relative overflow-hidden">
-               <span className="text-[10px] uppercase tracking-widest text-zinc-700 font-bold">ARCANE VISUALS II</span>
+          <div className="w-full">
+            <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide md:flex-col gap-4 pb-4 md:pb-0">
+              <div className="min-w-full md:min-w-0 snap-center">
+                <ProductImage src={product.image} alt={product.name} />
+              </div>
+              <div className="min-w-full md:min-w-0 snap-center aspect-[3/4] bg-zinc-900 border border-zinc-800 flex items-center justify-center relative overflow-hidden">
+                 <span className="text-[10px] uppercase tracking-widest text-zinc-700 font-bold">ARCANE VISUALS II</span>
+              </div>
+              <div className="min-w-full md:min-w-0 snap-center aspect-[3/4] bg-zinc-900 border border-zinc-800 flex items-center justify-center relative overflow-hidden">
+                 <span className="text-[10px] uppercase tracking-widest text-zinc-700 font-bold">ARCANE VISUALS III</span>
+              </div>
             </div>
-            <div className="aspect-[3/4] bg-zinc-900 border border-zinc-800 flex items-center justify-center relative overflow-hidden">
-               <span className="text-[10px] uppercase tracking-widest text-zinc-700 font-bold">ARCANE VISUALS III</span>
-            </div>
-
           </div>
 
           {/* Right Column: Info & Checkout */}
           <div className="lg:sticky lg:top-24 h-fit space-y-8">
             <div className="space-y-4">
-              <h1 className="text-4xl md:text-5xl font-black tracking-widest leading-tight uppercase font-madness">
+              <h1 className="text-4xl md:text-5xl font-black tracking-widest leading-tight uppercase font-sans">
                 {product.name}
               </h1>
               <div className="flex items-center gap-4">
@@ -126,7 +129,10 @@ function ProductDetail() {
             </div>
 
             <div className="space-y-4">
-              <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">Selecione o Tamanho</span>
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">Selecione o Tamanho</span>
+                <span className="text-[9px] uppercase tracking-widest font-bold text-red-600 animate-pulse">Poucas unidades disponíveis para este drop</span>
+              </div>
               <div className="flex gap-3">
                 {sizes.map((size) => (
                   <button
