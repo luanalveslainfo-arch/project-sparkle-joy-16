@@ -133,7 +133,7 @@ function ProductDetail() {
                 </span>
               </div>
               <p className="text-[10px] text-zinc-400 uppercase tracking-[0.2em]">ou {product.installments}</p>
-            </div>
+            </motion.div>
 
             <div className="space-y-4">
               <div className="flex items-center justify-between">
