@@ -403,10 +403,26 @@ function GlobalCartDrawer() {
             </p>
             <button 
               disabled={isCheckoutDisabled}
-              className={`w-full ${isCheckoutDisabled ? 'bg-zinc-800 text-zinc-500 grayscale cursor-not-allowed' : 'bg-white text-black hover:bg-zinc-200'} transition-all duration-300 py-4 font-bold tracking-[0.2em] text-xs uppercase shadow-lg`}
+              className={`w-full ${isCheckoutDisabled ? 'bg-zinc-800 text-zinc-500 grayscale cursor-not-allowed' : 'bg-white text-black hover:bg-zinc-200'} transition-all duration-300 py-4 font-bold tracking-[0.2em] text-xs uppercase shadow-lg mb-6`}
             >
               {isCalculating ? 'CALCULANDO...' : 'FINALIZAR COMPRA'}
             </button>
+
+            {/* Trust Badges */}
+            <div className="grid grid-cols-1 gap-3 pt-2 border-t border-zinc-900">
+              <div className="flex items-center gap-3 text-zinc-500">
+                <span className="text-sm">🛡️</span>
+                <span className="text-[9px] uppercase tracking-widest font-bold">Compra 100% Segura</span>
+              </div>
+              <div className="flex items-center gap-3 text-zinc-500">
+                <span className="text-sm">💳</span>
+                <span className="text-[9px] uppercase tracking-widest font-bold">Parcele em até 6x no Cartão / Desconto no PIX</span>
+              </div>
+              <div className="flex items-center gap-3 text-zinc-500">
+                <span className="text-sm">🚚</span>
+                <span className="text-[9px] uppercase tracking-widest font-bold">Entrega Garantida via Correios</span>
+              </div>
+            </div>
           </div>
         )}
       </div>
@@ -622,7 +638,7 @@ function RootComponent() {
               <X size={20} />
             </button>
             <div className="space-y-4">
-              <h2 className="text-4xl md:text-5xl font-madness text-white">
+              <h2 className="text-4xl md:text-5xl font-black tracking-widest text-white font-sans uppercase">
                 BEM-VINDO AO DROP ARCANO
               </h2>
               <p className="text-zinc-400 text-sm uppercase tracking-widest leading-relaxed">
