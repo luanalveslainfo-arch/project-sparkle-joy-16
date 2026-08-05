@@ -202,27 +202,27 @@ function ProductDetail() {
                 <div className="grid grid-cols-1 gap-3">
                   <button 
                     onClick={() => setPurchaseType("single")}
-                    className={`flex items-center justify-between p-4 border transition-all duration-300 rounded-sm ${purchaseType === 'single' ? 'bg-zinc-900 border-white' : 'bg-transparent border-zinc-800 hover:border-zinc-700'}`}
+                    className={`flex items-center justify-between p-4 border transition-all duration-300 rounded-sm ${purchaseType === 'single' ? 'bg-zinc-900 border-red-600 border-2' : 'bg-transparent border-zinc-800 hover:border-zinc-700'}`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${purchaseType === 'single' ? 'border-white' : 'border-zinc-700'}`}>
-                        {purchaseType === 'single' && <div className="w-2 h-2 rounded-full bg-white" />}
+                      <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${purchaseType === 'single' ? 'border-red-600' : 'border-zinc-700'}`}>
+                        {purchaseType === 'single' && <div className="w-2 h-2 rounded-full bg-red-600" />}
                       </div>
-                      <span className="text-xs font-bold uppercase tracking-widest text-white">1 Unidade</span>
+                      <span className="text-xs font-bold uppercase tracking-widest text-white">1 UNIDADE</span>
                     </div>
                     <span className="text-xs font-bold text-zinc-400">{product.price}</span>
                   </button>
 
                   <button 
                     onClick={() => setPurchaseType("combo")}
-                    className={`flex items-center justify-between p-4 border transition-all duration-300 rounded-sm ${purchaseType === 'combo' ? 'bg-zinc-900 border-white' : 'bg-transparent border-zinc-800 hover:border-zinc-700'}`}
+                    className={`flex items-center justify-between p-4 border transition-all duration-300 rounded-sm ${purchaseType === 'combo' ? 'bg-red-950/30 border-red-600 border-2' : 'bg-transparent border-zinc-800 hover:border-zinc-700'}`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${purchaseType === 'combo' ? 'border-white' : 'border-zinc-700'}`}>
-                        {purchaseType === 'combo' && <div className="w-2 h-2 rounded-full bg-white" />}
+                      <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${purchaseType === 'combo' ? 'border-red-600' : 'border-zinc-700'}`}>
+                        {purchaseType === 'combo' && <div className="w-2 h-2 rounded-full bg-red-600" />}
                       </div>
                       <div className="flex flex-col items-start">
-                        <span className="text-xs font-bold uppercase tracking-widest text-white">Combo Duo (2 Peças)</span>
+                        <span className="text-xs font-bold uppercase tracking-widest text-white">COMBO DUO (2 PEÇAS)</span>
                         <span className="text-[8px] font-black text-red-600 tracking-widest mt-1">[ ECONOMIZE R$ 80 ]</span>
                       </div>
                     </div>
