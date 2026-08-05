@@ -337,9 +337,11 @@ function Index() {
   );
 }
 
-function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: string) => void }) {
+function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: string, size?: string) => void }) {
   const [hasError, setHasError] = useState(false);
-  const fallbackImage = null; // We will handle fallback manually now
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+
+  const sizes = ["P", "M", "G", "GG"];
 
   return (
     <div className="group cursor-pointer overflow-hidden">
@@ -359,22 +361,45 @@ function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: strin
         )}
         
         {/* Quick Add Overlay */}
-        <button 
-          onClick={(e) => {
-            e.stopPropagation();
-            onAdd(product.name);
-          }}
-          className="absolute bottom-0 left-0 w-full bg-black/90 backdrop-blur-sm text-white py-4 text-sm font-bold uppercase tracking-wider translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out border-t border-white/10 z-10 hover:bg-[#b91c1c] hover:border-[#b91c1c]"
-        >
-          + Quick Add
-        </button>
+        <div className="absolute bottom-0 left-0 w-full translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out z-10">
+          {/* Size Selector */}
+          <div className="bg-black/90 backdrop-blur-sm border-t border-white/10 p-3 flex justify-center gap-2">
+            {sizes.map(size => (
+              <button
+                key={size}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedSize(size);
+                }}
+                className={`w-8 h-8 flex items-center justify-center text-xs border transition-colors ${
+                  selectedSize === size 
+                    ? "bg-[#b91c1c] border-[#b91c1c] text-white" 
+                    : "bg-[#111111] border-white/10 text-white hover:bg-[#b91c1c] hover:border-[#b91c1c]"
+                }`}
+              >
+                {size}
+              </button>
+            ))}
+          </div>
+          
+          {/* Add Button */}
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              onAdd(product.name, selectedSize || undefined);
+            }}
+            className="w-full bg-black hover:bg-[#b91c1c] text-white py-4 text-sm font-bold uppercase tracking-wider transition-colors border-t border-white/10"
+          >
+            + Quick Add
+          </button>
+        </div>
       </div>
       
       <div className="space-y-1 text-left">
         <h4 className="text-sm font-bold uppercase tracking-tight text-white transition-colors">{product.name}</h4>
         <div className="flex flex-col">
-          <span className="text-sm font-medium text-white">{product.price}</span>
-          <span className="text-[10px] text-zinc-500 uppercase tracking-wider">{product.installments}</span>
+          <span className="text-base font-bold text-white">{product.price}</span>
+          <span className="text-sm text-zinc-400 font-medium">{product.installments}</span>
         </div>
       </div>
     </div>
