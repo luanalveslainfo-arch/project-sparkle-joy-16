@@ -51,6 +51,7 @@
 
 @theme inline {
   --font-gothic: "UnifrakturMaguntia", cursive;
+  --font-madness: "MadnessFont", cursive;
   --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
   
   --radius-sm: calc(var(--radius) - 4px);
