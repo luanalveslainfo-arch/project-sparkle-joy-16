@@ -199,7 +199,7 @@ function GlobalCartDrawer() {
     return () => clearTimeout(timer);
   }, [savedCep, freeShippingProgress]);
 
-  if (!isCartOpen) return null;
+  
 
   const isCheckoutDisabled = isCalculating || !!cepError || savedShippingCost === null;
 
@@ -460,10 +460,10 @@ function GlobalCartDrawer() {
             <div className="pt-6 border-t border-zinc-900">
               <TrustBadges />
             </div>
-          </div>
-        )}
-      </div>
-    </>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
   );
 }
 
