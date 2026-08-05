@@ -119,17 +119,167 @@ function Index() {
     }
   };
 
-  const addToCart = useCallback((productName: string, size?: string) => {
+  const addToCart = useCallback((product: Product, size?: string) => {
+    setCart(prev => {
+      const existing = prev.find(item => item.id === product.id && item.selectedSize === size);
+      if (existing) {
+        return prev.map(item => 
+          (item.id === product.id && item.selectedSize === size) 
+            ? { ...item, quantity: item.quantity + 1 } 
+            : item
+        );
+      }
+      return [...prev, { ...product, quantity: 1, selectedSize: size }];
+    });
+    
+    setIsCartOpen(true);
+    
     toast(`🩸 Item adicionado ao seu arsenal.`, {
-      description: `${productName}${size ? ` - Tamanho: ${size}` : ''}`,
+      description: `${product.name}${size ? ` - Tamanho: ${size}` : ''}`,
       className: "bg-[#0a0a0a] text-white border-l-4 border-[#8B0000] rounded-none shadow-2xl",
       duration: 3000,
     });
   }, []);
 
+  const removeFromCart = useCallback((id: number, size?: string) => {
+    setCart(prev => prev.filter(item => !(item.id === id && item.selectedSize === size)));
+  }, []);
+
+  const updateQuantity = useCallback((id: number, size: string | undefined, delta: number) => {
+    setCart(prev => prev.map(item => {
+      if (item.id === id && item.selectedSize === size) {
+        const newQty = Math.max(1, item.quantity + delta);
+        return { ...item, quantity: newQty };
+      }
+      return item;
+    }));
+  }, []);
+
+  const cartTotal = useMemo(() => 
+    cart.reduce((acc, item) => acc + (item.priceNumber * item.quantity), 0)
+  , [cart]);
+
+  const FREE_SHIPPING_THRESHOLD = 299;
+  const remainingForFreeShipping = Math.max(0, FREE_SHIPPING_THRESHOLD - cartTotal);
+  const freeShippingProgress = Math.min(100, (cartTotal / FREE_SHIPPING_THRESHOLD) * 100);
+
   return (
-    <div className="min-h-screen bg-[#000000] text-foreground selection:bg-primary/30 overflow-x-hidden" style={{ fontFamily: THEME.FONTS.SANS }}>
+    <div className={`min-h-screen bg-[#000000] text-foreground selection:bg-primary/30 overflow-x-hidden ${isCartOpen ? 'overflow-hidden' : ''}`} style={{ fontFamily: THEME.FONTS.SANS }}>
+      {/* Cart Drawer */}
+      {isCartOpen && (
+        <div 
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] transition-opacity duration-300"
+          onClick={() => setIsCartOpen(false)}
+        />
+      )}
+      
+      <div className={`fixed top-0 right-0 h-full w-full md:w-[400px] bg-zinc-950 border-l border-zinc-800 shadow-2xl z-[70] flex flex-col transform transition-transform duration-300 ease-in-out ${isCartOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        {/* Cart Header */}
+        <div className="p-6 border-b border-zinc-900">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-sans text-lg font-bold tracking-widest text-white uppercase">SEU CARRINHO</h2>
+            <button 
+              onClick={() => setIsCartOpen(false)}
+              className="text-zinc-400 hover:text-white p-1"
+            >
+              <X size={20} />
+            </button>
+          </div>
+          
+          {/* Free Shipping Progress */}
+          <div className="space-y-2">
+            <p className="text-[10px] uppercase tracking-wider text-zinc-400">
+              {remainingForFreeShipping > 0 
+                ? `Faltam R$ ${remainingForFreeShipping.toFixed(2).replace('.', ',')} para Frete Grátis`
+                : "Você ganhou Frete Grátis! 🩸"}
+            </p>
+            <div className="h-1 bg-zinc-800 w-full rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-white transition-all duration-500"
+                style={{ width: `${freeShippingProgress}%` }}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Cart Items */}
+        <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+          {cart.length === 0 ? (
+            <div className="flex-1 flex flex-col items-center justify-center text-zinc-500 gap-4 opacity-50">
+              <ShoppingBag size={48} strokeWidth={1} />
+              <p className="text-[10px] uppercase tracking-[0.2em]">Seu arsenal está vazio</p>
+            </div>
+          ) : (
+            cart.map((item, idx) => (
+              <div key={`${item.id}-${item.selectedSize}-${idx}`} className="flex gap-4 group">
+                {/* Product Image Placeholder */}
+                <div className="w-20 h-24 bg-zinc-900 border border-zinc-800 rounded-sm flex items-center justify-center text-[8px] uppercase text-zinc-600 text-center px-1 leading-tight">
+                  IMAGEM EM BREVE
+                </div>
+                
+                {/* Product Info */}
+                <div className="flex-1 flex flex-col justify-between py-1">
+                  <div>
+                    <h3 className="text-xs font-bold text-white uppercase tracking-wider">{item.name}</h3>
+                    {item.selectedSize && (
+                      <p className="text-[10px] text-zinc-400 uppercase mt-1">Tamanho: {item.selectedSize}</p>
+                    )}
+                    <p className="text-xs font-bold text-white mt-1">{item.price}</p>
+                  </div>
+                  
+                  {/* Controls */}
+                  <div className="flex items-center justify-between mt-2">
+                    <div className="flex items-center border border-zinc-800 rounded-sm">
+                      <button 
+                        onClick={() => updateQuantity(item.id, item.selectedSize, -1)}
+                        className="w-8 h-8 flex items-center justify-center text-zinc-400 hover:text-white transition-colors"
+                      >
+                        <Minus size={12} />
+                      </button>
+                      <span className="w-8 h-8 flex items-center justify-center text-xs text-white border-x border-zinc-800 font-bold">
+                        {item.quantity}
+                      </span>
+                      <button 
+                        onClick={() => updateQuantity(item.id, item.selectedSize, 1)}
+                        className="w-8 h-8 flex items-center justify-center text-zinc-400 hover:text-white transition-colors"
+                      >
+                        <Plus size={12} />
+                      </button>
+                    </div>
+                    
+                    <button 
+                      onClick={() => removeFromCart(item.id, item.selectedSize)}
+                      className="text-zinc-500 hover:text-[#8B0000] transition-colors p-2"
+                      aria-label="Remover item"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        {/* Cart Footer */}
+        {cart.length > 0 && (
+          <div className="p-6 border-t border-zinc-900 bg-zinc-950">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs uppercase tracking-widest text-zinc-400">Subtotal</span>
+              <span className="text-lg font-bold text-white">R$ {cartTotal.toFixed(2).replace('.', ',')}</span>
+            </div>
+            <p className="text-[10px] text-zinc-500 mt-2 mb-6 text-center uppercase tracking-wider italic">
+              Frete calculado no checkout
+            </p>
+            <button className="w-full bg-white text-black hover:bg-zinc-200 transition-colors py-4 font-bold tracking-[0.2em] text-xs uppercase">
+              FINALIZAR COMPRA
+            </button>
+          </div>
+        )}
+      </div>
+
       <header className="fixed top-0 left-0 w-full z-50 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50 p-4 flex items-center justify-between transition-all duration-300">
+
         <div className="flex items-center gap-6">
           <button 
             className="cursor-pointer md:hidden text-zinc-400 hover:text-white"
