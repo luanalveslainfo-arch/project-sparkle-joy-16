@@ -599,64 +599,78 @@ function RootComponent() {
 
 
         {/* Mobile Menu Overlay */}
-        {isMenuOpen && (
-          <div className="fixed inset-0 z-[10001] flex">
-            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setIsMenuOpen(false)} />
-            <div className="relative w-[300px] h-full bg-zinc-950 border-r border-zinc-900 flex flex-col p-8 animate-in slide-in-from-left duration-300">
-              <div className="flex items-center justify-between mb-12">
-                <span className="text-4xl font-madness text-white">ARCANE</span>
-                <button onClick={() => setIsMenuOpen(false)} className="text-zinc-500 hover:text-white">
-                  <X size={24} />
-                </button>
-              </div>
-              <nav className="flex flex-col gap-0">
-                <Link 
-                  to="/" 
-                  onClick={() => setIsMenuOpen(false)}
-                  className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
-                >
-                  Home
-                </Link>
-                <Link 
-                  to="/produtos" 
-                  onClick={() => setIsMenuOpen(false)}
-                  className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
-                >
-                  Produtos
-                </Link>
-                <Link 
-                  to="/manifesto" 
-                  onClick={() => setIsMenuOpen(false)}
-                  className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
-                >
-                  Manifesto
-                </Link>
-                <a 
-                  href="https://wa.me/5521965226593" 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
-                >
-                  Contato
-                </a>
+        <AnimatePresence>
+          {isMenuOpen && (
+            <div className="fixed inset-0 z-[10001] flex">
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 bg-black/80 backdrop-blur-sm" 
+                onClick={() => setIsMenuOpen(false)} 
+              />
+              <motion.div 
+                initial={{ x: "-100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "-100%" }}
+                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                className="relative w-[300px] h-full bg-zinc-950 border-r border-zinc-900 flex flex-col p-8"
+              >
+                <div className="flex items-center justify-between mb-12">
+                  <span className="text-4xl font-madness text-white">ARCANE</span>
+                  <button onClick={() => setIsMenuOpen(false)} className="text-zinc-500 hover:text-white">
+                    <X size={24} />
+                  </button>
+                </div>
+                <nav className="flex flex-col gap-0">
+                  <Link 
+                    to="/" 
+                    onClick={() => setIsMenuOpen(false)}
+                    className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
+                  >
+                    Home
+                  </Link>
+                  <Link 
+                    to="/produtos" 
+                    onClick={() => setIsMenuOpen(false)}
+                    className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
+                  >
+                    Produtos
+                  </Link>
+                  <Link 
+                    to="/manifesto" 
+                    onClick={() => setIsMenuOpen(false)}
+                    className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
+                  >
+                    Manifesto
+                  </Link>
+                  <a 
+                    href="https://wa.me/5521965226593" 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
+                  >
+                    Contato
+                  </a>
 
-                <button 
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    setIsCartOpen(true);
-                  }}
-                  className="py-6 text-sm font-bold text-left uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
-                >
-                  Carrinho
-                </button>
-              </nav>
-              <div className="mt-auto">
-                <p className="text-[10px] uppercase tracking-widest text-zinc-600">Arcane • Memento Mori</p>
-              </div>
+                  <button 
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      setIsCartOpen(true);
+                    }}
+                    className="py-6 text-sm font-bold text-left uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
+                  >
+                    Carrinho
+                  </button>
+                </nav>
+                <div className="mt-auto">
+                  <p className="text-[10px] uppercase tracking-widest text-zinc-600">Arcane • Memento Mori</p>
+                </div>
+              </motion.div>
             </div>
-          </div>
-        )}
+          )}
+        </AnimatePresence>
 
         <main className="flex-1">
           <Outlet />
