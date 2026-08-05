@@ -76,7 +76,7 @@ export const useCartStore = create<CartStore>()(
       // Task 1 & 2: Dynamic variables for total and progress
       get cartTotal() {
         const cart = get().cart;
-        return cart.reduce((acc, item) => acc + (item.priceNumber * item.quantity), 0);
+        return cart.reduce((acc, item) => acc + (Number(item.priceNumber || 0) * item.quantity), 0);
       },
       get remainingForFreeShipping() {
         const total = get().cartTotal;
