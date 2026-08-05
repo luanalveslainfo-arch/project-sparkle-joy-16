@@ -494,7 +494,7 @@ function RootComponent() {
   }, []);
 
   const copyCoupon = () => {
-    navigator.clipboard.writeText("ARCANES");
+    navigator.clipboard.writeText("ARCANE5");
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000);
   };
@@ -655,7 +655,7 @@ function RootComponent() {
               </p>
               
               <div className="flex items-center justify-between bg-zinc-900/90 border border-zinc-800 p-2 pl-4 my-4">
-                <span className="font-mono text-xl font-black text-red-500 tracking-[0.25em]">ARCANES</span>
+                <span className="font-mono text-xl font-black text-red-500 tracking-[0.25em]">ARCANE5</span>
                 <button 
                   onClick={copyCoupon}
                   className="bg-zinc-100 text-black font-bold uppercase text-xs tracking-widest px-5 py-2.5 hover:bg-red-700 hover:text-white transition-all duration-200"

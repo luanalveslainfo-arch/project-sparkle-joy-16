@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useMemo, useEffect } from "react";
 import { X, Minus, Plus, ShoppingBag, ChevronDown, ChevronUp, ArrowLeft, Loader2, ShieldCheck, CreditCard, Truck } from "lucide-react";
 import { TrustBadges } from "@/components/TrustBadges";
+import { motion } from "framer-motion";
 
 import { useCartStore, type Product } from "@/lib/cart-store";
 import { Toaster, toast as sonnerToast } from "sonner";
@@ -121,7 +122,10 @@ function ProductDetail() {
                 {product.name}
               </h1>
               <div className="flex items-center gap-4">
-                <span className="text-2xl font-bold tracking-wider">por 12x</span>
+                <div className="flex flex-col gap-1">
+                  <span className="text-2xl font-bold tracking-wider">{product.price}</span>
+                  <span className="text-[10px] text-zinc-500 uppercase tracking-widest">ATÉ 6X S/ JUROS OU PIX</span>
+                </div>
                 <span className="px-2 py-1 bg-red-950/30 text-red-700 text-[10px] font-bold uppercase tracking-widest border border-red-900/30">
                   7% OFF
                 </span>
