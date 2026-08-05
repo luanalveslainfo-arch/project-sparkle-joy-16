@@ -405,16 +405,24 @@ function ProductCard({ product, onAdd }: { product: Product, onAdd: (product: Pr
             {sizes.map(size => (
               <button
                 key={size}
-                onClick={(e) => { e.stopPropagation(); setSelectedSize(size); }}
-                className={`border transition-colors w-10 h-10 flex items-center justify-center font-sans text-sm m-1 ${selectedSize === size ? "bg-white text-black border-white" : "border-zinc-600 bg-transparent text-white hover:bg-white hover:text-black"}`}
+                onClick={(e) => { 
+                  e.preventDefault(); 
+                  e.stopPropagation(); 
+                  setSelectedSize(size); 
+                }}
+                className={`relative z-20 border transition-colors w-10 h-10 flex items-center justify-center font-sans text-sm m-1 cursor-pointer ${selectedSize === size ? "bg-white text-black border-white" : "border-zinc-600 bg-transparent text-white hover:bg-white hover:text-black"}`}
               >
                 {size}
               </button>
             ))}
           </div>
           <button 
-            onClick={(e) => { e.stopPropagation(); onAdd(product, selectedSize || undefined); }}
-            className="w-full bg-zinc-900 text-white border border-zinc-700 font-sans font-bold uppercase py-3 mt-4 hover:bg-white hover:text-black hover:border-white transition-all duration-300 text-xs tracking-wider"
+            onClick={(e) => { 
+              e.preventDefault();
+              e.stopPropagation(); 
+              onAdd(product, selectedSize || undefined); 
+            }}
+            className="relative z-20 w-full bg-zinc-900 text-white border border-zinc-700 font-sans font-bold uppercase py-3 mt-4 hover:bg-white hover:text-black hover:border-white transition-all duration-300 text-xs tracking-wider cursor-pointer"
           >
             ADICIONAR
           </button>
