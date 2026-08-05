@@ -26,7 +26,7 @@ function ProdutosPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white pt-32 px-4 md:px-8 pb-20" style={{ fontFamily: THEME.FONTS.SANS }}>
+    <div className="pb-20 px-4 md:px-8">
       <header className="mb-20 text-center">
         <h1 className="text-4xl md:text-6xl font-black tracking-widest uppercase mb-4" style={{ fontFamily: THEME.FONTS.DISPLAY }}>NOSSAS PEÇAS</h1>
         <p className="text-zinc-500 uppercase tracking-[0.3em] text-xs">O arsenal para sua disciplina</p>

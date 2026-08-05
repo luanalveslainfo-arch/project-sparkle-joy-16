@@ -103,48 +103,7 @@ function Index() {
 
 
   return (
-    <div className={`min-h-screen bg-[#000000] text-foreground selection:bg-primary/30 overflow-x-hidden ${isCartOpen ? 'overflow-hidden' : ''}`} style={{ fontFamily: THEME.FONTS.SANS }}>
-      {/* Top Bar Marquee */}
-      <div className="h-8 bg-red-950 flex items-center overflow-hidden border-b border-red-900/30 sticky top-0 z-[100] w-full">
-        <div className="flex whitespace-nowrap animate-marquee py-1">
-          {[1, 2, 3, 4].map((i) => (
-            <span key={i} className="text-[10px] uppercase tracking-[0.2em] font-bold text-white px-4">
-              FRETE GRÁTIS ACIMA DE R$ 299 • 5% DE DESCONTO NO PIX • QUALIDADE PREMIUM GARANTIDA • MEMENTO MORI •
-            </span>
-          ))}
-        </div>
-      </div>
-
-      <header className="sticky top-8 left-0 w-full z-50 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50 p-4 flex items-center justify-between transition-all duration-300">
-
-
-        <div className="flex items-center gap-6">
-          <button 
-            className="cursor-pointer md:hidden text-zinc-400 hover:text-white"
-            onClick={() => setIsMobileMenuOpen(true)}
-            aria-label="Abrir menu"
-          >
-            <Menu />
-          </button>
-          <nav className="hidden md:flex gap-6 text-[10px] uppercase tracking-[0.2em] text-zinc-400">
-            <Link to="/" className="relative z-50 pointer-events-auto cursor-pointer hover:text-[#8B0000] transition-colors duration-300">Home</Link>
-            <Link to="/produtos" className="relative z-50 pointer-events-auto cursor-pointer hover:text-[#8B0000] transition-colors duration-300">Produtos</Link>
-          </nav>
-        </div>
-        <h1 className="text-3xl md:text-4xl absolute left-1/2 -translate-x-1/2 select-none tracking-widest font-black" style={{ fontFamily: THEME.FONTS.DISPLAY }}>ARCANE</h1>
-        <div className="flex items-center gap-5">
-          <button 
-            aria-label="Carrinho" 
-            className="relative group"
-            onClick={() => setIsCartOpen(true)}
-          >
-            <ShoppingBag className="text-zinc-400 hover:text-white w-4 transition-colors" />
-            <span className="absolute -top-1 -right-1 bg-[#8B0000] text-[8px] px-1 rounded-full text-white">
-              {cart.reduce((acc, item) => acc + item.quantity, 0)}
-            </span>
-          </button>
-        </div>
-      </header>
+    <div className={`selection:bg-primary/30 overflow-x-hidden ${isCartOpen ? 'overflow-hidden' : ''}`}>
 
       {/* Hero */}
       <section className="relative min-h-[80vh] flex items-center justify-center bg-cover bg-center bg-no-repeat overflow-hidden" style={{ backgroundImage: `url(${heroAsset.url})` }}>
@@ -212,45 +171,6 @@ function Index() {
 
       <Footer />
 
-      {/* Welcome Pop-up */}
-      {showModal && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 pointer-events-auto">
-          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={handleCloseModal} />
-          <div className="relative bg-zinc-950 border border-zinc-800 p-8 md:p-12 max-w-lg w-full text-center space-y-8 animate-in fade-in zoom-in duration-300">
-            <button 
-              onClick={handleCloseModal}
-              className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors"
-            >
-              <X size={20} />
-            </button>
-            <div className="space-y-4">
-              <h2 className="text-3xl md:text-4xl font-black tracking-widest uppercase" style={{ fontFamily: THEME.FONTS.DISPLAY }}>
-                BEM-VINDO AO DROP ARCANO
-              </h2>
-              <p className="text-zinc-400 text-sm uppercase tracking-widest leading-relaxed">
-                Garanta 5% de desconto na sua primeira compra usando o cupom abaixo:
-              </p>
-            </div>
-            
-            <div className="flex items-center justify-between bg-zinc-900 border border-zinc-800 p-4 rounded-sm group">
-              <span className="font-mono text-xl font-bold tracking-widest text-white">ARCANE5</span>
-              <button 
-                onClick={copyCoupon}
-                className="bg-white text-black px-4 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-zinc-200 transition-colors"
-              >
-                {isCopied ? "COPIADO" : "COPIAR"}
-              </button>
-            </div>
-
-            <button 
-              onClick={handleCloseModal}
-              className="w-full border border-zinc-700 text-zinc-400 py-4 text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-black hover:border-white transition-all duration-300"
-            >
-              FECHAR E EXPLORAR
-            </button>
-          </div>
-        </div>
-      )}
 
       <a 
         href="https://wa.me/5511999999999" 
