@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import heroAsset from "@/assets/hero-bg.png.asset.json";
-import { Search, ShoppingBag, User, Menu, Mail, Instagram, Twitter, X, Phone, MessageSquare, Truck, Shield, Star, ArrowRight } from "lucide-react";
+import { Search, ShoppingBag, User, Menu, Mail, Instagram, Twitter, X, Phone, MessageSquare, Truck, Shield, Star, ArrowRight, Minus, Plus, Trash2 } from "lucide-react";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { toast } from "sonner";
 
