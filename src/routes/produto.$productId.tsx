@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState, useMemo } from "react";
-import { X, Minus, Plus, ShoppingBag, ChevronDown, ChevronUp, ArrowLeft } from "lucide-react";
+import { useState, useMemo, useEffect } from "react";
+import { X, Minus, Plus, ShoppingBag, ChevronDown, ChevronUp, ArrowLeft, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useCartStore, type Product } from "@/lib/cart-store";
 import { mockProducts } from "@/lib/products-data";
@@ -30,6 +30,28 @@ function Accordion({ title, children }: { title: string; children: React.ReactNo
   );
 }
 
+function ProductImage({ src, alt }: { src: string; alt: string }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  return (
+    <div className="aspect-[3/4] bg-zinc-900 border border-zinc-800 flex items-center justify-center relative overflow-hidden group">
+      {!isLoaded && (
+        <div className="absolute inset-0 flex items-center justify-center bg-zinc-900 animate-pulse">
+          <Loader2 className="w-6 h-6 text-zinc-700 animate-spin" />
+        </div>
+      )}
+      <img 
+        src={src} 
+        alt={alt} 
+        loading="lazy"
+        onLoad={() => setIsLoaded(true)}
+        className={`w-full h-full object-cover transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+      />
+      <div className="absolute inset-0 bg-black/20" />
+    </div>
+  );
+}
+
 function ProductDetail() {
   const { productId } = Route.useParams();
   const { addToCart, setIsCartOpen } = useCartStore();
@@ -42,6 +64,7 @@ function ProductDetail() {
     const found = mockProducts.find(p => p.id === Number(productId));
     return (found || mockProducts[0]) as Product;
   }, [productId]);
+
 
   const THEME = {
     FONTS: {
@@ -76,20 +99,14 @@ function ProductDetail() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Left Column: Photos */}
           <div className="flex flex-col gap-4">
-            <div className="aspect-[3/4] bg-zinc-900 border border-zinc-800 flex items-center justify-center relative overflow-hidden group">
-              <img 
-                src={product.image} 
-                alt={product.name} 
-                className="w-full h-full object-cover transition-all duration-700"
-              />
-              <div className="absolute inset-0 bg-black/20" />
+            <ProductImage src={product.image} alt={product.name} />
+            <div className="aspect-[3/4] bg-zinc-900 border border-zinc-800 flex items-center justify-center relative overflow-hidden">
+               <span className="text-[10px] uppercase tracking-widest text-zinc-700 font-bold">ARCANE VISUALS II</span>
             </div>
             <div className="aspect-[3/4] bg-zinc-900 border border-zinc-800 flex items-center justify-center relative overflow-hidden">
-               <span className="text-[10px] uppercase tracking-widest text-zinc-600">Imagem do Produto</span>
+               <span className="text-[10px] uppercase tracking-widest text-zinc-700 font-bold">ARCANE VISUALS III</span>
             </div>
-            <div className="aspect-[3/4] bg-zinc-900 border border-zinc-800 flex items-center justify-center relative overflow-hidden">
-               <span className="text-[10px] uppercase tracking-widest text-zinc-600">Imagem do Produto</span>
-            </div>
+
           </div>
 
           {/* Right Column: Info & Checkout */}

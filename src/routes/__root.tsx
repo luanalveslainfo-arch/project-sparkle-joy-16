@@ -13,6 +13,7 @@ import { useEffect, type ReactNode, useState, useCallback, useRef } from "react"
 import { X, ShoppingBag, Minus, Plus, Trash2, Menu } from "lucide-react";
 import { useCartStore } from "@/lib/cart-store";
 import { Toaster, toast as sonnerToast } from "sonner";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 
 import appCss from "../styles.css?url";
@@ -422,6 +423,8 @@ function RootComponent() {
   const [showTopBar, setShowTopBar] = useState(true);
   const lastScrollY = useRef(0);
   const { cart, setIsCartOpen } = useCartStore();
+  const prefersReducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
+
 
   // Task 1: Intelligent Header/Top Bar behavior
   useEffect(() => {
