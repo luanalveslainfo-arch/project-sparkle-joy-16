@@ -24,15 +24,13 @@ interface Product {
   installments: string;
   image: string;
   backImage?: string;
+  category: string;
 }
 
 interface CartItem extends Product {
   quantity: number;
   selectedSize: string | undefined;
 }
-
-
-
 
 const STORAGE_KEYS = {
   MODAL_SHOWN: 'arcane_modal_shown_v2',
@@ -58,7 +56,6 @@ function Index() {
       sweatshirts: mockProducts.filter(p => p.category === 'sweatshirts'),
     };
   }, []);
-
 
   return (
     <div className={`selection:bg-primary/30 overflow-x-hidden ${isCartOpen ? 'overflow-hidden' : ''}`}>
@@ -176,68 +173,69 @@ function Index() {
               <div className="space-y-24">
                 <div className="max-w-4xl mx-auto">
                   {items.filter(p => p.isCombo).map((p) => (
-                  <motion.div 
-                    key={p.id}
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.8 }}
-                    viewport={{ once: true }}
-                    className="relative group bg-zinc-900/30 border border-zinc-800 p-4 md:p-8 rounded-sm overflow-hidden"
-                  >
-                    <div className="absolute top-6 left-6 z-30">
-                      <span className="bg-red-600 text-white text-[10px] px-4 py-1.5 font-bold font-mono tracking-widest shadow-[0_0_15px_rgba(220,38,38,0.5)]">
-                        LEVE 2ª PEÇA GRÁTIS
-                      </span>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                      <div className="relative aspect-[4/5] overflow-hidden bg-black">
-                        <img 
-                          src={p.image} 
-                          alt={p.name} 
-                          className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                    <motion.div 
+                      key={p.id}
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.8 }}
+                      viewport={{ once: true }}
+                      className="relative group bg-zinc-900/30 border border-zinc-800 p-4 md:p-8 rounded-sm overflow-hidden"
+                    >
+                      <div className="absolute top-6 left-6 z-30">
+                        <span className="bg-red-600 text-white text-[10px] px-4 py-1.5 font-bold font-mono tracking-widest shadow-[0_0_15px_rgba(220,38,38,0.5)]">
+                          LEVE 2ª PEÇA GRÁTIS
+                        </span>
                       </div>
-                      
-                      <div className="space-y-6 text-center md:text-left">
-                        <h4 className="text-xl md:text-3xl font-black uppercase tracking-tighter text-white leading-tight">
-                          {p.name}
-                        </h4>
-                        <div className="space-y-1">
-                          <span className="block text-zinc-500 line-through text-lg tracking-widest uppercase">
-                            {p.originalPrice}
-                          </span>
-                          <span className="block text-3xl md:text-5xl font-black text-red-600 tracking-tighter">
-                            {p.price}
-                          </span>
-                          <span className="block text-[10px] text-zinc-500 uppercase tracking-[0.2em]">
-                            OU 12X S/ JUROS NO PIX/CARTÃO
-                          </span>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div className="relative aspect-[4/5] overflow-hidden bg-black">
+                          <img 
+                            src={p.image} 
+                            alt={p.name} 
+                            className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                         </div>
                         
-                        <Link 
-                          to="/produto/$productId" 
-                          params={{ productId: p.id.toString() }}
-                          className="block w-full bg-zinc-100 text-black font-black uppercase tracking-widest text-xs py-5 text-center transition-all duration-300 hover:bg-red-700 hover:text-white"
-                        >
-                          GARANTIR MEU COMBO
-                        </Link>
-
-                        <div className="pt-4 flex items-center gap-4 text-[9px] text-zinc-500 uppercase tracking-widest font-bold">
-                          <div className="flex items-center gap-1.5">
-                            <div className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
-                            OFERTA LIMITADA
+                        <div className="space-y-6 text-center md:text-left">
+                          <h4 className="text-xl md:text-3xl font-black uppercase tracking-tighter text-white leading-tight">
+                            {p.name}
+                          </h4>
+                          <div className="space-y-1">
+                            <span className="block text-zinc-500 line-through text-lg tracking-widest uppercase">
+                              {p.originalPrice}
+                            </span>
+                            <span className="block text-3xl md:text-5xl font-black text-red-600 tracking-tighter">
+                              {p.price}
+                            </span>
+                            <span className="block text-[10px] text-zinc-500 uppercase tracking-[0.2em]">
+                              OU 12X S/ JUROS NO PIX/CARTÃO
+                            </span>
                           </div>
-                          <div className="flex items-center gap-1.5">
-                            <Truck size={12} />
-                            FRETE GRÁTIS
+                          
+                          <Link 
+                            to="/produto/$productId" 
+                            params={{ productId: p.id.toString() }}
+                            className="block w-full bg-zinc-100 text-black font-black uppercase tracking-widest text-xs py-5 text-center transition-all duration-300 hover:bg-red-700 hover:text-white"
+                          >
+                            GARANTIR MEU COMBO
+                          </Link>
+
+                          <div className="pt-4 flex items-center gap-4 text-[9px] text-zinc-500 uppercase tracking-widest font-bold">
+                            <div className="flex items-center gap-1.5">
+                              <div className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
+                              OFERTA LIMITADA
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                              <Truck size={12} />
+                              FRETE GRÁTIS
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </motion.div>
-                ))}
+                    </motion.div>
+                  ))}
+                </div>
                 
                 {/* Related Combos Showcase */}
                 <div className="pt-24 md:pt-32 border-t border-zinc-900/50">
@@ -248,7 +246,7 @@ function Index() {
                     <div className="w-12 h-px bg-red-900/50 mt-4" />
                   </div>
                   
-                  <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                  <div className="grid grid-cols-2 gap-6 max-w-4xl mx-auto">
                     {[
                       {
                         id: 101,
@@ -324,7 +322,6 @@ function Index() {
 
       <Footer />
 
-
       <a 
         href="https://wa.me/5521965226593" 
         target="_blank" 
@@ -334,7 +331,6 @@ function Index() {
       >
         <Phone size={24} fill="currentColor" />
       </a>
-
     </div>
   );
 }
@@ -394,7 +390,6 @@ function Footer() {
     <footer className="bg-black border-t border-zinc-800 pt-16 pb-12 mt-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16 mb-20">
-          {/* Column 1 */}
           <div className="space-y-6">
             <h2 className="text-5xl select-none font-madness text-white">ARCANE</h2>
             <p className="text-zinc-500 text-xs uppercase tracking-widest leading-relaxed max-w-xs">
@@ -402,7 +397,6 @@ function Footer() {
             </p>
           </div>
 
-          {/* Column 2 */}
           <div className="space-y-6">
             <h4 className="text-white text-xs font-bold uppercase tracking-[0.2em]">Links Úteis</h4>
             <ul className="space-y-4 text-[10px] uppercase tracking-widest text-zinc-400">
@@ -422,7 +416,6 @@ function Footer() {
             </ul>
           </div>
 
-          {/* Column 3 */}
           <div className="space-y-6">
             <h4 className="text-white text-xs font-bold uppercase tracking-[0.2em]">JUNTE-SE À SEITA</h4>
             <form className="flex flex-col space-y-4" onSubmit={handleNewsletter}>
