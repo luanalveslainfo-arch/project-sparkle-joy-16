@@ -352,6 +352,8 @@ function ProductCard({ product, onAdd }: { product: Product, onAdd: (name: strin
         </div>
       </div>
     </div>
+  );
+}
 
 function RevealOnScroll({ children }: { children: React.ReactNode }) {
   const [isVisible, setIsVisible] = useState(false);
@@ -378,4 +380,5 @@ function RevealOnScroll({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
+
 
