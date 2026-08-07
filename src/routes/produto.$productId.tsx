@@ -389,13 +389,17 @@ function ProductDetail() {
                     setItem2Option("other");
                     setIsModalOpen(false);
                   }}
-                  className="group space-y-3 text-left"
+                  className={`group space-y-3 text-left p-2 transition-all duration-300 ${item2Product?.id === p.id ? 'bg-zinc-900 ring-1 ring-white/20' : ''}`}
                 >
-                  <div className="aspect-[3/4] overflow-hidden border border-zinc-900 group-hover:border-white transition-all duration-500">
-                    <img src={p.image} alt={p.name} className="w-full h-full object-cover transition-all duration-500" />
+                  <div className={`aspect-[3/4] overflow-hidden border transition-all duration-500 ${item2Product?.id === p.id ? 'border-white' : 'border-zinc-900 group-hover:border-white'}`}>
+                    <img 
+                      src={p.image} 
+                      alt={p.name} 
+                      className={`w-full h-full object-cover transition-all duration-500 ${item2Product?.id === p.id ? 'scale-105' : 'group-hover:scale-105'}`} 
+                    />
                   </div>
                   <div className="space-y-1">
-                    <p className="text-[9px] uppercase font-bold tracking-[0.2em] text-white transition-colors">{p.name}</p>
+                    <p className={`text-[9px] uppercase font-bold tracking-[0.2em] transition-colors ${item2Product?.id === p.id ? 'text-white' : 'text-zinc-400 group-hover:text-white'}`}>{p.name}</p>
                     <p className="text-[8px] uppercase tracking-widest text-zinc-500">{p.colorLabel}</p>
                   </div>
                 </button>

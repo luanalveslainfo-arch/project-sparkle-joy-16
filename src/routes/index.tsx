@@ -85,7 +85,7 @@ function Index() {
             OS TRÊS ESCOLHIDOS
           </motion.h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-24 md:gap-8 lg:gap-16">
             {mockProducts.map((product) => (
               <motion.div
                 key={product.id}
@@ -102,13 +102,14 @@ function Index() {
                   <img 
                     src={product.image} 
                     alt={product.name} 
-                    className="absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-105 group-hover:opacity-0"
+                    className="absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-105 md:group-hover:opacity-0"
                   />
+                  {/* Back Image */}
                   {product.backImage && (
                     <img 
                       src={product.backImage} 
                       alt={`${product.name} back`} 
-                      className="absolute inset-0 w-full h-full object-cover transition-all duration-700 opacity-0 scale-110 group-hover:opacity-100 group-hover:scale-105"
+                      className="absolute inset-0 w-full h-full object-cover transition-all duration-700 opacity-0 scale-110 md:group-hover:opacity-100 md:group-hover:scale-105"
                     />
                   )}
                   <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
