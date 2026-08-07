@@ -643,27 +643,30 @@ function RootComponent() {
                   <X size={24} />
                 </button>
               </div>
-              <nav className="flex flex-col gap-0">
+              <nav className="flex flex-col">
                 <Link 
                   to="/" 
                   onClick={() => setIsMenuOpen(false)}
-                  className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
+                  className="py-6 text-sm font-bold uppercase tracking-[0.4em] text-white hover:text-red-800 border-b border-zinc-900 transition-colors"
                 >
-                  Home
+                  HOME
                 </Link>
-                <span className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-800 cursor-default border-b border-zinc-900" title="Forging the next drop.">
-                  Oversized
-                </span>
-                <span className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-800 cursor-default border-b border-zinc-900" title="Forging the next drop.">
-                  Hoodies
-                </span>
-                <span className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-800 cursor-default border-b border-zinc-900" title="Forging the next drop.">
-                  Pants
-                </span>
+                <Link 
+                  to="/" 
+                  onClick={(e) => {
+                    setIsMenuOpen(false);
+                    // Scroll to products section if on home
+                    const productsSection = document.getElementById('products-section');
+                    if (productsSection) productsSection.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="py-6 text-sm font-bold uppercase tracking-[0.4em] text-white hover:text-red-800 border-b border-zinc-900 transition-colors"
+                >
+                  DROP 001
+                </Link>
                 <Link 
                   to="/manifesto" 
                   onClick={() => setIsMenuOpen(false)}
-                  className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
+                  className="py-6 text-sm font-bold uppercase tracking-[0.4em] text-white hover:text-red-800 border-b border-zinc-900 transition-colors"
                 >
                   Manifesto
                 </Link>
@@ -672,21 +675,21 @@ function RootComponent() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setIsMenuOpen(false)}
-                  className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
+                  className="py-6 text-sm font-bold uppercase tracking-[0.4em] text-white hover:text-red-800 border-b border-zinc-900 transition-colors"
                 >
                   Contato
                 </a>
-
                 <button 
                   onClick={() => {
                     setIsMenuOpen(false);
                     setIsCartOpen(true);
                   }}
-                  className="py-6 text-sm font-bold text-left uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
+                  className="py-6 text-sm font-bold text-left uppercase tracking-[0.4em] text-white hover:text-red-800 border-b border-zinc-900 transition-colors"
                 >
                   Carrinho
                 </button>
               </nav>
+
               <div className="mt-auto">
                 <p className="text-[10px] uppercase tracking-widest text-zinc-600">Arcane • Memento Mori</p>
               </div>
