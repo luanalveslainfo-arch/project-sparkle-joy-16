@@ -322,21 +322,6 @@ function ProductDetail() {
               </button>
             </div>
 
-            <div className="space-y-2 pt-6">
-              {[
-                "Tecido Dry Fit Premium",
-                "Compressão Atlética",
-                "Estampa Sublimada",
-                "Alta Elasticidade",
-                "Respirável",
-                "Secagem Rápida"
-              ].map(spec => (
-                <div key={spec} className="flex items-center gap-2 text-zinc-500 text-[9px] uppercase tracking-widest font-bold">
-                  <div className="w-1 h-1 bg-red-900 rounded-full" />
-                  {spec}
-                </div>
-              ))}
-            </div>
 
             <div className="pt-4 border-t border-zinc-900">
               <TrustBadges />
