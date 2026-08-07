@@ -10,6 +10,8 @@ export interface Product {
   image: string;
   backImage?: string;
   category?: string;
+  subtitle?: string;
+  colorLabel?: string;
   isCombo?: boolean;
   originalPrice?: string;
   comboItems?: { name: string; price: number }[];
