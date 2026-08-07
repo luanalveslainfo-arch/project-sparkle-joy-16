@@ -12,6 +12,13 @@ export const Route = createFileRoute("/")({
 function Index() {
   const { addToCart } = useCartStore();
 
+  const scrollToManifesto = () => {
+    const manifesto = document.getElementById('manifesto');
+    if (manifesto) {
+      manifesto.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <div className="bg-black text-white selection:bg-red-900/30 overflow-x-hidden">
       {/* 1. HERO */}
@@ -20,33 +27,33 @@ function Index() {
         <img 
           src="/hero.png" 
           alt="Memento Mori" 
-          className="absolute inset-0 w-full h-full object-cover object-top z-0 opacity-40 grayscale" 
+          className="absolute inset-0 w-full h-full object-cover object-top z-0 opacity-60 brightness-125 contrast-110 saturate-110 grayscale-0" 
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/80 to-black z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-black z-10" />
 
         <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 2 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
           className="relative z-20 flex flex-col items-center text-center px-4"
         >
-          <h1 className="text-[12vw] md:text-[8rem] font-madness tracking-tighter leading-none mb-4 text-white">
+          <h1 className="text-[14vw] md:text-[9rem] font-madness tracking-tighter leading-none mb-4 text-white drop-shadow-[0_0_30px_rgba(0,0,0,0.8)]">
             ARCANE
           </h1>
-          <p className="text-zinc-500 tracking-[0.8em] uppercase text-[10px] md:text-xs mb-12 font-light">
+          <p className="text-zinc-300 tracking-[0.9em] uppercase text-[12px] md:text-sm mb-14 font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
             MEMENTO MORI
           </p>
-          <Link 
-            to="/manifesto" 
-            className="border border-white/20 bg-white/5 backdrop-blur-sm text-white px-12 py-5 text-[10px] font-bold uppercase tracking-[0.4em] transition-all hover:bg-white hover:text-black hover:border-white"
+          <button 
+            onClick={scrollToManifesto}
+            className="border border-white/20 bg-white/5 backdrop-blur-md text-white px-14 py-6 text-[11px] font-bold uppercase tracking-[0.4em] transition-all hover:bg-white hover:text-black hover:border-white hover:scale-105 active:scale-95 duration-500 cursor-pointer"
           >
-            ENTRAR NO DROP
-          </Link>
+            LER O MANIFESTO
+          </button>
         </motion.div>
       </section>
 
       {/* 2. MANIFESTO */}
-      <section className="relative min-h-[60vh] flex flex-col items-center justify-center px-6 py-32 text-center bg-black">
+      <section id="manifesto" className="relative min-h-[60vh] flex flex-col items-center justify-center px-6 py-32 text-center bg-black">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
