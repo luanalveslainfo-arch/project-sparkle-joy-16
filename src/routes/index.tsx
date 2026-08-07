@@ -88,19 +88,26 @@ function Index() {
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-            viewport={{ once: true }}
-            className="flex flex-col items-center text-center mb-32"
+            transition={{ 
+              duration: 1.2, 
+              ease: [0.16, 1, 0.3, 1] 
+            }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="flex flex-col items-center text-center mb-24 md:mb-32"
           >
-            <span className="text-[10px] tracking-[0.8em] text-red-900 font-bold uppercase mb-4">DROP 001</span>
-            <h2 className="text-4xl md:text-6xl font-madness tracking-widest text-white mb-8">THE FORGED THREE</h2>
-            <div className="w-12 h-[1px] bg-zinc-800 mb-8" />
-            <p className="max-w-md text-zinc-500 text-sm md:text-base tracking-wide font-light italic leading-relaxed">
+            <span className="text-[9px] md:text-[11px] tracking-[0.6em] md:tracking-[0.8em] text-red-700 font-bold uppercase mb-6 md:mb-8 bg-red-950/20 px-4 py-1.5 rounded-full border border-red-900/20">
+              DROP 001
+            </span>
+            <h2 className="text-4xl sm:text-5xl md:text-7xl font-madness tracking-[0.1em] md:tracking-widest text-white mb-8 md:mb-12 leading-tight">
+              THE FORGED THREE
+            </h2>
+            <div className="w-16 md:w-24 h-[1px] bg-gradient-to-r from-transparent via-zinc-800 to-transparent mb-8 md:mb-12" />
+            <p className="max-w-xs md:max-w-lg text-zinc-400 text-xs md:text-lg tracking-wide font-light italic leading-relaxed px-4">
               "Apenas três peças. Nenhuma foi criada para agradar a todos."
             </p>
           </motion.div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-24 md:gap-8 lg:gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-20 md:gap-8 lg:gap-16 max-w-6xl mx-auto">
             {mockProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
