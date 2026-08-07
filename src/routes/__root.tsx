@@ -605,7 +605,10 @@ function RootComponent() {
         <header className={`fixed left-0 w-full z-[30] bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50 flex items-center justify-between ${transitionClass} ${showTopBar ? 'translate-y-8' : 'translate-y-0'} top-0 h-16 md:h-20 px-4 md:px-12`}>
           <div className="flex items-center gap-6">
             <nav className="hidden md:flex gap-8 text-[10px] uppercase tracking-[0.3em] font-bold">
-              <Link to="/" className="text-white hover:text-red-700 transition-colors duration-300">Home</Link>
+              <Link to="/" className="group relative text-white hover:text-red-700 transition-colors duration-300 py-1">
+                Home
+                <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-red-700 transition-all duration-300 ease-out group-hover:w-full" />
+              </Link>
               <Link 
                 to="/" 
                 onClick={(e) => {
@@ -615,25 +618,34 @@ function RootComponent() {
                     productsSection.scrollIntoView({ behavior: 'smooth' });
                   }
                 }}
-                className="text-red-700 hover:text-red-500 transition-colors duration-300 drop-shadow-[0_0_8px_rgba(185,28,28,0.4)]"
+                className={`group relative text-red-700 hover:text-red-500 transition-colors duration-300 py-1 ${prefersReducedMotion ? '' : 'pulse-glow'}`}
               >
                 Drop 001
+                <span className="absolute bottom-0 left-0 h-[1px] w-full bg-red-700/50" />
               </Link>
-              <Link to="/manifesto" className="text-white hover:text-red-700 transition-colors duration-300">Manifesto</Link>
-              <a href="https://wa.me/5521965226593" target="_blank" rel="noopener noreferrer" className="text-white hover:text-red-700 transition-colors duration-300">Contato</a>
+              <Link to="/manifesto" className="group relative text-white hover:text-red-700 transition-colors duration-300 py-1">
+                Manifesto
+                <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-red-700 transition-all duration-300 ease-out group-hover:w-full" />
+              </Link>
+              <a href="https://wa.me/5521965226593" target="_blank" rel="noopener noreferrer" className="group relative text-white hover:text-red-700 transition-colors duration-300 py-1">
+                Contato
+                <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-red-700 transition-all duration-300 ease-out group-hover:w-full" />
+              </a>
               <button 
                 onClick={() => setIsCartOpen(true)}
-                className="text-white hover:text-red-700 transition-colors duration-300 uppercase"
+                className="group relative text-white hover:text-red-700 transition-colors duration-300 uppercase py-1"
               >
                 Carrinho
+                <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-red-700 transition-all duration-300 ease-out group-hover:w-full" />
               </button>
             </nav>
 
             <button 
-              className="md:hidden text-zinc-400 hover:text-white"
+              className="md:hidden text-zinc-400 hover:text-white transition-colors duration-300"
               onClick={() => setIsMenuOpen(true)}
-
-              aria-label="Menu"
+              aria-label="Abrir menu"
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-menu"
             >
               <Menu size={20} />
             </button>
