@@ -42,7 +42,9 @@ export function ProductCard({ product }: ProductCardProps) {
   }, [product.backImage, hasAutoplayed]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
+    if (e.touches[0]) {
+      touchStartX.current = e.touches[0].clientX;
+    }
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
