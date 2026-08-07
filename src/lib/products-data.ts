@@ -1,10 +1,3 @@
-import crimsonFront from "@/assets/crimson_front.png.asset.json";
-import crimsonBack from "@/assets/crimson_back.png.asset.json";
-import obsidianFront from "@/assets/obsidian_front.png.asset.json";
-import obsidianBack from "@/assets/obsidian_back.png.asset.json";
-import ivoryFront from "@/assets/ivory_front.png.asset.json";
-import ivoryBack from "@/assets/ivory_back.png.asset.json";
-
 export interface Product {
   id: number;
   name: string;
@@ -29,8 +22,8 @@ export const mockProducts: Product[] = [
     price: "R$ 179,90", 
     priceNumber: 179.90, 
     installments: "12x de R$ 14,99", 
-    image: crimsonFront.url,
-    backImage: crimsonBack.url,
+    image: "/images/products/crimson_front.png",
+    backImage: "/images/products/crimson_back.png",
     category: "Compression Shirt",
     colorLabel: "Preto + Vermelho"
   },
@@ -41,8 +34,8 @@ export const mockProducts: Product[] = [
     price: "R$ 179,90", 
     priceNumber: 179.90, 
     installments: "12x de R$ 14,99", 
-    image: obsidianFront.url,
-    backImage: obsidianBack.url,
+    image: "/images/products/obsidian_front.png",
+    backImage: "/images/products/obsidian_back.png",
     category: "Compression Shirt",
     colorLabel: "Preto + Vermelho Escuro"
   },
@@ -53,8 +46,8 @@ export const mockProducts: Product[] = [
     price: "R$ 179,90", 
     priceNumber: 179.90, 
     installments: "12x de R$ 14,99", 
-    image: ivoryFront.url,
-    backImage: ivoryBack.url,
+    image: "/images/products/ivory_front.png",
+    backImage: "/images/products/ivory_back.png",
     category: "Compression Shirt",
     colorLabel: "Preto + Branco"
   }
@@ -67,7 +60,7 @@ export const mockBundle: Product = {
   priceNumber: 499.90,
   originalPrice: "R$ 539,70",
   installments: "12x de R$ 41,66",
-  image: crimsonFront.url,
+  image: "/images/products/crimson_front.png",
   category: "bundle",
   isCombo: true,
   comboItems: [
