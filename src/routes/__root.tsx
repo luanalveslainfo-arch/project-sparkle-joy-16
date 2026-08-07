@@ -99,7 +99,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&family=UnifrakturMaguntia&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&family=UnifrakturMaguntia&family=Metal+Mania&display=swap",
       },
       { rel: "icon", type: "image/svg+xml", href: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%2309090b'/><text x='50' y='65' font-family='Georgia, serif' font-size='65' font-weight='bold' fill='%23ffffff' text-anchor='middle'>A</text></svg>" },
     ],
@@ -302,8 +302,8 @@ function GlobalCartDrawer() {
             cart.map((item, idx) => (
               <div key={`${item.id}-${item.selectedSize}-${idx}`} className="flex gap-4 group">
                 {/* Product Image Placeholder */}
-                <div className="w-20 h-24 bg-zinc-900 border border-zinc-800 rounded-sm flex items-center justify-center text-[8px] uppercase text-zinc-600 text-center px-1 leading-tight">
-                  <img src={item.image} alt={item.name} className="w-full h-full object-cover grayscale brightness-50" />
+                <div className="w-20 h-24 bg-zinc-950 border border-zinc-900 overflow-hidden rounded-sm flex items-center justify-center">
+                  <img src={item.image} alt={item.name} className="w-full h-full object-cover grayscale brightness-75" />
                 </div>
                 
                 {/* Product Info */}
