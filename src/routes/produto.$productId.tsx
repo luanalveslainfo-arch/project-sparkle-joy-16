@@ -389,12 +389,15 @@ function ProductDetail() {
                     setItem2Option("other");
                     setIsModalOpen(false);
                   }}
-                  className="group space-y-2 text-left"
+                  className="group space-y-3 text-left"
                 >
-                  <div className="aspect-[3/4] overflow-hidden border border-zinc-900 group-hover:border-red-600 transition-colors">
-                    <img src={p.image} alt={p.name} className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all" />
+                  <div className="aspect-[3/4] overflow-hidden border border-zinc-900 group-hover:border-white transition-all duration-500">
+                    <img src={p.image} alt={p.name} className="w-full h-full object-cover transition-all duration-500" />
                   </div>
-                  <p className="text-[9px] uppercase font-bold tracking-widest text-zinc-400 group-hover:text-white transition-colors">{p.name}</p>
+                  <div className="space-y-1">
+                    <p className="text-[9px] uppercase font-bold tracking-[0.2em] text-white transition-colors">{p.name}</p>
+                    <p className="text-[8px] uppercase tracking-widest text-zinc-500">{p.colorLabel}</p>
+                  </div>
                 </button>
               ))}
             </div>
