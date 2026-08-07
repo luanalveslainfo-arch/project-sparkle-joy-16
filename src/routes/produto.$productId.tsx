@@ -155,8 +155,10 @@ function ProductDetail() {
                 <div className="min-w-full md:min-w-0 snap-center">
                   <ProductImage src={product.backImage || product.image} alt={`${product.name} back`} />
                 </div>
-                <div className="min-w-full md:min-w-0 snap-center aspect-[3/4] bg-zinc-900 border border-zinc-800 flex items-center justify-center relative overflow-hidden">
-                   <span className="text-[10px] uppercase tracking-[0.5em] text-zinc-700 font-bold">MEMENTO MORI</span>
+                <div className="min-w-full md:min-w-0 snap-center aspect-[3/4] bg-zinc-900 border border-zinc-800 flex items-center justify-center relative overflow-hidden group">
+                   <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-500" />
+                   <span className="text-[10px] uppercase tracking-[0.5em] text-zinc-700 font-bold z-10">MEMENTO MORI</span>
+                   <img src={product.image} className="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:opacity-40 transition-opacity duration-700 blur-sm scale-110" alt="texture" />
                 </div>
               </div>
               
@@ -233,8 +235,8 @@ function ProductDetail() {
                         {purchaseType === 'combo' && <div className="w-1.5 h-1.5 rounded-full bg-red-900" />}
                       </div>
                       <div className="flex flex-col items-start">
-                        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white">DUAL DESTINY (2 PACK)</span>
-                        <span className="text-[8px] font-black text-red-900 tracking-[0.4em] mt-1">SAVE R$ 80</span>
+                        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white">ARCANE RITUAL (2 PACK)</span>
+                        <span className="text-[8px] font-black text-red-900 tracking-[0.4em] mt-1">SAVE R$ 80 - THE FORGED SET</span>
                       </div>
                     </div>
                     <span className="text-xs font-bold text-white">R$ 299,90</span>
@@ -250,14 +252,14 @@ function ProductDetail() {
                     </span>
                     <span className="text-[9px] uppercase tracking-widest font-bold text-red-600 animate-pulse">Poucas unidades disponíveis</span>
                   </div>
-                  <div className="flex gap-3">
+                  <div className="flex gap-4">
                     {sizes.map((size) => (
                       <button
                         key={size}
                         onClick={() => setSelectedSize(size)}
-                        className={`w-14 h-14 flex items-center justify-center border text-[10px] font-bold transition-all duration-500 ${
+                        className={`w-16 h-16 flex items-center justify-center border-2 text-xs font-black transition-all duration-500 ${
                           selectedSize === size
-                            ? "bg-white text-black border-white"
+                            ? "bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.2)]"
                             : "bg-transparent text-white border-zinc-900 hover:border-zinc-700"
                         }`}
                       >
@@ -293,14 +295,14 @@ function ProductDetail() {
 
                     <div className="space-y-4">
                       <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-zinc-600">ITEM II: SIZE</span>
-                      <div className="flex gap-3">
+                      <div className="flex gap-4">
                         {sizes.map((size) => (
                           <button
                             key={size + "-2"}
                             onClick={() => setSelectedSize2(size)}
-                            className={`w-14 h-14 flex items-center justify-center border text-[10px] font-bold transition-all duration-500 ${
+                            className={`w-16 h-16 flex items-center justify-center border-2 text-xs font-black transition-all duration-500 ${
                               selectedSize2 === size
-                                ? "bg-white text-black border-white"
+                                ? "bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.2)]"
                                 : "bg-transparent text-white border-zinc-900 hover:border-zinc-700"
                             }`}
                           >
