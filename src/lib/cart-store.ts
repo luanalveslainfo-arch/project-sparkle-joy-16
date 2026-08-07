@@ -148,7 +148,7 @@ export const useCartStore = create<CartStore>()(
           freeShippingProgress: totals.progress
         });
         
-        toast.success("Produto adicionado ao carrinho com sucesso", {
+        toast.success("Artefato adicionado ao arsenal", {
           style: {
             backgroundColor: '#000',
             color: '#fff',
