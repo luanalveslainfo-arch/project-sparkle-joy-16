@@ -1,4 +1,7 @@
 @import "tailwindcss" source(none);
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap');
+@import "tw-animate-css";
+
 @source "../src";
 @font-face {
   font-family: 'MadnessFont';
@@ -7,8 +10,6 @@
   font-style: normal;
   font-display: swap;
 }
-@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap');
-@import "tw-animate-css";
 
 @utility scrollbar-hide {
   -ms-overflow-style: none;
