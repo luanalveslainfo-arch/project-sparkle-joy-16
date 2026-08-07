@@ -1,5 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap');
+@import "tw-animate-css";
 @import "tailwindcss" source(none);
+
 @source "../src";
+
 @font-face {
   font-family: 'MadnessFont';
   src: url('/fonts/Art_Dystopia.otf') format('opentype');
@@ -7,8 +11,6 @@
   font-style: normal;
   font-display: swap;
 }
-@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap');
-@import "tw-animate-css";
 
 @utility scrollbar-hide {
   -ms-overflow-style: none;
@@ -42,20 +44,6 @@
 
 
 @custom-variant dark (&:is(.dark *));
-
-/*
- * Design system definition.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
- */
 
 @theme inline {
   --font-gothic: "UnifrakturMaguntia", cursive;
@@ -106,13 +94,13 @@
 
 :root {
   --radius: 0.75rem;
-  --background: oklch(0 0 0); /* Black pure */
+  --background: oklch(0 0 0);
   --foreground: oklch(0.98 0 0);
   --card: oklch(0.1 0 0);
   --card-foreground: oklch(0.98 0 0);
   --popover: oklch(0.1 0 0);
   --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.45 0.25 25); /* Rich Deep Red */
+  --primary: oklch(0.45 0.25 25);
   --primary-foreground: oklch(0.98 0 0);
   --secondary: oklch(0.15 0 0);
   --secondary-foreground: oklch(0.8 0 0);
@@ -141,7 +129,7 @@
 }
 
 .dark {
-  --background: oklch(0.09 0 0); /* Slightly deeper dark for luxury feel */
+  --background: oklch(0.09 0 0);
   --foreground: oklch(0.984 0.003 247.858);
   --card: oklch(0.208 0.042 265.755);
   --card-foreground: oklch(0.984 0.003 247.858);
