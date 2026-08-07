@@ -214,7 +214,7 @@ function ProductDetail() {
               </div>
               <div className="flex flex-col gap-1 pt-4">
                 <span className="text-3xl font-bold tracking-wider">{product.price}</span>
-                <span className="text-[10px] text-zinc-500 uppercase tracking-widest">ATÉ 12X S/ JUROS OU PIX</span>
+                <span className="text-[10px] text-zinc-500 uppercase tracking-widest">POR 12X S/ JUROS OU PIX</span>
               </div>
             </div>
 

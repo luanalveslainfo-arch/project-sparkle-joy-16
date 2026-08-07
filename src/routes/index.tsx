@@ -1,4 +1,15 @@
+/*
+Execute esta instrucao no projeto: O que eu revisaria antes de dar 100%:
+Procurar textos quebrados, erros de português ou espaçamento.
+Testar todos os botões (nenhum pode dar erro ou levar para lugar errado).
+Verificar se todas as imagens carregam rápido.
+Testar em mais de um celular e navegador.
+Conferir se todos os links do menu funcionam.
+Ajustar qualquer detalhe visual restante (como a iluminação do modelo no hero, se ainda incomodar).
+Se tudo isso estiver certo, eu marcaria o site como versão 1.0 pronta para vender.
+*/
 import { createFileRoute, Link } from "@tanstack/react-router";
+
 import { Phone } from "lucide-react";
 import { motion } from "framer-motion";
 import { HeroParticles } from "@/components/HeroParticles";
@@ -28,9 +39,9 @@ function Index() {
         <img 
           src="/hero.png" 
           alt="Memento Mori" 
-          className="absolute inset-0 w-full h-full object-cover object-top z-0 opacity-[0.86] brightness-[1.62] contrast-[1.25] saturate-110 grayscale-0" 
+          className="absolute inset-0 w-full h-full object-cover object-top z-0 opacity-[0.9] brightness-[1.8] contrast-[1.2] saturate-110 grayscale-0" 
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/60 to-black z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/50 to-black z-10" />
 
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
