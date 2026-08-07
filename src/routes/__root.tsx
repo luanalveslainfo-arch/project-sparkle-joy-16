@@ -576,8 +576,8 @@ function RootComponent() {
       <div className="flex flex-col min-h-screen bg-black text-white selection:bg-red-900/30" style={{ fontFamily: THEME.FONTS.SANS }}>
 
         {/* Top Bar Marquee */}
-        <div className={`h-8 bg-red-950 flex items-center overflow-hidden border-b border-red-900/30 fixed top-0 left-0 right-0 z-[40] w-full ${transitionClass} ${showTopBar ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
-          <div className="flex whitespace-nowrap animate-marquee py-1">
+        <div className={`h-6 bg-red-950 flex items-center overflow-hidden border-b border-red-900/30 fixed top-0 left-0 right-0 z-[40] w-full ${transitionClass} ${showTopBar ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
+          <div className="flex whitespace-nowrap animate-marquee py-0.5">
             {[1, 2, 3, 4].map((i) => (
               <span key={i} className="text-[10px] uppercase tracking-[0.2em] font-bold text-white px-4">
                 FRETE GRÁTIS ACIMA DE R$ 299 • 5% DE DESCONTO NO PIX • QUALIDADE PREMIUM GARANTIDA • MEMENTO MORI •
