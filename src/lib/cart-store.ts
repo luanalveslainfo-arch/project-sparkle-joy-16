@@ -12,6 +12,7 @@ export interface Product {
   category?: string;
   subtitle?: string;
   colorLabel?: string;
+  description?: string;
   isCombo?: boolean;
   originalPrice?: string;
   comboItems?: { name: string; price: number }[];
