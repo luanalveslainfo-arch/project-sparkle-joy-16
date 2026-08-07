@@ -47,6 +47,7 @@
 
 @theme inline {
   --font-gothic: "UnifrakturMaguntia", cursive;
+  --font-metal: "Metal Mania", cursive;
   --font-madness: "MadnessFont", cursive;
   --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
   
