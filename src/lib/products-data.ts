@@ -1,3 +1,10 @@
+import crimsonFront from "@/assets/crimson_front.png.asset.json";
+import crimsonBack from "@/assets/crimson_back.png.asset.json";
+import obsidianFront from "@/assets/obsidian_front.png.asset.json";
+import obsidianBack from "@/assets/obsidian_back.png.asset.json";
+import ivoryFront from "@/assets/ivory_front.png.asset.json";
+import ivoryBack from "@/assets/ivory_back.png.asset.json";
+
 export interface Product {
   id: number;
   name: string;
@@ -10,51 +17,62 @@ export interface Product {
   isCombo?: boolean;
   originalPrice?: string;
   comboItems?: { name: string; price: number }[];
+  subtitle?: string;
+  colorLabel?: string;
 }
 
 export const mockProducts: Product[] = [
   { 
     id: 1, 
-    name: "Compression Abyss", 
-    price: "R$ 249,90", 
-    priceNumber: 249.90, 
-    installments: "12x de R$ 20,82", 
-    image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&q=80&w=800",
-    category: "arcane"
+    name: "UNDEFINED", 
+    subtitle: "Forged through pain.",
+    price: "R$ 179,90", 
+    priceNumber: 179.90, 
+    installments: "12x de R$ 14,99", 
+    image: crimsonFront.url,
+    backImage: crimsonBack.url,
+    category: "Compression Shirt",
+    colorLabel: "Preto + Vermelho"
   },
   { 
     id: 2, 
-    name: "Hollow Shorts", 
-    price: "R$ 199,90", 
-    priceNumber: 199.90, 
-    installments: "12x de R$ 16,65", 
-    image: "https://images.unsplash.com/photo-1571388208497-71bedc66e932?auto=format&fit=crop&q=80&w=800",
-    category: "arcane"
+    name: "UNDEFINED", 
+    subtitle: "Silence is the strongest weapon.",
+    price: "R$ 179,90", 
+    priceNumber: 179.90, 
+    installments: "12x de R$ 14,99", 
+    image: obsidianFront.url,
+    backImage: obsidianBack.url,
+    category: "Compression Shirt",
+    colorLabel: "Preto + Vermelho Escuro"
   },
   { 
     id: 3, 
-    name: "Cargo Seraph", 
-    price: "R$ 349,90", 
-    priceNumber: 349.90, 
-    installments: "12x de R$ 29,15", 
-    image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=800",
-    category: "arcane"
+    name: "UNDEFINED", 
+    subtitle: "Purity forged in darkness.",
+    price: "R$ 179,90", 
+    priceNumber: 179.90, 
+    installments: "12x de R$ 14,99", 
+    image: ivoryFront.url,
+    backImage: ivoryBack.url,
+    category: "Compression Shirt",
+    colorLabel: "Preto + Branco"
   }
 ];
 
 export const mockBundle: Product = {
   id: 999,
   name: "KIT MEMENTO MORI",
-  price: "R$ 599,00",
-  priceNumber: 599.00,
-  originalPrice: "R$ 799,70",
-  installments: "12x de R$ 49,91",
-  image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&q=80&w=1200",
+  price: "R$ 499,90",
+  priceNumber: 499.90,
+  originalPrice: "R$ 539,70",
+  installments: "12x de R$ 41,66",
+  image: crimsonFront.url,
   category: "bundle",
   isCombo: true,
   comboItems: [
-    { name: "Compression Abyss", price: 249.90 },
-    { name: "Hollow Shorts", price: 199.90 },
-    { name: "Cargo Seraph", price: 349.90 }
+    { name: "UNDEFINED 01", price: 166.63 },
+    { name: "UNDEFINED 02", price: 166.63 },
+    { name: "UNDEFINED 03", price: 166.64 }
   ]
 };
