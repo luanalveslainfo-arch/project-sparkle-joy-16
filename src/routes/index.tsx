@@ -82,16 +82,23 @@ function Index() {
         </motion.div>
       </section>
 
-      {/* 3. OS TRÊS ESCOLHIDOS */}
+      {/* 3. DROP ANNOUNCEMENT & PRODUCTS */}
       <section className="py-32 bg-black border-t border-zinc-900/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <motion.h2 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            className="text-[10px] tracking-[0.6em] text-zinc-600 uppercase font-bold text-center mb-24"
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+            viewport={{ once: true }}
+            className="flex flex-col items-center text-center mb-32"
           >
-            OS TRÊS ESCOLHIDOS
-          </motion.h2>
+            <span className="text-[10px] tracking-[0.8em] text-red-900 font-bold uppercase mb-4">DROP 001</span>
+            <h2 className="text-4xl md:text-6xl font-madness tracking-widest text-white mb-8">THE FORGED THREE</h2>
+            <div className="w-12 h-[1px] bg-zinc-800 mb-8" />
+            <p className="max-w-md text-zinc-500 text-sm md:text-base tracking-wide font-light italic leading-relaxed">
+              "Apenas três peças. Nenhuma foi criada para agradar a todos."
+            </p>
+          </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-24 md:gap-8 lg:gap-16">
             {mockProducts.map((product) => (
