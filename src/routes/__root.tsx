@@ -537,6 +537,18 @@ function RootComponent() {
     window.scrollTo(0, 0);
   }, [pathname]);
 
+  // Lock body scroll when mobile menu is open for a focused, accessible drawer experience
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen]);
+
   // Welcome Modal Logic - Show after 6s on Home page only, once per session
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
@@ -593,7 +605,10 @@ function RootComponent() {
         <header className={`fixed left-0 w-full z-[30] bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50 flex items-center justify-between ${transitionClass} ${showTopBar ? 'translate-y-8' : 'translate-y-0'} top-0 h-16 md:h-20 px-4 md:px-12`}>
           <div className="flex items-center gap-6">
             <nav className="hidden md:flex gap-8 text-[10px] uppercase tracking-[0.3em] font-bold">
-              <Link to="/" className="text-white hover:text-red-700 transition-colors duration-300">Home</Link>
+              <Link to="/" className="group relative text-white hover:text-red-700 transition-colors duration-300 py-1">
+                Home
+                <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-red-700 transition-all duration-300 ease-out group-hover:w-full" />
+              </Link>
               <Link 
                 to="/" 
                 onClick={(e) => {
@@ -603,25 +618,34 @@ function RootComponent() {
                     productsSection.scrollIntoView({ behavior: 'smooth' });
                   }
                 }}
-                className="text-red-700 hover:text-red-500 transition-colors duration-300 drop-shadow-[0_0_8px_rgba(185,28,28,0.4)]"
+                className={`group relative text-red-700 hover:text-red-500 transition-colors duration-300 py-1 ${prefersReducedMotion ? '' : 'pulse-glow'}`}
               >
                 Drop 001
+                <span className="absolute bottom-0 left-0 h-[1px] w-full bg-red-700/50" />
               </Link>
-              <Link to="/manifesto" className="text-white hover:text-red-700 transition-colors duration-300">Manifesto</Link>
-              <a href="https://wa.me/5521965226593" target="_blank" rel="noopener noreferrer" className="text-white hover:text-red-700 transition-colors duration-300">Contato</a>
+              <Link to="/manifesto" className="group relative text-white hover:text-red-700 transition-colors duration-300 py-1">
+                Manifesto
+                <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-red-700 transition-all duration-300 ease-out group-hover:w-full" />
+              </Link>
+              <a href="https://wa.me/5521965226593" target="_blank" rel="noopener noreferrer" className="group relative text-white hover:text-red-700 transition-colors duration-300 py-1">
+                Contato
+                <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-red-700 transition-all duration-300 ease-out group-hover:w-full" />
+              </a>
               <button 
                 onClick={() => setIsCartOpen(true)}
-                className="text-white hover:text-red-700 transition-colors duration-300 uppercase"
+                className="group relative text-white hover:text-red-700 transition-colors duration-300 uppercase py-1"
               >
                 Carrinho
+                <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-red-700 transition-all duration-300 ease-out group-hover:w-full" />
               </button>
             </nav>
 
             <button 
-              className="md:hidden text-zinc-400 hover:text-white"
+              className="md:hidden text-zinc-400 hover:text-white transition-colors duration-300"
               onClick={() => setIsMenuOpen(true)}
-
-              aria-label="Menu"
+              aria-label="Abrir menu"
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-menu"
             >
               <Menu size={20} />
             </button>
@@ -650,54 +674,68 @@ function RootComponent() {
 
 
         {/* Mobile Menu Overlay */}
-        {isMenuOpen && (
-          <div className="fixed inset-0 z-[10001] flex">
-            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setIsMenuOpen(false)} />
-            <div className="relative w-[300px] h-full bg-zinc-950 border-r border-zinc-900 flex flex-col p-8 animate-in slide-in-from-left duration-300">
-              <div className="flex items-center justify-between mb-12">
-                <span className="text-4xl font-madness text-white">ARCANE</span>
-                <button onClick={() => setIsMenuOpen(false)} className="text-zinc-500 hover:text-white">
-                  <X size={24} />
-                </button>
-              </div>
-              <nav className="flex flex-col">
-                <Link 
-                  to="/" 
-                  onClick={() => setIsMenuOpen(false)}
-                  className="py-6 text-sm font-bold uppercase tracking-[0.4em] text-white hover:text-red-800 border-b border-zinc-900 transition-colors"
-                >
-                  HOME
-                </Link>
-                <Link 
-                  to="/" 
-                  onClick={(e) => {
-                    setIsMenuOpen(false);
-                    const productsSection = document.getElementById('products-section');
-                    if (productsSection) productsSection.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                  className="py-6 text-sm font-bold uppercase tracking-[0.4em] text-red-700 hover:text-red-500 border-b border-zinc-900 transition-colors drop-shadow-[0_0_8px_rgba(185,28,28,0.4)]"
-                >
-                  DROP 001
-                </Link>
+        <div 
+          id="mobile-menu"
+          className={`fixed inset-0 z-[10001] flex md:hidden ${isMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
+          aria-hidden={!isMenuOpen}
+          inert={!isMenuOpen}
+        >
+          <div 
+            className={`absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-300 ease-out ${isMenuOpen ? 'opacity-100' : 'opacity-0'}`} 
+            onClick={() => setIsMenuOpen(false)} 
+          />
+          <div 
+            className={`relative w-[300px] h-full bg-zinc-950 border-r border-zinc-900 flex flex-col p-8 transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+            aria-label="Menu mobile"
+          >
+            <div className="flex items-center justify-between mb-12">
+              <span className="text-4xl font-madness text-white">ARCANE</span>
+              <button 
+                onClick={() => setIsMenuOpen(false)} 
+                className="text-zinc-500 hover:text-white transition-colors duration-300"
+                aria-label="Fechar menu"
+              >
+                <X size={24} />
+              </button>
+            </div>
+            <nav className="flex flex-col">
+              <Link 
+                to="/" 
+                onClick={() => setIsMenuOpen(false)}
+                className="group py-6 text-sm font-bold uppercase tracking-[0.4em] text-white hover:text-red-800 border-b border-zinc-900 transition-colors duration-300"
+              >
+                HOME
+              </Link>
+              <Link 
+                to="/" 
+                onClick={(e) => {
+                  setIsMenuOpen(false);
+                  const productsSection = document.getElementById('products-section');
+                  if (productsSection) productsSection.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className={`group py-6 text-sm font-bold uppercase tracking-[0.4em] text-red-700 hover:text-red-500 border-b border-zinc-900 transition-colors duration-300 ${prefersReducedMotion ? '' : 'pulse-glow'}`}
+              >
+                DROP 001
+              </Link>
 
-                <Link 
-                  to="/manifesto" 
-                  onClick={() => setIsMenuOpen(false)}
-                  className="py-6 text-sm font-bold uppercase tracking-[0.4em] text-white hover:text-red-800 border-b border-zinc-900 transition-colors"
-                >
-                  Manifesto
-                </Link>
-                <a 
-                  href="https://wa.me/5521965226593" 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="py-6 text-sm font-bold uppercase tracking-[0.4em] text-white hover:text-red-800 border-b border-zinc-900 transition-colors"
-                >
-                  Contato
-                </a>
-                <button 
-                  onClick={() => {
+              <Link 
+                to="/manifesto" 
+                onClick={() => setIsMenuOpen(false)}
+                className="group py-6 text-sm font-bold uppercase tracking-[0.4em] text-white hover:text-red-800 border-b border-zinc-900 transition-colors duration-300"
+              >
+                Manifesto
+              </Link>
+              <a 
+                href="https://wa.me/5521965226593" 
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsMenuOpen(false)}
+                className="group py-6 text-sm font-bold uppercase tracking-[0.4em] text-white hover:text-red-800 border-b border-zinc-900 transition-colors duration-300"
+              >
+                Contato
+              </a>
+              <button 
+                onClick={() => {
                     setIsMenuOpen(false);
                     setIsCartOpen(true);
                   }}
@@ -710,9 +748,8 @@ function RootComponent() {
               <div className="mt-auto">
                 <p className="text-[10px] uppercase tracking-widest text-zinc-600">Arcane • Memento Mori</p>
               </div>
-            </div>
           </div>
-        )}
+        </div>
 
         <main className="flex-1">
           <Outlet />
