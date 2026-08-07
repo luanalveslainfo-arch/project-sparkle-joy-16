@@ -387,7 +387,8 @@ function ProductDetail() {
                   onClick={() => {
                     setItem2Product(p as Product);
                     setItem2Option("other");
-                    setIsModalOpen(false);
+                    // Delay slightly for visual feedback on mobile
+                    setTimeout(() => setIsModalOpen(false), 200);
                   }}
                   className={`group space-y-3 text-left p-2 transition-all duration-300 ${item2Product?.id === p.id ? 'bg-zinc-900 ring-1 ring-white/20' : ''}`}
                 >
