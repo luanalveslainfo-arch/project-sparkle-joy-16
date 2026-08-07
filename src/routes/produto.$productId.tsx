@@ -188,52 +188,53 @@ function ProductDetail() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:sticky lg:top-24 h-fit space-y-8"
           >
-            <div className="space-y-4">
-              <h1 className="text-3xl md:text-5xl font-black tracking-widest leading-tight uppercase font-sans">
+            <div className="space-y-6">
+              <h1 className="text-4xl md:text-6xl font-madness tracking-widest leading-tight text-white uppercase">
                 {product.name}
               </h1>
-              <div className="space-y-1">
-                <p className="text-zinc-500 text-[10px] uppercase tracking-[0.3em] font-bold">{product.category}</p>
-                <p className="text-zinc-600 text-[11px] italic tracking-wider">"Forged for those who refuse mediocrity."</p>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="flex flex-col gap-1">
-                  <span className="text-2xl font-bold tracking-wider">{product.price}</span>
-                  <span className="text-[10px] text-zinc-500 uppercase tracking-widest">ATÉ 12X S/ JUROS OU PIX</span>
+              <div className="space-y-4">
+                <p className="text-zinc-500 text-[10px] uppercase tracking-[0.4em] font-bold">{product.category}</p>
+                <div className="max-w-md">
+                  <p className="text-zinc-300 text-sm leading-relaxed font-light italic">
+                    "{product.subtitle || 'Forged for those who refuse mediocrity.'}"
+                  </p>
                 </div>
               </div>
-              <p className="text-[10px] text-zinc-400 uppercase tracking-[0.2em]">ou {product.installments}</p>
+              <div className="flex flex-col gap-1 pt-4">
+                <span className="text-3xl font-bold tracking-wider">{product.price}</span>
+                <span className="text-[10px] text-zinc-500 uppercase tracking-widest">ATÉ 12X S/ JUROS OU PIX</span>
+              </div>
             </div>
 
             <div className="space-y-8">
               {/* Purchase Type Selector */}
               <div className="space-y-4">
-                <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">Oferta de Drop</span>
-                <div className="grid grid-cols-1 gap-3">
+                <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-zinc-600">SELECIONE SEU PACK</span>
+                <div className="grid grid-cols-1 gap-4">
                   <button 
                     onClick={() => setPurchaseType("single")}
-                    className={`flex items-center justify-between p-4 border transition-all duration-300 rounded-sm ${purchaseType === 'single' ? 'bg-zinc-900 border-red-600 border-2' : 'bg-transparent border-zinc-800 hover:border-zinc-700'}`}
+                    className={`flex items-center justify-between p-6 border transition-all duration-500 ${purchaseType === 'single' ? 'bg-zinc-900 border-white/40' : 'bg-transparent border-zinc-900 hover:border-zinc-800'}`}
                   >
-                    <div className="flex items-center gap-3">
-                      <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${purchaseType === 'single' ? 'border-red-600' : 'border-zinc-700'}`}>
-                        {purchaseType === 'single' && <div className="w-2 h-2 rounded-full bg-red-600" />}
+                    <div className="flex items-center gap-4">
+                      <div className={`w-3 h-3 rounded-full border flex items-center justify-center ${purchaseType === 'single' ? 'border-white' : 'border-zinc-800'}`}>
+                        {purchaseType === 'single' && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
                       </div>
-                      <span className="text-xs font-bold uppercase tracking-widest text-white">1 UNIDADE</span>
+                      <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white">THE INITIATION (1 UNIT)</span>
                     </div>
                     <span className="text-xs font-bold text-zinc-400">{product.price}</span>
                   </button>
 
                   <button 
                     onClick={() => setPurchaseType("combo")}
-                    className={`flex items-center justify-between p-4 border transition-all duration-300 rounded-sm ${purchaseType === 'combo' ? 'bg-red-950/30 border-red-600 border-2' : 'bg-transparent border-zinc-800 hover:border-zinc-700'}`}
+                    className={`flex items-center justify-between p-6 border transition-all duration-500 ${purchaseType === 'combo' ? 'bg-zinc-900 border-red-900/50' : 'bg-transparent border-zinc-900 hover:border-zinc-800'}`}
                   >
-                    <div className="flex items-center gap-3">
-                      <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${purchaseType === 'combo' ? 'border-red-600' : 'border-zinc-700'}`}>
-                        {purchaseType === 'combo' && <div className="w-2 h-2 rounded-full bg-red-600" />}
+                    <div className="flex items-center gap-4">
+                      <div className={`w-3 h-3 rounded-full border flex items-center justify-center ${purchaseType === 'combo' ? 'border-red-900' : 'border-zinc-800'}`}>
+                        {purchaseType === 'combo' && <div className="w-1.5 h-1.5 rounded-full bg-red-900" />}
                       </div>
                       <div className="flex flex-col items-start">
-                        <span className="text-xs font-bold uppercase tracking-widest text-white">COMBO DUO (2 PEÇAS)</span>
-                        <span className="text-[8px] font-black text-red-600 tracking-widest mt-1">[ ECONOMIZE R$ 80 ]</span>
+                        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white">DUAL DESTINY (2 PACK)</span>
+                        <span className="text-[8px] font-black text-red-900 tracking-[0.4em] mt-1">SAVE R$ 80</span>
                       </div>
                     </div>
                     <span className="text-xs font-bold text-white">R$ 299,90</span>
@@ -254,10 +255,10 @@ function ProductDetail() {
                       <button
                         key={size}
                         onClick={() => setSelectedSize(size)}
-                        className={`w-12 h-12 flex items-center justify-center border text-xs font-bold transition-all duration-300 ${
+                        className={`w-14 h-14 flex items-center justify-center border text-[10px] font-bold transition-all duration-500 ${
                           selectedSize === size
-                            ? "bg-red-600 text-white border-red-600"
-                            : "bg-transparent text-white border-zinc-800 hover:border-zinc-500"
+                            ? "bg-white text-black border-white"
+                            : "bg-transparent text-white border-zinc-900 hover:border-zinc-700"
                         }`}
                       >
                         {size}
@@ -268,39 +269,39 @@ function ProductDetail() {
 
                 {purchaseType === 'combo' && (
                   <motion.div 
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    className="space-y-6 pt-6 border-t border-zinc-900"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="space-y-8 pt-8 border-t border-zinc-900"
                   >
                     <div className="space-y-4">
-                      <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">ITEM 2: CONFIGURAÇÃO</span>
+                      <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-zinc-600">ITEM II: CONFIGURATION</span>
                       <div className="flex gap-2">
                         <button 
                           onClick={() => setItem2Option("same")}
-                          className={`flex-1 py-2 text-[9px] uppercase tracking-widest font-bold border transition-all ${item2Option === 'same' ? 'bg-zinc-900 border-red-600 text-white' : 'border-zinc-800 text-zinc-500'}`}
+                          className={`flex-1 py-3 text-[9px] uppercase tracking-widest font-bold border transition-all duration-500 ${item2Option === 'same' ? 'bg-zinc-900 border-white/20 text-white' : 'border-zinc-900 text-zinc-600'}`}
                         >
-                          Mesma Peça
+                          Same Model
                         </button>
                         <button 
                           onClick={() => setIsModalOpen(true)}
-                          className={`flex-1 py-2 text-[9px] uppercase tracking-widest font-bold border transition-all ${item2Option === 'other' ? 'bg-zinc-900 border-red-600 text-white' : 'border-zinc-800 text-zinc-500'}`}
+                          className={`flex-1 py-3 text-[9px] uppercase tracking-widest font-bold border transition-all duration-500 ${item2Option === 'other' ? 'bg-zinc-900 border-white/20 text-white' : 'border-zinc-900 text-zinc-600'}`}
                         >
-                          {item2Option === 'other' && item2Product ? item2Product.name : "Escolher Outro Modelo"}
+                          {item2Option === 'other' && item2Product ? item2Product.name : "Select Other"}
                         </button>
                       </div>
                     </div>
 
                     <div className="space-y-4">
-                      <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">Tamanho da 2ª Peça</span>
+                      <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-zinc-600">ITEM II: SIZE</span>
                       <div className="flex gap-3">
                         {sizes.map((size) => (
                           <button
                             key={size + "-2"}
                             onClick={() => setSelectedSize2(size)}
-                            className={`w-12 h-12 flex items-center justify-center border text-xs font-bold transition-all duration-300 ${
+                            className={`w-14 h-14 flex items-center justify-center border text-[10px] font-bold transition-all duration-500 ${
                               selectedSize2 === size
-                                ? "bg-red-600 text-white border-red-600"
-                                : "bg-transparent text-white border-zinc-800 hover:border-zinc-500"
+                                ? "bg-white text-black border-white"
+                                : "bg-transparent text-white border-zinc-900 hover:border-zinc-700"
                             }`}
                           >
                             {size}
@@ -329,17 +330,24 @@ function ProductDetail() {
 
 
             <div className="pt-8">
-              <Accordion title="Descrição da Peça">
-                Concebida para a elite. Tecido de alta compressão que esculpe o corpo enquanto permite máxima mobilidade. Estampa gótica exclusiva em serigrafia de alta densidade. Durabilidade extrema para treinos intensos.
+              <Accordion title="FORJADA PARA QUEM ESCOLHEU A DISCIPLINA">
+                <div className="space-y-6">
+                  <p className="text-zinc-300">
+                    A disciplina não é um dom, é uma escolha. Esta peça foi forjada para suportar o peso da sua ambição. Cada costura, cada fibra de compressão foi pensada para manter você focado no seu objetivo, sem distrações.
+                  </p>
+                  <div className="grid grid-cols-2 gap-4">
+                    <p>• Compressão Premium</p>
+                    <p>• Elasticidade 4-way</p>
+                    <p>• Costuras reforçadas</p>
+                    <p>• Respirabilidade</p>
+                    <p>• Performance e conforto</p>
+                    <p>• Secagem Ultra-Rápida</p>
+                  </div>
+                </div>
               </Accordion>
               <Accordion title="Especificações Técnicas">
                 <div className="space-y-2">
-                  <p>• Tecido Dry Fit Premium</p>
-                  <p>• Compressão Atlética</p>
-                  <p>• Estampa Sublimada</p>
-                  <p>• Alta Elasticidade</p>
-                  <p>• Respirável</p>
-                  <p>• Secagem Rápida</p>
+                  <p>Poliamida de alta densidade misturada com elastano de recuperação imediata. Tecnologia Dry-Fit de absorção de suor integrada.</p>
                 </div>
               </Accordion>
               <Accordion title="Tabela de Medidas">
