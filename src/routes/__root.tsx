@@ -537,6 +537,18 @@ function RootComponent() {
     window.scrollTo(0, 0);
   }, [pathname]);
 
+  // Lock body scroll when mobile menu is open for a focused, accessible drawer experience
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen]);
+
   // Welcome Modal Logic - Show after 6s on Home page only, once per session
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
