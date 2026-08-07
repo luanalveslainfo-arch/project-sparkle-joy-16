@@ -163,14 +163,21 @@ function ProductDetail() {
               </div>
               
               {/* Mobile Carousel Indicators */}
-              <div className="flex md:hidden justify-center gap-3 mt-6">
-                {[...Array(totalSlides)].map((_, i) => (
+              <div className="flex md:hidden justify-center gap-4 mt-8">
+                {["Disciplina", "Sacrifício", "Silêncio", "Constância", "Memento Mori"].slice(0, totalSlides).map((item, i) => (
                   <div 
                     key={i}
-                    className={`h-[3px] transition-all duration-300 ${
-                      activeSlide === i ? "w-10 bg-white opacity-100" : "w-5 bg-zinc-800 opacity-50"
-                    }`}
-                  ></div>
+                    className="flex flex-col items-center gap-2"
+                  >
+                    <div 
+                      className={`h-[4px] transition-all duration-300 ${
+                        activeSlide === i ? "w-12 bg-white opacity-100" : "w-6 bg-zinc-800 opacity-50"
+                      }`}
+                    ></div>
+                    <span className={`text-[7px] uppercase tracking-widest font-black transition-opacity duration-300 ${activeSlide === i ? "opacity-100 text-red-800" : "opacity-0"}`}>
+                      ✠ {item}
+                    </span>
+                  </div>
                 ))}
               </div>
 
