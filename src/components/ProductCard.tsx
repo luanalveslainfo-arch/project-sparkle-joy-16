@@ -141,7 +141,7 @@ export function ProductCard({ product }: ProductCardProps) {
         {product.backImage && (
           <div className="md:hidden absolute top-4 right-4 z-20">
             <div className="bg-black/70 backdrop-blur-md border border-white/20 px-3 py-1.5 rounded-full text-[9px] font-bold tracking-widest text-white uppercase flex items-center gap-2 animate-pulse shadow-lg">
-              <span className="text-[10px]">↔</span> 2 imagens
+              <span className="text-[10px]">↔</span> Front + Back
             </div>
           </div>
         )}

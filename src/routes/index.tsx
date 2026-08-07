@@ -28,7 +28,7 @@ function Index() {
         <img 
           src="/hero.png" 
           alt="Memento Mori" 
-          className="absolute inset-0 w-full h-full object-cover object-top z-0 opacity-60 brightness-125 contrast-110 saturate-110 grayscale-0" 
+          className="absolute inset-0 w-full h-full object-cover object-top z-0 opacity-80 brightness-150 contrast-125 saturate-110 grayscale-0" 
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-black z-10" />
 
@@ -46,9 +46,9 @@ function Index() {
           </p>
           <button 
             onClick={scrollToManifesto}
-            className="border border-white/20 bg-white/5 backdrop-blur-md text-white px-14 py-6 text-[11px] font-bold uppercase tracking-[0.4em] transition-all hover:bg-white hover:text-black hover:border-white hover:scale-105 active:scale-95 duration-500 cursor-pointer"
+            className="border border-white/20 bg-white/5 backdrop-blur-md text-white px-20 py-8 text-[12px] md:text-sm font-bold uppercase tracking-[0.4em] transition-all hover:bg-white hover:text-black hover:border-white hover:scale-105 active:scale-95 duration-500 cursor-pointer"
           >
-            LER O MANIFESTO
+            CONHECER O MANIFESTO
           </button>
         </motion.div>
       </section>
