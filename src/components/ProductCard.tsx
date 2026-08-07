@@ -99,7 +99,8 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
 
         {/* Mobile Swipe Images */}
-        <div className="md:hidden absolute inset-0 flex transition-transform duration-500 ease-out" style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}>
+        <div className="md:hidden absolute inset-0 flex transition-transform duration-500 ease-out z-0" style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}>
+
           <div className="min-w-full h-full relative">
             <img
               src={product.image}
