@@ -5,7 +5,7 @@ import { toast as sonnerToast } from "sonner";
 import { motion } from "framer-motion";
 
 import { useCartStore } from "@/lib/cart-store";
-import { mockProducts } from "@/lib/products-data";
+import { mockProducts, mockBundle } from "@/lib/products-data";
 import { HeroParticles } from "@/components/HeroParticles";
 
 export const Route = createFileRoute("/")({
@@ -47,15 +47,15 @@ const THEME = {
 };
 
 function Index() {
-  const { isCartOpen } = useCartStore();
+  const { isCartOpen, addToCart } = useCartStore();
 
-  const productsByCategory = useMemo(() => {
-    return {
-      arcane: mockProducts.filter(p => p.category === 'arcane'),
-      oversized: mockProducts.filter(p => p.category === 'oversized'),
-      sweatshirts: mockProducts.filter(p => p.category === 'sweatshirts'),
-    };
+  const arcaneProducts = useMemo(() => {
+    return mockProducts.filter(p => p.category === 'arcane');
   }, []);
+
+  const handleAddBundle = () => {
+    addToCart(mockBundle, "M", 1);
+  };
 
   return (
     <div className={`selection:bg-primary/30 overflow-x-hidden ${isCartOpen ? 'overflow-hidden' : ''}`}>
@@ -119,42 +119,152 @@ function Index() {
       </section>
 
       <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 space-y-24 md:space-y-32">
-        {Object.entries(productsByCategory).map(([category, items]) => (
-          <section key={category} className="py-12 md:py-32">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="flex flex-col items-center justify-center mb-16"
-            >
-              <h3 className="text-2xl md:text-4xl font-sans font-black tracking-[0.2em] uppercase text-white text-center">
-                {category === 'arcane' ? 'DROP ARCANO' : category === 'oversized' ? 'Camisas Oversized' : 'Moletons e Calças'}
-              </h3>
-              <div className="w-24 h-px bg-zinc-800 mt-8" />
-            </motion.div>
+        {/* Section: OS TRÊS ESCOLHIDOS */}
+        <section className="py-12 md:py-24">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="flex flex-col items-center justify-center mb-16"
+          >
+            <h3 className="text-3xl md:text-5xl font-sans font-black tracking-[0.3em] uppercase text-white text-center">
+              OS TRÊS ESCOLHIDOS
+            </h3>
+            <p className="text-zinc-500 text-[10px] tracking-[0.4em] mt-4 uppercase">DROP 001 — MEMENTO MORI</p>
+            <div className="w-24 h-px bg-zinc-800 mt-8" />
+          </motion.div>
 
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12"
-            >
-              {items.map((p) => (
-                <div key={p.id} className="relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {arcaneProducts.map((p) => (
+              <motion.div 
+                key={p.id}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+                className="relative group overflow-hidden bg-zinc-950 aspect-[3/4] flex flex-col items-center justify-end p-8"
+              >
+                <img 
+                  src={p.image} 
+                  alt={p.name} 
+                  className="absolute inset-0 w-full h-full object-cover brightness-50 group-hover:scale-105 group-hover:brightness-75 transition-all duration-1000" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10" />
+                
+                <div className="relative z-20 text-center space-y-4">
+                  <h4 className="text-2xl md:text-3xl font-madness text-white tracking-widest">{p.name}</h4>
                   <Link 
                     to="/produto/$productId" 
-                    params={{ productId: p.id.toString() }} 
-                    className="block cursor-pointer relative z-10 pointer-events-auto"
+                    params={{ productId: p.id.toString() }}
+                    className="inline-block border border-white px-8 py-3 text-[10px] font-bold tracking-[0.3em] text-white hover:bg-white hover:text-black transition-all duration-300 uppercase"
                   >
-                    <ProductCard product={p} />
+                    FORJAR DESTINO
                   </Link>
                 </div>
-              ))}
-            </motion.div>
-          </section>
-        ))}
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* Section: DROP 001 Catalog */}
+        <section id="catalog" className="py-12 md:py-24">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="flex flex-col items-center justify-center mb-16"
+          >
+            <h3 className="text-2xl md:text-4xl font-sans font-black tracking-[0.2em] uppercase text-white text-center">
+              DROP ARCANO
+            </h3>
+            <div className="w-24 h-px bg-zinc-800 mt-8" />
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12"
+          >
+            {arcaneProducts.map((p) => (
+              <div key={p.id} className="relative z-10">
+                <Link 
+                  to="/produto/$productId" 
+                  params={{ productId: p.id.toString() }} 
+                  className="block cursor-pointer relative z-10 pointer-events-auto"
+                >
+                  <ProductCard product={p} />
+                </Link>
+              </div>
+            ))}
+            
+            {/* Future Placeholder Categories */}
+            {['CAMISETAS', 'OVERSIZED', 'MOLETONS', 'CALÇAS'].map((cat) => (
+              <div key={cat} className="relative group aspect-[3/4] bg-zinc-900/50 border border-zinc-800/50 flex flex-col items-center justify-center p-6 text-center">
+                <div className="space-y-4 opacity-40 group-hover:opacity-100 transition-opacity duration-500">
+                  <h4 className="text-xs font-bold tracking-[0.3em] text-white uppercase">{cat}</h4>
+                  <p className="text-[9px] text-zinc-500 tracking-[0.2em] leading-relaxed uppercase">
+                    Em desenvolvimento.<br />
+                    O Drop 002 está sendo forjado.
+                  </p>
+                  <Link 
+                    to="/manifesto" 
+                    className="inline-block text-[8px] font-bold tracking-[0.2em] text-red-700 hover:text-red-500 transition-colors uppercase"
+                  >
+                    Acesso Antecipado
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </section>
+
+        {/* Section: KIT MEMENTO MORI */}
+        <section className="py-12 md:py-24 bg-zinc-950/50 border border-zinc-900 rounded-sm">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center p-8 md:p-16">
+            <div className="relative aspect-[3/4] overflow-hidden">
+              <img 
+                src={mockBundle.image} 
+                alt="Kit Memento Mori" 
+                className="w-full h-full object-cover brightness-50"
+              />
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center bg-black/40">
+                <h3 className="text-4xl md:text-6xl font-madness text-white mb-4">KIT MEMENTO MORI</h3>
+                <p className="text-zinc-300 text-[10px] tracking-[0.3em] uppercase">A Armadura Completa</p>
+              </div>
+            </div>
+            
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <h3 className="text-3xl font-sans font-black tracking-tighter text-white uppercase">UNIFIQUE SEU DESTINO</h3>
+                <div className="space-y-2">
+                  {mockBundle.comboItems?.map((item) => (
+                    <div key={item.name} className="flex items-center gap-3 text-zinc-400">
+                      <div className="w-1.5 h-1.5 bg-red-700 rounded-full" />
+                      <span className="text-xs font-bold tracking-widest uppercase">{item.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="flex flex-col gap-1">
+                <span className="text-zinc-600 line-through text-lg tracking-widest">{mockBundle.originalPrice}</span>
+                <span className="text-4xl font-black text-white">{mockBundle.price}</span>
+                <span className="text-xs text-red-700 font-bold tracking-[0.2em] uppercase">ECONOMIZE R$ 100,00</span>
+              </div>
+              
+              <button 
+                onClick={handleAddBundle}
+                className="w-full md:w-auto border-2 border-white bg-white text-black px-12 py-5 text-xs font-black uppercase tracking-[0.4em] hover:bg-transparent hover:text-white transition-all duration-300"
+              >
+                OBTER O KIT COMPLETO
+              </button>
+            </div>
+          </div>
+        </section>
       </main>
 
       <Footer />
