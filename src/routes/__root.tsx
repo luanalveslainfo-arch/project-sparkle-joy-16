@@ -747,7 +747,6 @@ function RootComponent() {
               <div className="mt-auto">
                 <p className="text-[10px] uppercase tracking-widest text-zinc-600">Arcane • Memento Mori</p>
               </div>
-            </div>
           </div>
         </div>
 
