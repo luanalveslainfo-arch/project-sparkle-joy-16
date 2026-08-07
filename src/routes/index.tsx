@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Phone, ChevronRight } from "lucide-react";
+import { Phone } from "lucide-react";
 import { motion } from "framer-motion";
 import { HeroParticles } from "@/components/HeroParticles";
 import { mockProducts } from "@/lib/products-data";
 import { useCartStore } from "@/lib/cart-store";
+import { ProductCard } from "@/components/ProductCard";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -94,44 +95,7 @@ function Index() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-24 md:gap-8 lg:gap-16">
             {mockProducts.map((product) => (
-              <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="group relative flex flex-col"
-              >
-                <Link 
-                  to="/produto/$productId" 
-                  params={{ productId: product.id.toString() }}
-                  className="relative w-full aspect-[3/4] bg-zinc-950 overflow-hidden border border-white/5 transition-all duration-700 hover:border-white/20 active:scale-[0.98] tap-highlight-transparent"
-                >
-                  <img 
-                    src={product.image} 
-                    alt={product.name} 
-                    className="absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-105 md:group-hover:opacity-0"
-                  />
-                  {/* Back Image */}
-                  {product.backImage && (
-                    <img 
-                      src={product.backImage} 
-                      alt={`${product.name} back`} 
-                      className="absolute inset-0 w-full h-full object-cover transition-all duration-700 opacity-0 scale-110 md:group-hover:opacity-100 md:group-hover:scale-105"
-                    />
-                  )}
-                  <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="bg-white text-black px-4 py-2 text-[9px] font-black uppercase tracking-[0.2em] flex items-center gap-2">
-                      Ver detalhes <ChevronRight size={10} />
-                    </div>
-                  </div>
-                </Link>
-                
-                <div className="mt-8 space-y-3">
-                  <h3 className="font-madness text-2xl text-white">{product.name}</h3>
-                  <p className="text-zinc-500 text-[9px] tracking-[0.3em] uppercase">{product.category}</p>
-                  <p className="text-white text-xs font-bold tracking-widest">{product.price}</p>
-                </div>
-              </motion.div>
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         </div>
