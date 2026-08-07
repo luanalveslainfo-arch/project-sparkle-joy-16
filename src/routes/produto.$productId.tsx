@@ -380,7 +380,14 @@ function ProductDetail() {
               </Accordion>
 
               <Accordion title="THE ARCANE CODE">
-                <div className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-bold italic leading-relaxed">
+                <div className="flex flex-wrap gap-x-6 gap-y-4 py-2">
+                  {["Disciplina", "Sacrifício", "Silêncio", "Constância", "Memento Mori"].map((item, i) => (
+                    <div key={i} className="text-zinc-500 text-[9px] uppercase tracking-[0.2em] font-bold italic flex items-center gap-2">
+                      <span className="text-red-900">✠</span> {item}
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-6 text-[10px] uppercase tracking-[0.2em] text-zinc-300 font-bold italic leading-relaxed border-t border-zinc-900/50 pt-6">
                   "Você não compra uma ARCANE para parecer forte. Você compra porque decidiu se tornar alguém que não recua."
                 </div>
               </Accordion>
@@ -393,6 +400,42 @@ function ProductDetail() {
             </div>
           </motion.div>
         </div>
+
+        {/* Complete o Arsenal Section */}
+        <section className="mt-32 pt-16 border-t border-zinc-900">
+          <div className="text-center space-y-4 mb-16">
+            <span className="text-[10px] font-bold tracking-[0.5em] text-red-800 uppercase">THE DROP 001</span>
+            <h2 className="text-3xl md:text-5xl font-madness tracking-widest text-white uppercase">COMPLETE O ARSENAL</h2>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+             {mockProducts.filter(p => p.id !== product.id).map((p) => (
+               <div key={p.id} className="group relative">
+                 <Link 
+                   to="/produto/$productId" 
+                   params={{ productId: p.id.toString() }}
+                   className="block aspect-[3/4] overflow-hidden bg-zinc-900 border border-zinc-800 transition-all duration-700 hover:border-white/20"
+                 >
+                   <img 
+                     src={p.image} 
+                     alt={p.name} 
+                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                   />
+                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                     <span className="bg-white text-black px-6 py-3 text-[10px] font-black uppercase tracking-widest">VER ARTEFATO</span>
+                   </div>
+                 </Link>
+                 <div className="mt-6 space-y-2">
+                    <div className="flex flex-col">
+                      <span className="font-madness text-sm text-red-800 tracking-[0.3em]">{p.name.split(' — ')[0]}</span>
+                      <h3 className="font-bold text-lg text-white tracking-widest uppercase">{p.name.split(' — ')[1]}</h3>
+                    </div>
+                    <p className="text-white text-xs font-bold tracking-widest">{p.price}</p>
+                 </div>
+               </div>
+             ))}
+          </div>
+        </section>
       </div>
       {/* Compact Modal for Item 2 selection */}
       {isModalOpen && (
