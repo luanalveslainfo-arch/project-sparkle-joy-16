@@ -98,6 +98,11 @@ function Index() {
             <span className="text-[9px] md:text-[11px] tracking-[0.6em] md:tracking-[0.8em] text-red-700 font-bold uppercase mb-6 md:mb-8 bg-red-950/20 px-4 py-1.5 rounded-full border border-red-900/20">
               DROP 001
             </span>
+            <div className="flex items-center gap-4 text-white mb-6">
+              <span className="w-8 h-[1px] bg-zinc-800" />
+              <span className="text-xs uppercase tracking-[0.3em] font-bold">COLLECTION</span>
+              <span className="w-8 h-[1px] bg-zinc-800" />
+            </div>
             <h2 className="text-4xl sm:text-5xl md:text-7xl font-madness tracking-[0.1em] md:tracking-widest text-white mb-8 md:mb-12 leading-tight">
               THE FORGED THREE
             </h2>
