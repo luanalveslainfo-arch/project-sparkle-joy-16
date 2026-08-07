@@ -136,7 +136,7 @@ export function ProductCard({ product }: ProductCardProps) {
         {/* Interaction Hint (Mobile Only) */}
         {product.backImage && (
           <div className="md:hidden absolute top-4 right-4 z-20">
-            <div className="bg-black/60 backdrop-blur-md border border-white/10 px-2.5 py-1 rounded-full text-[8px] font-bold tracking-widest text-zinc-300 uppercase flex items-center gap-1.5 animate-pulse">
+            <div className="bg-black/70 backdrop-blur-md border border-white/20 px-3 py-1.5 rounded-full text-[9px] font-bold tracking-widest text-white uppercase flex items-center gap-2 animate-pulse shadow-lg">
               <span className="text-[10px]">↔</span> 2 imagens
             </div>
           </div>
