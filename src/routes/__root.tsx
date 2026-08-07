@@ -674,54 +674,67 @@ function RootComponent() {
 
 
         {/* Mobile Menu Overlay */}
-        {isMenuOpen && (
-          <div className="fixed inset-0 z-[10001] flex">
-            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setIsMenuOpen(false)} />
-            <div className="relative w-[300px] h-full bg-zinc-950 border-r border-zinc-900 flex flex-col p-8 animate-in slide-in-from-left duration-300">
-              <div className="flex items-center justify-between mb-12">
-                <span className="text-4xl font-madness text-white">ARCANE</span>
-                <button onClick={() => setIsMenuOpen(false)} className="text-zinc-500 hover:text-white">
-                  <X size={24} />
-                </button>
-              </div>
-              <nav className="flex flex-col">
-                <Link 
-                  to="/" 
-                  onClick={() => setIsMenuOpen(false)}
-                  className="py-6 text-sm font-bold uppercase tracking-[0.4em] text-white hover:text-red-800 border-b border-zinc-900 transition-colors"
-                >
-                  HOME
-                </Link>
-                <Link 
-                  to="/" 
-                  onClick={(e) => {
-                    setIsMenuOpen(false);
-                    const productsSection = document.getElementById('products-section');
-                    if (productsSection) productsSection.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                  className="py-6 text-sm font-bold uppercase tracking-[0.4em] text-red-700 hover:text-red-500 border-b border-zinc-900 transition-colors drop-shadow-[0_0_8px_rgba(185,28,28,0.4)]"
-                >
-                  DROP 001
-                </Link>
+        <div 
+          id="mobile-menu"
+          className={`fixed inset-0 z-[10001] flex md:hidden ${isMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
+          aria-hidden={!isMenuOpen}
+        >
+          <div 
+            className={`absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-300 ease-out ${isMenuOpen ? 'opacity-100' : 'opacity-0'}`} 
+            onClick={() => setIsMenuOpen(false)} 
+          />
+          <div 
+            className={`relative w-[300px] h-full bg-zinc-950 border-r border-zinc-900 flex flex-col p-8 transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+            aria-label="Menu mobile"
+          >
+            <div className="flex items-center justify-between mb-12">
+              <span className="text-4xl font-madness text-white">ARCANE</span>
+              <button 
+                onClick={() => setIsMenuOpen(false)} 
+                className="text-zinc-500 hover:text-white transition-colors duration-300"
+                aria-label="Fechar menu"
+              >
+                <X size={24} />
+              </button>
+            </div>
+            <nav className="flex flex-col">
+              <Link 
+                to="/" 
+                onClick={() => setIsMenuOpen(false)}
+                className="group py-6 text-sm font-bold uppercase tracking-[0.4em] text-white hover:text-red-800 border-b border-zinc-900 transition-colors duration-300"
+              >
+                HOME
+              </Link>
+              <Link 
+                to="/" 
+                onClick={(e) => {
+                  setIsMenuOpen(false);
+                  const productsSection = document.getElementById('products-section');
+                  if (productsSection) productsSection.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className={`group py-6 text-sm font-bold uppercase tracking-[0.4em] text-red-700 hover:text-red-500 border-b border-zinc-900 transition-colors duration-300 ${prefersReducedMotion ? '' : 'pulse-glow'}`}
+              >
+                DROP 001
+              </Link>
 
-                <Link 
-                  to="/manifesto" 
-                  onClick={() => setIsMenuOpen(false)}
-                  className="py-6 text-sm font-bold uppercase tracking-[0.4em] text-white hover:text-red-800 border-b border-zinc-900 transition-colors"
-                >
-                  Manifesto
-                </Link>
-                <a 
-                  href="https://wa.me/5521965226593" 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="py-6 text-sm font-bold uppercase tracking-[0.4em] text-white hover:text-red-800 border-b border-zinc-900 transition-colors"
-                >
-                  Contato
-                </a>
-                <button 
-                  onClick={() => {
+              <Link 
+                to="/manifesto" 
+                onClick={() => setIsMenuOpen(false)}
+                className="group py-6 text-sm font-bold uppercase tracking-[0.4em] text-white hover:text-red-800 border-b border-zinc-900 transition-colors duration-300"
+              >
+                Manifesto
+              </Link>
+              <a 
+                href="https://wa.me/5521965226593" 
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsMenuOpen(false)}
+                className="group py-6 text-sm font-bold uppercase tracking-[0.4em] text-white hover:text-red-800 border-b border-zinc-900 transition-colors duration-300"
+              >
+                Contato
+              </a>
+              <button 
+                onClick={() => {
                     setIsMenuOpen(false);
                     setIsCartOpen(true);
                   }}
