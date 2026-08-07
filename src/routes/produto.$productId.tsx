@@ -335,32 +335,26 @@ function ProductDetail() {
               <Accordion title="SIGNIFICADO & HISTÓRIA">
                 <div className="space-y-6">
                   <p className="text-zinc-300 leading-relaxed italic">
-                    {product.description || 'Esta peça foi forjada para suportar o peso da sua ambição. Cada costura, cada fibra de compressão foi pensada para manter você focado no seu objetivo.'}
+                    {product.description || 'Esta peça foi forjada para suportar o peso da sua ambição.'}
                   </p>
                 </div>
               </Accordion>
               
-              <Accordion title="OS BENEFÍCIOS DO ARTEFATO">
-                <div className="space-y-6">
+              <Accordion title="THE ARCANE STANDARD">
+                <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
-                    <p>• Compressão Premium</p>
-                    <p>• Elasticidade 4-way</p>
-                    <p>• Costuras reforçadas</p>
-                    <p>• Respirabilidade</p>
-                    <p>• Performance e conforto</p>
-                    <p>• Secagem Ultra-Rápida</p>
+                    <p className="text-zinc-300 text-[10px] uppercase tracking-widest">• Costuras reforçadas</p>
+                    <p className="text-zinc-300 text-[10px] uppercase tracking-widest">• Compressão premium</p>
+                    <p className="text-zinc-300 text-[10px] uppercase tracking-widest">• Elasticidade 4-way</p>
+                    <p className="text-zinc-300 text-[10px] uppercase tracking-widest">• Tecido respirável</p>
+                    <p className="text-zinc-300 text-[10px] uppercase tracking-widest">• Impressão durável</p>
+                    <p className="text-zinc-300 text-[10px] uppercase tracking-widest">• Treino intenso</p>
                   </div>
                 </div>
               </Accordion>
 
-              <Accordion title="Especificações Técnicas">
-                <div className="space-y-2">
-                  <p>Poliamida de alta densidade misturada com elastano de recuperação imediata. Tecnologia Dry-Fit de absorção de suor integrada.</p>
-                </div>
-              </Accordion>
-              
               <Accordion title="Tabela de Medidas">
-                "Nossas peças possuem modelagem OVERSIZED e de COMPRESSÃO intencionais. Para o caimento perfeito, escolha seu tamanho habitual. Se busca um visual ainda mais amplo, opte por um tamanho acima."
+                <p>Nossas peças possuem modelagem OVERSIZED e de COMPRESSÃO intencionais. Para o caimento perfeito, escolha seu tamanho habitual. Se busca um visual ainda mais amplo, opte por um tamanho acima.</p>
                 <div className="mt-4">
                   <Link to="/medidas" className="text-white underline decoration-zinc-700 hover:decoration-white transition-colors">Ver tabela completa</Link>
                 </div>
@@ -373,9 +367,15 @@ function ProductDetail() {
                 </div>
               </Accordion>
 
-              <div className="pt-12 pb-8 border-t border-zinc-900 text-center">
-                <p className="text-zinc-500 text-[10px] md:text-xs uppercase tracking-[0.3em] leading-relaxed italic max-w-sm mx-auto">
+              <Accordion title="THE ARCANE CODE">
+                <div className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-bold italic leading-relaxed">
                   "Você não compra uma ARCANE para parecer forte. Você compra porque decidiu se tornar alguém que não recua."
+                </div>
+              </Accordion>
+
+              <div className="pt-12 pb-8 border-t border-zinc-900 text-center">
+                <p className="text-zinc-600 text-[9px] md:text-[10px] uppercase tracking-[0.4em] leading-relaxed italic max-w-sm mx-auto opacity-50">
+                  ✠ ARCANE MEMENTO MORI ✠
                 </p>
               </div>
             </div>

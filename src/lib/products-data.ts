@@ -18,12 +18,12 @@ export interface Product {
 export const mockProducts: Product[] = [
   { 
     id: 1, 
-    name: "THE CRUCIBLE", 
+    name: "Ⅰ — THE CRUCIBLE", 
     subtitle: "A disciplina transforma através da dor.",
     price: "R$ 179,90", 
     priceNumber: 179.90, 
     installments: "12x de R$ 14,99", 
-    image: "/images/products/ivory_front.png", // Assuming this is the white/black detailed one
+    image: "/images/products/ivory_front.png",
     backImage: "/images/products/ivory_back.png",
     category: "Forged Compression",
     colorLabel: "Bone White / Obsidian",
@@ -31,7 +31,7 @@ export const mockProducts: Product[] = [
   },
   { 
     id: 2, 
-    name: "BLOOD OATH", 
+    name: "Ⅱ — BLOOD OATH", 
     subtitle: "Um juramento feito com sangue.",
     price: "R$ 179,90", 
     priceNumber: 179.90, 
@@ -44,7 +44,7 @@ export const mockProducts: Product[] = [
   },
   { 
     id: 3, 
-    name: "SHADOW CREED", 
+    name: "Ⅲ — SHADOW CREED", 
     subtitle: "Algumas das maiores batalhas são vencidas em silêncio.",
     price: "R$ 179,90", 
     priceNumber: 179.90, 
