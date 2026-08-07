@@ -23,10 +23,10 @@ export const mockProducts: Product[] = [
     price: "R$ 179,90", 
     priceNumber: 179.90, 
     installments: "12x de R$ 14,99", 
-    image: "/images/products/obsidian_front.png",
-    backImage: "/images/products/obsidian_back.png",
+    image: "/images/products/ivory_front.png",
+    backImage: "/images/products/ivory_back.png",
     category: "Performance Compression",
-    colorLabel: "Obsidian Black",
+    colorLabel: "Ivory White",
     description: "Esta peça representa a elite. Quase secreta. Nem toda força precisa ser anunciada. Algumas das maiores batalhas são vencidas em silêncio. O Shadow Creed pertence àqueles que trabalham quando ninguém está olhando."
   },
   { 
@@ -36,10 +36,10 @@ export const mockProducts: Product[] = [
     price: "R$ 179,90", 
     priceNumber: 179.90, 
     installments: "12x de R$ 14,99", 
-    image: "/images/products/ivory_front.png",
-    backImage: "/images/products/ivory_back.png",
+    image: "/images/products/obsidian_front.png",
+    backImage: "/images/products/obsidian_back.png",
     category: "Forged Compression",
-    colorLabel: "Bone White / Obsidian",
+    colorLabel: "Obsidian Black",
     description: "O Crisol (Crucible) é o recipiente onde o metal é submetido ao fogo para ser purificado. Esta peça representa a transformação através da dor. Nada sai do fogo igual entrou. Alguns fogem do fogo. Outros são forjados por ele. O Crucible representa aqueles que aceitaram pagar o preço da evolução. A disciplina não é confortável. Ela queima. Ela molda. Ela permanece."
   },
   { 
