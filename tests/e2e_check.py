@@ -1,7 +1,6 @@
 import asyncio
 from pathlib import Path
 from playwright.async_api import async_playwright
-import json
 import os
 
 SCREENSHOTS = Path("/tmp/browser/e2e/screenshots")
@@ -31,17 +30,14 @@ async def main():
         print(f"Found {len(links)} internal links to test.")
         for link in links:
             try:
-                # Use absolute URL for the test
                 target_url = f"http://localhost:8080{link['href']}"
                 response = await page.goto(target_url, wait_until="domcontentloaded")
                 status = response.status if response else "No response"
                 print(f"Link '{link['text']}' -> {link['href']} | Status: {status}")
-                if response and response.status >= 400:
-                    print(f"ERROR: Link {link['href']} returned {response.status}")
             except Exception as e:
                 print(f"FAILED to navigate to {link['href']}: {str(e)}")
 
-        # 2. Test Responsiveness (iPhone 12 & Desktop)
+        # 2. Test Responsiveness
         await test_responsiveness(page, 390, 844, "mobile_iphone12")
         await test_responsiveness(page, 1280, 800, "desktop")
 
