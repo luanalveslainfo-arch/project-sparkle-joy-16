@@ -749,7 +749,7 @@ function RootComponent() {
               </div>
             </div>
           </div>
-        )}
+        </div>
 
         <main className="flex-1">
           <Outlet />
