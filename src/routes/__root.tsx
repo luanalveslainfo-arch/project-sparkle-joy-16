@@ -655,14 +655,14 @@ function RootComponent() {
                   to="/" 
                   onClick={(e) => {
                     setIsMenuOpen(false);
-                    // Scroll to products section if on home
                     const productsSection = document.getElementById('products-section');
                     if (productsSection) productsSection.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="py-6 text-sm font-bold uppercase tracking-[0.4em] text-white hover:text-red-800 border-b border-zinc-900 transition-colors"
+                  className="py-6 text-sm font-bold uppercase tracking-[0.4em] text-red-700 hover:text-red-500 border-b border-zinc-900 transition-colors drop-shadow-[0_0_8px_rgba(185,28,28,0.4)]"
                 >
                   DROP 001
                 </Link>
+
                 <Link 
                   to="/manifesto" 
                   onClick={() => setIsMenuOpen(false)}
