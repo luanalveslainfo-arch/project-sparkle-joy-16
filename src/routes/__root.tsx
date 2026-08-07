@@ -602,7 +602,8 @@ function RootComponent() {
             </nav>
             <button 
               className="md:hidden text-zinc-400 hover:text-white"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={() => setIsMenuOpen(true)}
+
               aria-label="Menu"
             >
               <Menu size={20} />
