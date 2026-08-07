@@ -302,8 +302,8 @@ function GlobalCartDrawer() {
             cart.map((item, idx) => (
               <div key={`${item.id}-${item.selectedSize}-${idx}`} className="flex gap-4 group">
                 {/* Product Image Placeholder */}
-                <div className="w-20 h-24 bg-zinc-900 border border-zinc-800 rounded-sm flex items-center justify-center text-[8px] uppercase text-zinc-600 text-center px-1 leading-tight">
-                  <img src={item.image} alt={item.name} className="w-full h-full object-cover grayscale brightness-50" />
+                <div className="w-20 h-24 bg-zinc-950 border border-zinc-900 overflow-hidden rounded-sm flex items-center justify-center">
+                  <img src={item.image} alt={item.name} className="w-full h-full object-cover grayscale brightness-75" />
                 </div>
                 
                 {/* Product Info */}
