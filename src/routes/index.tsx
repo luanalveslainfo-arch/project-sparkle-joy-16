@@ -28,9 +28,9 @@ function Index() {
         <img 
           src="/hero.png" 
           alt="Memento Mori" 
-          className="absolute inset-0 w-full h-full object-cover object-top z-0 opacity-[0.86] brightness-[1.62] contrast-[1.25] saturate-110 grayscale-0" 
+          className="absolute inset-0 w-full h-full object-cover object-top z-0 opacity-[0.9] brightness-[1.8] contrast-[1.2] saturate-110 grayscale-0" 
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/60 to-black z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/50 to-black z-10" />
 
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
