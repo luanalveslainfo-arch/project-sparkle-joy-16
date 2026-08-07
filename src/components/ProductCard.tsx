@@ -91,15 +91,20 @@ export function ProductCard({ product }: ProductCardProps) {
           <img
             src={product.image}
             alt={product.name}
+            loading="lazy"
+            decoding="async"
             className="absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-105 group-hover:opacity-0"
           />
           {product.backImage && (
             <img
               src={product.backImage}
               alt={`${product.name} back`}
+              loading="lazy"
+              decoding="async"
               className="absolute inset-0 w-full h-full object-cover transition-all duration-700 opacity-0 scale-110 group-hover:opacity-100 group-hover:scale-105"
             />
           )}
+
         </div>
 
         {/* Mobile Swipe Images */}
