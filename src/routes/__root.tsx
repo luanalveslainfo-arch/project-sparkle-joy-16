@@ -592,14 +592,31 @@ function RootComponent() {
         {/* Global Header */}
         <header className={`fixed left-0 w-full z-[30] bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50 flex items-center justify-between ${transitionClass} ${showTopBar ? 'translate-y-8' : 'translate-y-0'} top-0 h-16 md:h-20 px-4 md:px-12`}>
           <div className="flex items-center gap-6">
-            <nav className="hidden md:flex gap-6 text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-bold">
-              <Link to="/" className="hover:text-white transition-colors duration-300">Home</Link>
-              <span className="text-zinc-800 cursor-default" title="Forging the next drop.">Oversized</span>
-              <span className="text-zinc-800 cursor-default" title="Forging the next drop.">Hoodies</span>
-              <span className="text-zinc-800 cursor-default" title="Forging the next drop.">Pants</span>
-              <Link to="/manifesto" className="hover:text-white transition-colors duration-300">Manifesto</Link>
-              <a href="https://wa.me/5521965226593" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-300">Contato</a>
+            <nav className="hidden md:flex gap-8 text-[10px] uppercase tracking-[0.3em] font-bold">
+              <Link to="/" className="text-white hover:text-red-700 transition-colors duration-300">Home</Link>
+              <Link 
+                to="/" 
+                onClick={(e) => {
+                  const productsSection = document.getElementById('products-section');
+                  if (productsSection) {
+                    e.preventDefault();
+                    productsSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                className="text-red-700 hover:text-red-500 transition-colors duration-300 drop-shadow-[0_0_8px_rgba(185,28,28,0.4)]"
+              >
+                Drop 001
+              </Link>
+              <Link to="/manifesto" className="text-white hover:text-red-700 transition-colors duration-300">Manifesto</Link>
+              <a href="https://wa.me/5521965226593" target="_blank" rel="noopener noreferrer" className="text-white hover:text-red-700 transition-colors duration-300">Contato</a>
+              <button 
+                onClick={() => setIsCartOpen(true)}
+                className="text-white hover:text-red-700 transition-colors duration-300 uppercase"
+              >
+                Carrinho
+              </button>
             </nav>
+
             <button 
               className="md:hidden text-zinc-400 hover:text-white"
               onClick={() => setIsMenuOpen(true)}
