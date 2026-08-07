@@ -97,7 +97,7 @@ function Index() {
                 <Link 
                   to="/produto/$productId" 
                   params={{ productId: product.id.toString() }}
-                  className="relative w-full aspect-[3/4] bg-zinc-950 overflow-hidden border border-white/5 transition-all duration-700 hover:border-white/20"
+                  className="relative w-full aspect-[3/4] bg-zinc-950 overflow-hidden border border-white/5 transition-all duration-700 hover:border-white/20 active:scale-[0.98] tap-highlight-transparent"
                 >
                   <img 
                     src={product.image} 
