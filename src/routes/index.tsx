@@ -39,8 +39,11 @@ function Index() {
         <img 
           src="/hero.png" 
           alt="Memento Mori" 
+          loading="eager"
+          decoding="async"
           className="absolute inset-0 w-full h-full object-cover object-top z-0 opacity-[0.9] brightness-[1.8] contrast-[1.2] saturate-110 grayscale-0" 
         />
+
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/50 to-black z-10" />
 
         <motion.div 
