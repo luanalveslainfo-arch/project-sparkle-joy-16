@@ -154,9 +154,12 @@ export function ProductCard({ product }: ProductCardProps) {
       </Link>
 
       <div className="mt-8 space-y-3">
-        <h3 className="font-madness text-2xl text-white">{product.name}</h3>
-        <p className="text-zinc-500 text-[9px] tracking-[0.3em] uppercase">{product.category}</p>
-        <p className="text-white text-xs font-bold tracking-widest">{product.price}</p>
+        <div className="flex flex-col gap-1">
+          <span className="font-madness text-xl text-red-800 tracking-[0.3em]">{product.name.split(' — ')[0]}</span>
+          <h3 className="font-bold text-xl md:text-2xl text-white tracking-widest uppercase">{product.name.split(' — ')[1]}</h3>
+        </div>
+        <p className="text-zinc-500 text-[11px] md:text-[12px] tracking-[0.3em] uppercase font-medium">{product.subtitle || product.category}</p>
+        <p className="text-white text-xs md:text-sm font-bold tracking-widest">{product.price}</p>
       </div>
     </motion.div>
   );
