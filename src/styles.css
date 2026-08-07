@@ -2,14 +2,12 @@
 @import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap');
 @import "tw-animate-css";
 
-@layer base {
-  @font-face {
-    font-family: 'MadnessFont';
-    src: url('/fonts/Art_Dystopia.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-  }
+@font-face {
+  font-family: 'MadnessFont';
+  src: url('/fonts/Art_Dystopia.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 @source "../src";
