@@ -678,6 +678,7 @@ function RootComponent() {
           id="mobile-menu"
           className={`fixed inset-0 z-[10001] flex md:hidden ${isMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
           aria-hidden={!isMenuOpen}
+          inert={!isMenuOpen}
         >
           <div 
             className={`absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-300 ease-out ${isMenuOpen ? 'opacity-100' : 'opacity-0'}`} 
