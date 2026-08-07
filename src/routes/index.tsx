@@ -1,4 +1,15 @@
+/*
+Execute esta instrucao no projeto: O que eu revisaria antes de dar 100%:
+Procurar textos quebrados, erros de português ou espaçamento.
+Testar todos os botões (nenhum pode dar erro ou levar para lugar errado).
+Verificar se todas as imagens carregam rápido.
+Testar em mais de um celular e navegador.
+Conferir se todos os links do menu funcionam.
+Ajustar qualquer detalhe visual restante (como a iluminação do modelo no hero, se ainda incomodar).
+Se tudo isso estiver certo, eu marcaria o site como versão 1.0 pronta para vender.
+*/
 import { createFileRoute, Link } from "@tanstack/react-router";
+
 import { Phone } from "lucide-react";
 import { motion } from "framer-motion";
 import { HeroParticles } from "@/components/HeroParticles";
