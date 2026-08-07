@@ -163,12 +163,12 @@ function ProductDetail() {
               </div>
               
               {/* Mobile Carousel Indicators */}
-              <div className="flex md:hidden justify-center gap-2 mt-4">
+              <div className="flex md:hidden justify-center gap-3 mt-6">
                 {[...Array(totalSlides)].map((_, i) => (
                   <div 
                     key={i}
-                    className={`h-[2px] transition-all duration-300 ${
-                      activeSlide === i ? "w-8 bg-white opacity-100" : "w-4 bg-zinc-800 opacity-50"
+                    className={`h-[3px] transition-all duration-300 ${
+                      activeSlide === i ? "w-10 bg-white opacity-100" : "w-5 bg-zinc-800 opacity-50"
                     }`}
                   ></div>
                 ))}
@@ -191,9 +191,12 @@ function ProductDetail() {
             className="lg:sticky lg:top-24 h-fit space-y-8"
           >
             <div className="space-y-6">
-              <h1 className="text-4xl md:text-6xl font-madness tracking-widest leading-tight text-white uppercase">
-                {product.name}
-              </h1>
+              <div className="space-y-2">
+                <span className="text-[10px] md:text-xs font-bold tracking-[0.5em] text-red-800 uppercase block mb-2">DROP 001 | MEMENTO MORI</span>
+                <h1 className="text-4xl md:text-6xl font-madness tracking-widest leading-tight text-white uppercase">
+                  {product.name}
+                </h1>
+              </div>
               <div className="space-y-4">
                 <p className="text-zinc-500 text-[10px] uppercase tracking-[0.4em] font-bold">{product.category}</p>
                 <div className="max-w-md">
@@ -340,15 +343,24 @@ function ProductDetail() {
                 </div>
               </Accordion>
               
+              <Accordion title="FORJADA PARA">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <p className="text-zinc-300 text-[10px] uppercase tracking-widest flex items-center gap-2">✓ Academia</p>
+                  <p className="text-zinc-300 text-[10px] uppercase tracking-widest flex items-center gap-2">✓ Lifestyle</p>
+                  <p className="text-zinc-300 text-[10px] uppercase tracking-widest flex items-center gap-2">✓ Treino pesado</p>
+                  <p className="text-zinc-300 text-[10px] uppercase tracking-widest flex items-center gap-2">✓ Uso diário</p>
+                </div>
+              </Accordion>
+
               <Accordion title="THE ARCANE STANDARD">
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
-                    <p className="text-zinc-300 text-[10px] uppercase tracking-widest">• Costuras reforçadas</p>
-                    <p className="text-zinc-300 text-[10px] uppercase tracking-widest">• Compressão premium</p>
-                    <p className="text-zinc-300 text-[10px] uppercase tracking-widest">• Elasticidade 4-way</p>
-                    <p className="text-zinc-300 text-[10px] uppercase tracking-widest">• Tecido respirável</p>
-                    <p className="text-zinc-300 text-[10px] uppercase tracking-widest">• Impressão durável</p>
-                    <p className="text-zinc-300 text-[10px] uppercase tracking-widest">• Treino intenso</p>
+                    <p className="text-zinc-300 text-[10px] uppercase tracking-widest flex items-center gap-2">⚔ Costuras reforçadas</p>
+                    <p className="text-zinc-300 text-[10px] uppercase tracking-widest flex items-center gap-2">✠ Compressão premium</p>
+                    <p className="text-zinc-300 text-[10px] uppercase tracking-widest flex items-center gap-2">⛓ Elasticidade 4-way</p>
+                    <p className="text-zinc-300 text-[10px] uppercase tracking-widest flex items-center gap-2">⬛ Tecido respirável</p>
+                    <p className="text-zinc-300 text-[10px] uppercase tracking-widest flex items-center gap-2">⚔ Impressão durável</p>
+                    <p className="text-zinc-300 text-[10px] uppercase tracking-widest flex items-center gap-2">✠ Treino intenso</p>
                   </div>
                 </div>
               </Accordion>

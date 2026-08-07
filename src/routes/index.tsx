@@ -28,9 +28,9 @@ function Index() {
         <img 
           src="/hero.png" 
           alt="Memento Mori" 
-          className="absolute inset-0 w-full h-full object-cover object-top z-0 opacity-80 brightness-150 contrast-125 saturate-110 grayscale-0" 
+          className="absolute inset-0 w-full h-full object-cover object-top z-0 opacity-[0.86] brightness-[1.62] contrast-[1.25] saturate-110 grayscale-0" 
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-black z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/60 to-black z-10" />
 
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -48,7 +48,7 @@ function Index() {
             onClick={scrollToManifesto}
             className="border border-white/20 bg-white/5 backdrop-blur-md text-white px-20 py-8 text-[12px] md:text-sm font-bold uppercase tracking-[0.4em] transition-all hover:bg-white hover:text-black hover:border-white hover:scale-105 active:scale-95 duration-500 cursor-pointer"
           >
-            CONHECER O MANIFESTO
+            LER O MANIFESTO
           </button>
         </motion.div>
       </section>
@@ -121,16 +121,16 @@ function Index() {
       </section>
 
       {/* 4. ARCANE CODE */}
-      <section className="py-40 bg-zinc-950 border-t border-zinc-900/50">
+      <section className="py-48 bg-zinc-950 border-t border-zinc-900/50">
         <div className="max-w-4xl mx-auto px-6 text-center space-y-16">
           <div className="flex items-center justify-center gap-4 text-zinc-800">
             <span className="w-12 h-[1px] bg-zinc-900" />
             <h2 className="text-[10px] tracking-[0.6em] text-zinc-600 uppercase font-bold">THE ARCANE CODE</h2>
             <span className="w-12 h-[1px] bg-zinc-900" />
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
-            {["Discipline.", "Silence.", "Sacrifice.", "Consistency.", "Memento Mori."].map((item, i) => (
-              <div key={i} className="text-white text-sm font-light tracking-widest transition-all duration-700 hover:text-red-900 hover:scale-105 cursor-default">
+          <div className="flex flex-wrap justify-center gap-x-12 gap-y-8">
+            {["Disciplina", "Sacrifício", "Silêncio", "Constância", "Memento Mori"].map((item, i) => (
+              <div key={i} className="text-white text-xs md:text-sm font-light tracking-[0.3em] transition-all duration-700 hover:text-red-900 hover:scale-105 cursor-default uppercase">
                 ✠ {item}
               </div>
             ))}
