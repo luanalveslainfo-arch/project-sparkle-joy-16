@@ -123,11 +123,15 @@ function Index() {
       {/* 4. ARCANE CODE */}
       <section className="py-40 bg-zinc-950 border-t border-zinc-900/50">
         <div className="max-w-4xl mx-auto px-6 text-center space-y-16">
-          <h2 className="text-[10px] tracking-[0.6em] text-zinc-600 uppercase font-bold">THE ARCANE CODE</h2>
+          <div className="flex items-center justify-center gap-4 text-zinc-800">
+            <span className="w-12 h-[1px] bg-zinc-900" />
+            <h2 className="text-[10px] tracking-[0.6em] text-zinc-600 uppercase font-bold">THE ARCANE CODE</h2>
+            <span className="w-12 h-[1px] bg-zinc-900" />
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
             {["Discipline.", "Silence.", "Sacrifice.", "Consistency.", "Memento Mori."].map((item, i) => (
-              <div key={i} className="text-white text-sm font-light tracking-widest">
-                ☩ {item}
+              <div key={i} className="text-white text-sm font-light tracking-widest transition-all duration-700 hover:text-red-900 hover:scale-105 cursor-default">
+                ✠ {item}
               </div>
             ))}
           </div>
