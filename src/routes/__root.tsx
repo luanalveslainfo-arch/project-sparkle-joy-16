@@ -591,13 +591,15 @@ function RootComponent() {
           <div className="flex items-center gap-6">
             <nav className="hidden md:flex gap-6 text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-bold">
               <Link to="/" className="hover:text-white transition-colors duration-300">Home</Link>
-              <Link to="/produtos" className="hover:text-white transition-colors duration-300">Produtos</Link>
+              <span className="text-zinc-800 cursor-default" title="Forging the next drop.">Oversized</span>
+              <span className="text-zinc-800 cursor-default" title="Forging the next drop.">Hoodies</span>
+              <span className="text-zinc-800 cursor-default" title="Forging the next drop.">Pants</span>
               <Link to="/manifesto" className="hover:text-white transition-colors duration-300">Manifesto</Link>
               <a href="https://wa.me/5521965226593" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-300">Contato</a>
             </nav>
             <button 
               className="md:hidden text-zinc-400 hover:text-white"
-              onClick={() => setIsMenuOpen(true)}
+              onClick={() => setIsMenuOpen(false)}
               aria-label="Menu"
             >
               <Menu size={20} />
@@ -645,13 +647,15 @@ function RootComponent() {
                 >
                   Home
                 </Link>
-                <Link 
-                  to="/produtos" 
-                  onClick={() => setIsMenuOpen(false)}
-                  className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-400 hover:text-white border-b border-zinc-900 transition-colors"
-                >
-                  Produtos
-                </Link>
+                <span className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-800 cursor-default border-b border-zinc-900" title="Forging the next drop.">
+                  Oversized
+                </span>
+                <span className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-800 cursor-default border-b border-zinc-900" title="Forging the next drop.">
+                  Hoodies
+                </span>
+                <span className="py-6 text-sm font-bold uppercase tracking-[0.3em] text-zinc-800 cursor-default border-b border-zinc-900" title="Forging the next drop.">
+                  Pants
+                </span>
                 <Link 
                   to="/manifesto" 
                   onClick={() => setIsMenuOpen(false)}

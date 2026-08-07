@@ -152,11 +152,11 @@ function ProductDetail() {
                 <div className="min-w-full md:min-w-0 snap-center">
                   <ProductImage src={product.image} alt={product.name} />
                 </div>
-                <div className="min-w-full md:min-w-0 snap-center aspect-[3/4] bg-zinc-900 border border-zinc-800 flex items-center justify-center relative overflow-hidden">
-                   <span className="text-[10px] uppercase tracking-widest text-zinc-700 font-bold">ARCANE VISUALS II</span>
+                <div className="min-w-full md:min-w-0 snap-center">
+                  <ProductImage src={product.backImage || product.image} alt={`${product.name} back`} />
                 </div>
                 <div className="min-w-full md:min-w-0 snap-center aspect-[3/4] bg-zinc-900 border border-zinc-800 flex items-center justify-center relative overflow-hidden">
-                   <span className="text-[10px] uppercase tracking-widest text-zinc-700 font-bold">ARCANE VISUALS III</span>
+                   <span className="text-[10px] uppercase tracking-[0.5em] text-zinc-700 font-bold">MEMENTO MORI</span>
                 </div>
               </div>
               
@@ -192,14 +192,15 @@ function ProductDetail() {
               <h1 className="text-3xl md:text-5xl font-black tracking-widest leading-tight uppercase font-sans">
                 {product.name}
               </h1>
+              <div className="space-y-1">
+                <p className="text-zinc-500 text-[10px] uppercase tracking-[0.3em] font-bold">{product.category}</p>
+                <p className="text-zinc-600 text-[11px] italic tracking-wider">"Forged for those who refuse mediocrity."</p>
+              </div>
               <div className="flex items-center gap-4">
                 <div className="flex flex-col gap-1">
                   <span className="text-2xl font-bold tracking-wider">{product.price}</span>
                   <span className="text-[10px] text-zinc-500 uppercase tracking-widest">ATÉ 12X S/ JUROS OU PIX</span>
                 </div>
-                <span className="px-2 py-1 bg-red-950/30 text-red-700 text-[10px] font-bold uppercase tracking-widest border border-red-900/30">
-                  7% OFF
-                </span>
               </div>
               <p className="text-[10px] text-zinc-400 uppercase tracking-[0.2em]">ou {product.installments}</p>
             </div>
@@ -317,9 +318,10 @@ function ProductDetail() {
                 onClick={handleAddToCart}
                 className="relative z-50 pointer-events-auto cursor-pointer w-full bg-white text-black py-4 md:py-5 text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-300 hover:bg-zinc-200 active:scale-[0.98]"
               >
-                ADICIONAR AO CARRINHO
+                FORJAR DESTINO
               </button>
             </div>
+
 
             <div className="pt-4 border-t border-zinc-900">
               <TrustBadges />
@@ -329,6 +331,16 @@ function ProductDetail() {
             <div className="pt-8">
               <Accordion title="Descrição da Peça">
                 Concebida para a elite. Tecido de alta compressão que esculpe o corpo enquanto permite máxima mobilidade. Estampa gótica exclusiva em serigrafia de alta densidade. Durabilidade extrema para treinos intensos.
+              </Accordion>
+              <Accordion title="Especificações Técnicas">
+                <div className="space-y-2">
+                  <p>• Tecido Dry Fit Premium</p>
+                  <p>• Compressão Atlética</p>
+                  <p>• Estampa Sublimada</p>
+                  <p>• Alta Elasticidade</p>
+                  <p>• Respirável</p>
+                  <p>• Secagem Rápida</p>
+                </div>
               </Accordion>
               <Accordion title="Tabela de Medidas">
                 "Nossas peças possuem modelagem OVERSIZED e de COMPRESSÃO intencionais. Para o caimento perfeito, escolha seu tamanho habitual. Se busca um visual ainda mais amplo, opte por um tamanho acima."

@@ -93,50 +93,71 @@ function Index() {
         </motion.div>
       </section>
 
-      {/* 4, 5, 6. PRODUTOS (Editorial Style) */}
-      <div className="space-y-0">
-        {mockProducts.map((product, index) => (
-          <section key={product.id} className="relative w-full h-screen flex items-center justify-center overflow-hidden border-t border-zinc-900/30">
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 1.5 }}
-              viewport={{ once: true }}
-              className="absolute inset-0 z-0"
-            >
-              <img 
-                src={product.image} 
-                alt={product.name} 
-                className="w-full h-full object-cover brightness-[0.3] grayscale hover:grayscale-0 transition-all duration-1000"
-              />
-              <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80" />
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="relative z-10 text-center px-4 max-w-2xl"
-            >
-              <h2 className="text-4xl md:text-7xl font-madness text-white mb-6 tracking-wider">
-                {product.name}
-              </h2>
-              <p className="text-zinc-400 text-xs md:text-sm tracking-[0.3em] uppercase mb-12 font-light italic">
-                {index === 0 ? "Forjada para quem escolheu a disciplina." : 
-                 index === 1 ? "Onde o silêncio encontra a força." : 
-                 "A armadura final para o caminho solitário."}
-              </p>
-              <Link 
-                to="/produto/$productId" 
-                params={{ productId: product.id.toString() }}
-                className="inline-block border border-white text-white px-10 py-4 text-[9px] font-bold uppercase tracking-[0.4em] transition-all hover:bg-white hover:text-black"
+      {/* 3.5 SEÇÃO: OS TRÊS ESCOLHIDOS */}
+      <section className="py-20 bg-black">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <motion.h2 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            className="text-[10px] tracking-[0.6em] text-zinc-600 uppercase font-bold text-center mb-16"
+          >
+            OS TRÊS ESCOLHIDOS
+          </motion.h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4">
+            {mockProducts.map((product) => (
+              <motion.div
+                key={product.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="group relative flex flex-col items-center"
               >
-                VER PEÇA
-              </Link>
-            </motion.div>
-          </section>
-        ))}
+                <Link 
+                  to="/produto/$productId" 
+                  params={{ productId: product.id.toString() }}
+                  className="relative w-full aspect-[3/4] bg-black overflow-hidden border border-white/5 transition-all duration-700 hover:border-white/20"
+                >
+                  {/* Front Image */}
+                  <img 
+                    src={product.image} 
+                    alt={product.name} 
+                    className="absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-105 group-hover:opacity-0"
+                  />
+                  {/* Back Image (Hover) */}
+                  {product.backImage && (
+                    <img 
+                      src={product.backImage} 
+                      alt={`${product.name} back`} 
+                      className="absolute inset-0 w-full h-full object-cover transition-all duration-700 opacity-0 scale-110 group-hover:opacity-100 group-hover:scale-105"
+                    />
+                  )}
+                  {/* Mobile Toggle Logic (handled by hover classes in modern mobile browsers or we can add a simple tap handler if needed, but the requirement was smooth zoom/glow) */}
+                  <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-700" />
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-t from-white/10 to-transparent transition-opacity duration-700" />
+                </Link>
+                
+                <div className="mt-6 text-center space-y-2">
+                  <h3 className="font-madness text-xl tracking-widest text-white">{product.name}</h3>
+                  <p className="text-zinc-500 text-[9px] tracking-[0.3em] uppercase">{product.category}</p>
+                  <p className="text-white text-xs font-bold tracking-widest pt-2">{product.price}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. DROP 001 - MEMENTO MORI (Narrative Layout) */}
+      <div className="space-y-0">
+        <section className="relative w-full h-[60vh] flex flex-col items-center justify-center bg-black border-t border-zinc-900/50">
+          <div className="text-center space-y-4 px-4">
+            <h2 className="text-zinc-600 tracking-[0.5em] text-[10px] uppercase font-bold">LIMITED RELEASE</h2>
+            <p className="text-zinc-500 text-sm italic font-light max-w-md mx-auto">
+              Estes são os únicos artefatos disponíveis do Drop 001. Uma coleção forjada para aqueles que não aceitam a mediocridade.
+            </p>
+          </div>
+        </section>
       </div>
 
       {/* 7. KIT MEMENTO MORI */}
@@ -201,6 +222,9 @@ function Index() {
 
           <nav className="flex flex-wrap justify-center gap-8 text-[9px] font-bold tracking-[0.3em] text-zinc-500 uppercase">
             <Link to="/manifesto" className="hover:text-white transition-colors">Manifesto</Link>
+            <span className="text-zinc-800 cursor-default" title="Forging the next drop.">Oversized</span>
+            <span className="text-zinc-800 cursor-default" title="Forging the next drop.">Hoodies</span>
+            <span className="text-zinc-800 cursor-default" title="Forging the next drop.">Pants</span>
             <Link to="/medidas" className="hover:text-white transition-colors">Medidas</Link>
             <Link to="/envios" className="hover:text-white transition-colors">Envios</Link>
             <a href="https://wa.me/5521965226593" target="_blank" rel="noopener" className="hover:text-white transition-colors">Suporte</a>
