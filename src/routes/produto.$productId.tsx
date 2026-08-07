@@ -316,27 +316,32 @@ function ProductDetail() {
               </div>
             </div>
 
-            <div className="max-md:fixed max-md:bottom-0 max-md:left-0 max-md:w-full max-md:p-4 max-md:bg-zinc-950/95 max-md:backdrop-blur-lg max-md:border-t max-md:border-zinc-900 max-md:z-[100] max-md:shadow-[0_-10px_40px_rgba(0,0,0,0.8)]">
+            <div className="md:relative max-md:fixed max-md:bottom-0 max-md:left-0 max-md:w-full max-md:p-4 max-md:bg-zinc-950/95 max-md:backdrop-blur-lg max-md:border-t max-md:border-zinc-900 max-md:z-[100] max-md:shadow-[0_-10px_40px_rgba(0,0,0,0.8)]">
               <button
                 onClick={handleAddToCart}
-                className="relative z-50 pointer-events-auto cursor-pointer w-full bg-white text-black py-4 md:py-5 text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-300 hover:bg-zinc-200 active:scale-[0.98]"
+                className="relative z-50 pointer-events-auto cursor-pointer w-full bg-white text-black py-4 md:py-6 text-[10px] md:text-xs font-black uppercase tracking-[0.3em] transition-all duration-300 hover:bg-zinc-200 active:scale-[0.98] shadow-[0_10px_30px_rgba(255,255,255,0.1)]"
               >
                 FORJAR DESTINO
               </button>
             </div>
 
 
-            <div className="pt-4 border-t border-zinc-900">
+            <div className="pt-8 border-t border-zinc-900">
               <TrustBadges />
             </div>
 
 
             <div className="pt-8">
-              <Accordion title="FORJADA PARA QUEM ESCOLHEU A DISCIPLINA">
+              <Accordion title="SIGNIFICADO & HISTÓRIA">
                 <div className="space-y-6">
-                  <p className="text-zinc-300">
-                    A disciplina não é um dom, é uma escolha. Esta peça foi forjada para suportar o peso da sua ambição. Cada costura, cada fibra de compressão foi pensada para manter você focado no seu objetivo, sem distrações.
+                  <p className="text-zinc-300 leading-relaxed italic">
+                    {product.description || 'Esta peça foi forjada para suportar o peso da sua ambição. Cada costura, cada fibra de compressão foi pensada para manter você focado no seu objetivo.'}
                   </p>
+                </div>
+              </Accordion>
+              
+              <Accordion title="OS BENEFÍCIOS DO ARTEFATO">
+                <div className="space-y-6">
                   <div className="grid grid-cols-2 gap-4">
                     <p>• Compressão Premium</p>
                     <p>• Elasticidade 4-way</p>
@@ -347,23 +352,32 @@ function ProductDetail() {
                   </div>
                 </div>
               </Accordion>
+
               <Accordion title="Especificações Técnicas">
                 <div className="space-y-2">
                   <p>Poliamida de alta densidade misturada com elastano de recuperação imediata. Tecnologia Dry-Fit de absorção de suor integrada.</p>
                 </div>
               </Accordion>
+              
               <Accordion title="Tabela de Medidas">
                 "Nossas peças possuem modelagem OVERSIZED e de COMPRESSÃO intencionais. Para o caimento perfeito, escolha seu tamanho habitual. Se busca um visual ainda mais amplo, opte por um tamanho acima."
                 <div className="mt-4">
                   <Link to="/medidas" className="text-white underline decoration-zinc-700 hover:decoration-white transition-colors">Ver tabela completa</Link>
                 </div>
               </Accordion>
+              
               <Accordion title="Envios e Prazos">
                 Nosso arsenal é forjado internacionalmente. O tempo de processamento é de 1 a 3 dias úteis. O prazo de entrega estimado para o Brasil é de 7 a 15 dias úteis. Todas as remessas possuem código de rastreio enviado diretamente para o seu e-mail.
                 <div className="mt-4">
                   <Link to="/envios" className="text-white underline decoration-zinc-700 hover:decoration-white transition-colors">Mais detalhes sobre envios</Link>
                 </div>
               </Accordion>
+
+              <div className="pt-12 pb-8 border-t border-zinc-900 text-center">
+                <p className="text-zinc-500 text-[10px] md:text-xs uppercase tracking-[0.3em] leading-relaxed italic max-w-sm mx-auto">
+                  "Você não compra uma ARCANE para parecer forte. Você compra porque decidiu se tornar alguém que não recua."
+                </p>
+              </div>
             </div>
           </motion.div>
         </div>
