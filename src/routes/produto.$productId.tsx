@@ -64,9 +64,10 @@ function ProductDetail() {
   const [item2Option, setItem2Option] = useState<"same" | "other">("same");
   const [item2Product, setItem2Product] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSizeChartOpen, setIsSizeChartOpen] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const sizes = ["P", "M", "G", "GG"];
+  const sizes = ["P", "M", "G", "GG", "XGG"];
   const totalSlides = 3;
 
   const handleScroll = useCallback(() => {
@@ -258,16 +259,21 @@ function ProductDetail() {
                 <div className="space-y-4 pt-4 border-t border-zinc-900">
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">
-                      {purchaseType === 'combo' ? 'ITEM 1: ' + product.name : 'Selecione o Tamanho'}
+                      {purchaseType === 'combo' ? 'ITEM 1: ' + product.name : 'Escolha o tamanho'}
                     </span>
-                    <span className="text-[9px] uppercase tracking-widest font-bold text-red-600 animate-pulse">Poucas unidades disponíveis</span>
+                    <button 
+                      onClick={() => setIsSizeChartOpen(true)}
+                      className="text-[10px] uppercase tracking-widest font-bold text-zinc-300 hover:text-white transition-colors flex items-center gap-2"
+                    >
+                      <span>📏 Ver tabela de medidas</span>
+                    </button>
                   </div>
-                  <div className="flex gap-4">
+                  <div className="flex flex-wrap gap-4">
                     {sizes.map((size) => (
                       <button
                         key={size}
                         onClick={() => setSelectedSize(size)}
-                        className={`w-16 h-16 flex items-center justify-center border-2 text-xs font-black transition-all duration-500 ${
+                        className={`w-14 h-14 md:w-16 md:h-16 flex items-center justify-center border-2 text-xs font-black transition-all duration-500 ${
                           selectedSize === size
                             ? "bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.2)]"
                             : "bg-transparent text-white border-zinc-900 hover:border-zinc-700"
@@ -276,6 +282,11 @@ function ProductDetail() {
                         {size}
                       </button>
                     ))}
+                  </div>
+                  <div className="pt-2">
+                    <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-medium">
+                      O modelo da foto mede 1,82 m, pesa 86 kg e veste GG.
+                    </p>
                   </div>
                 </div>
 
@@ -310,7 +321,7 @@ function ProductDetail() {
                           <button
                             key={size + "-2"}
                             onClick={() => setSelectedSize2(size)}
-                            className={`w-16 h-16 flex items-center justify-center border-2 text-xs font-black transition-all duration-500 ${
+                            className={`w-14 h-14 md:w-16 md:h-16 flex items-center justify-center border-2 text-xs font-black transition-all duration-500 ${
                               selectedSize2 === size
                                 ? "bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.2)]"
                                 : "bg-transparent text-white border-zinc-900 hover:border-zinc-700"
@@ -372,10 +383,11 @@ function ProductDetail() {
                 </div>
               </Accordion>
 
-              <Accordion title="Tabela de Medidas">
-                <p>Nossas peças possuem modelagem OVERSIZED e de COMPRESSÃO intencionais. Para o caimento perfeito, escolha seu tamanho habitual. Se busca um visual ainda mais amplo, opte por um tamanho acima.</p>
-                <div className="mt-4">
-                  <Link to="/medidas" className="text-white underline decoration-zinc-700 hover:decoration-white transition-colors">Ver tabela completa</Link>
+              <Accordion title="Modelagem & Caimento">
+                <p>Nossas peças possuem modelagem de COMPRESSÃO elite. Desenvolvida para abraçar o corpo, oferecendo suporte muscular e realçando a estética.</p>
+                <div className="mt-4 space-y-2">
+                  <p className="flex items-center gap-2">✔ Se usa M normalmente, escolha M.</p>
+                  <p className="flex items-center gap-2">✔ Para um caimento menos justo, escolha um tamanho acima.</p>
                 </div>
               </Accordion>
               
@@ -483,6 +495,76 @@ function ProductDetail() {
                   </div>
                 </button>
               ))}
+            </div>
+          </motion.div>
+        </div>
+      )}
+      
+      {/* Size Chart Modal */}
+      {isSizeChartOpen && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/95 backdrop-blur-md" onClick={() => setIsSizeChartOpen(false)} />
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="relative bg-zinc-950 border border-zinc-800 w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 md:p-10 rounded-sm space-y-8"
+          >
+            <div className="flex items-center justify-between border-b border-zinc-900 pb-6">
+              <h2 className="text-xl font-madness uppercase tracking-[0.2em]">TABELA DE MEDIDAS</h2>
+              <button onClick={() => setIsSizeChartOpen(false)} className="hover:text-red-800 transition-colors">
+                <X size={24} />
+              </button>
+            </div>
+
+            <div className="space-y-6">
+              <div className="bg-zinc-900/50 p-6 border border-zinc-800 space-y-4">
+                <h3 className="text-xs font-black uppercase tracking-widest text-red-800">RECOMENDAÇÃO ARCANE</h3>
+                <ul className="text-[11px] uppercase tracking-widest space-y-3 text-zinc-300">
+                  <li className="flex items-start gap-3">
+                    <span className="text-red-800">✔</span>
+                    <span>Modelagem de compressão elite.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-red-800">✔</span>
+                    <span>Se usa M normalmente, escolha M.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-red-800">✔</span>
+                    <span>Para um caimento menos justo, escolha um tamanho acima.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse text-[10px] md:text-xs uppercase tracking-widest">
+                  <thead>
+                    <tr className="border-b border-zinc-800 text-zinc-500">
+                      <th className="py-4 text-left font-bold">TAMANHO</th>
+                      <th className="py-4 text-left font-bold">ALTURA</th>
+                      <th className="py-4 text-left font-bold">PESO</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-zinc-300">
+                    {[
+                      { t: "P", a: "1,60–1,70 M", p: "50–55 KG" },
+                      { t: "M", a: "1,65–1,75 M", p: "60–65 KG" },
+                      { t: "G", a: "1,70–1,80 M", p: "65–70 KG" },
+                      { t: "GG", a: "1,75–1,85 M", p: "75–80 KG" },
+                      { t: "XGG", a: "1,80–1,90 M", p: "80–85 KG" },
+                    ].map((row, i) => (
+                      <tr key={i} className="border-b border-zinc-900/50">
+                        <td className="py-4 font-black">{row.t}</td>
+                        <td className="py-4 font-medium">{row.a}</td>
+                        <td className="py-4 font-medium">{row.p}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <p className="text-[9px] uppercase tracking-widest text-zinc-600 italic leading-relaxed">
+                * A modelagem possui compressão. Caso prefira um caimento menos justo, escolha um tamanho acima do habitual.
+              </p>
             </div>
           </motion.div>
         </div>

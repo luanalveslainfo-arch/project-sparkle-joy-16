@@ -29,8 +29,8 @@ function Medidas() {
         {/* Content */}
         <div className="w-full space-y-12 mb-20">
           <div className="bg-zinc-950/50 border border-zinc-900 p-8 rounded-sm">
-            <p className="text-zinc-300 text-lg leading-relaxed font-light tracking-wide text-center">
-              "Nossas peças possuem modelagem OVERSIZED e de COMPRESSÃO intencionais. Para o caimento perfeito, escolha seu tamanho habitual. Se busca um visual ainda mais amplo, opte por um tamanho acima."
+            <p className="text-zinc-300 text-sm md:text-lg leading-relaxed font-light tracking-wide text-center uppercase">
+              "A modelagem possui compressão elite. Caso prefira um caimento menos justo, escolha um tamanho acima do habitual."
             </p>
           </div>
           
@@ -39,43 +39,57 @@ function Medidas() {
               <thead>
                 <tr className="bg-zinc-900/50">
                   <th className="border border-zinc-800 p-4 text-left">TAMANHO</th>
-                  <th className="border border-zinc-800 p-4 text-left">ALTURA (CM)</th>
-                  <th className="border border-zinc-800 p-4 text-left">LARGURA (CM)</th>
-                  <th className="border border-zinc-800 p-4 text-left">INDICADO PARA</th>
+                  <th className="border border-zinc-800 p-4 text-left">ALTURA</th>
+                  <th className="border border-zinc-800 p-4 text-left">PESO</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td className="border border-zinc-800 p-4">P</td>
-                  <td className="border border-zinc-800 p-4">72</td>
-                  <td className="border border-zinc-800 p-4">56</td>
-                  <td className="border border-zinc-800 p-4">ATÉ 1.70M / 70KG</td>
+                  <td className="border border-zinc-800 p-4">1,60–1,70 m</td>
+                  <td className="border border-zinc-800 p-4">50–55 kg</td>
                 </tr>
                 <tr className="bg-zinc-900/20">
                   <td className="border border-zinc-800 p-4">M</td>
-                  <td className="border border-zinc-800 p-4">74</td>
-                  <td className="border border-zinc-800 p-4">58</td>
-                  <td className="border border-zinc-800 p-4">ATÉ 1.80M / 85KG</td>
+                  <td className="border border-zinc-800 p-4">1,65–1,75 m</td>
+                  <td className="border border-zinc-800 p-4">60–65 kg</td>
                 </tr>
                 <tr>
                   <td className="border border-zinc-800 p-4">G</td>
-                  <td className="border border-zinc-800 p-4">76</td>
-                  <td className="border border-zinc-800 p-4">60</td>
-                  <td className="border border-zinc-800 p-4">ATÉ 1.90M / 100KG</td>
+                  <td className="border border-zinc-800 p-4">1,70–1,80 m</td>
+                  <td className="border border-zinc-800 p-4">65–70 kg</td>
                 </tr>
                 <tr className="bg-zinc-900/20">
                   <td className="border border-zinc-800 p-4">GG</td>
-                  <td className="border border-zinc-800 p-4">78</td>
-                  <td className="border border-zinc-800 p-4">62</td>
-                  <td className="border border-zinc-800 p-4">ACIMA DE 1.90M / 100KG+</td>
+                  <td className="border border-zinc-800 p-4">1,75–1,85 m</td>
+                  <td className="border border-zinc-800 p-4">75–80 kg</td>
+                </tr>
+                <tr>
+                  <td className="border border-zinc-800 p-4">XGG</td>
+                  <td className="border border-zinc-800 p-4">1,80–1,90 m</td>
+                  <td className="border border-zinc-800 p-4">80–85 kg</td>
                 </tr>
               </tbody>
             </table>
           </div>
           
-          <p className="text-zinc-500 text-[10px] uppercase tracking-widest text-center italic">
-            * Margem de erro de 2cm para mais ou para menos.
-          </p>
+          <div className="bg-zinc-900/30 p-8 border border-zinc-900/50 space-y-4">
+             <h3 className="text-xs font-black uppercase tracking-[0.3em] text-red-800">RECOMENDAÇÃO ARCANE</h3>
+             <ul className="text-[10px] md:text-xs uppercase tracking-widest space-y-4 text-zinc-400">
+               <li className="flex items-center gap-3">
+                 <span className="text-red-800">✔</span>
+                 <span>Modelagem de compressão.</span>
+               </li>
+               <li className="flex items-center gap-3">
+                 <span className="text-red-800">✔</span>
+                 <span>Se usa M normalmente, escolha M.</span>
+               </li>
+               <li className="flex items-center gap-3">
+                 <span className="text-red-800">✔</span>
+                 <span>Para um caimento menos justo, escolha um tamanho acima.</span>
+               </li>
+             </ul>
+          </div>
         </div>
       </main>
 
