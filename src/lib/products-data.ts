@@ -31,7 +31,7 @@ export const mockProducts: Product[] = [
   },
   { 
     id: 1, 
-    name: "Ⅱ — THE CRUCIFIXE", 
+    name: "Ⅱ — THE CRUCIBLE", 
     subtitle: "Elite Compression",
     price: "R$ 179,90", 
     priceNumber: 179.90, 
@@ -40,7 +40,7 @@ export const mockProducts: Product[] = [
     backImage: "/images/products/ivory_back.png",
     category: "Forged Compression",
     colorLabel: "Bone White / Obsidian",
-    description: "O Crucifixe é o símbolo do sacrifício final. Esta peça representa a transformação através da dor. Nada sai do fogo igual entrou. Alguns fogem do fogo. Outros são forjados por ele. O Crucifixe representa aqueles que aceitaram pagar o preço da evolução. A disciplina não é confortável. Ela queima. Ela molda. Ela permanece."
+    description: "O Crisol (Crucible) é o recipiente onde o metal é submetido ao fogo para ser purificado. Esta peça representa a transformação através da dor. Nada sai do fogo igual entrou. Alguns fogem do fogo. Outros são forjados por ele. O Crucible representa aqueles que aceitaram pagar o preço da evolução. A disciplina não é confortável. Ela queima. Ela molda. Ela permanece."
   },
   { 
     id: 2, 
@@ -69,7 +69,7 @@ export const mockBundle: Product = {
   isCombo: true,
   comboItems: [
     { name: "SHADOW CREED", price: 166.63 },
-    { name: "THE CRUCIFIXE", price: 166.63 },
+    { name: "THE CRUCIBLE", price: 166.63 },
     { name: "BLOOD OATH", price: 166.64 }
   ]
 };
