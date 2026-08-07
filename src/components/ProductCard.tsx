@@ -129,8 +129,8 @@ export function ProductCard({ product }: ProductCardProps) {
             {[0, 1].map((idx) => (
               <div
                 key={idx}
-                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                  currentImageIndex === idx ? 'bg-red-800 scale-150' : 'bg-white/40'
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  currentImageIndex === idx ? 'bg-red-800 scale-150 shadow-[0_0_10px_rgba(153,27,27,0.8)]' : 'bg-white/60'
                 }`}
               />
             ))}
