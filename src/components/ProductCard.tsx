@@ -20,7 +20,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) {
+        if (entries[0] && entries[0].isIntersecting) {
           setTimeout(() => {
             setCurrentImageIndex(1);
             setTimeout(() => {
@@ -48,7 +48,8 @@ export function ProductCard({ product }: ProductCardProps) {
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (touchStartX.current === null || !product.backImage) return;
     
-    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndX = e.changedTouches[0]?.clientX;
+    if (touchEndX === undefined) return;
     const diff = touchStartX.current - touchEndX;
     const threshold = 50;
 
