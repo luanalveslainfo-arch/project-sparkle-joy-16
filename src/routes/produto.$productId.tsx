@@ -347,6 +347,16 @@ function ProductDetail() {
               <Accordion title="Descrição da Peça">
                 Concebida para a elite. Tecido de alta compressão que esculpe o corpo enquanto permite máxima mobilidade. Estampa gótica exclusiva em serigrafia de alta densidade. Durabilidade extrema para treinos intensos.
               </Accordion>
+              <Accordion title="Especificações Técnicas">
+                <div className="space-y-2">
+                  <p>• Tecido Dry Fit Premium</p>
+                  <p>• Compressão Atlética</p>
+                  <p>• Estampa Sublimada</p>
+                  <p>• Alta Elasticidade</p>
+                  <p>• Respirável</p>
+                  <p>• Secagem Rápida</p>
+                </div>
+              </Accordion>
               <Accordion title="Tabela de Medidas">
                 "Nossas peças possuem modelagem OVERSIZED e de COMPRESSÃO intencionais. Para o caimento perfeito, escolha seu tamanho habitual. Se busca um visual ainda mais amplo, opte por um tamanho acima."
                 <div className="mt-4">
