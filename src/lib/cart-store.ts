@@ -52,7 +52,7 @@ const FREE_SHIPPING_THRESHOLD = 299;
 const parsePrice = (val: any): number => {
   if (typeof val === 'number') return val;
   if (!val) return 0;
-  // Rigorous cleaning for "R$ 179,90" or "1.200,00"
+  // Rigorous cleaning for "R$ 149,90" or "1.200,00"
   const cleanStr = String(val).replace(/[R$\s.]/g, '').replace(',', '.');
   return Number(cleanStr) || 0;
 };
