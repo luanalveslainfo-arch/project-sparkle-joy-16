@@ -1,8 +1,6 @@
 // src/lib/cartpanda.ts
 
-export const CARTPANDA_DOMAIN = "arcanestore.mycartpanda.com";
-
-export type ProductSlug = "shadow-creed" | "blood-oath" | "the-crucible";
+export type ProductSlug = "the-crucible" | "blood-oath" | "shadow-creed";
 export type ProductSize = "P" | "M" | "G" | "GG" | "XGG";
 
 export interface CartItemToCheckout {
@@ -11,42 +9,50 @@ export interface CartItemToCheckout {
   quantity: number;
 }
 
-// Mapeamento explícito das variantes da CartPanda
-export const CARTPANDA_VARIANTS: Record<string, Record<string, number>> = {
-  "shadow-creed": {
-    P: 211974837,
-    M: 211974842,
-    G: 211974841,
-    GG: 211974843,
-    XGG: 211974840,
+// Mapa Oficial de Checkout Links da Arcane Store (CartPanda Link Bundler)
+export const CARTPANDA_LINKS: Record<ProductSlug, Record<ProductSize, string>> = {
+  "the-crucible": {
+    P: "https://arcanestore.mycartpanda.com/ckt/JDYAVj",
+    M: "https://arcanestore.mycartpanda.com/ckt/P9Aen3",
+    G: "https://arcanestore.mycartpanda.com/ckt/rrbvOJ",
+    GG: "https://arcanestore.mycartpanda.com/ckt/NwPD24",
+    XGG: "https://arcanestore.mycartpanda.com/ckt/yrPxA7",
   },
   "blood-oath": {
-    P: 211974834,
-    M: 211974835,
-    G: 211974836,
-    GG: 211974838,
-    XGG: 211974839,
+    P: "https://arcanestore.mycartpanda.com/ckt/mrJ6D3",
+    M: "https://arcanestore.mycartpanda.com/ckt/9Qd79d",
+    G: "https://arcanestore.mycartpanda.com/ckt/nr45vY",
+    GG: "https://arcanestore.mycartpanda.com/ckt/e6ZmBO",
+    XGG: "https://arcanestore.mycartpanda.com/ckt/RVDLe7",
   },
-  "the-crucible": {
-    P: 211974829,
-    M: 211974830,
-    G: 211974831,
-    GG: 211974832,
-    XGG: 211974833,
+  "shadow-creed": {
+    P: "https://arcanestore.mycartpanda.com/ckt/K6wnzo",
+    M: "https://arcanestore.mycartpanda.com/ckt/WeWBJL",
+    G: "https://arcanestore.mycartpanda.com/ckt/QnGqe7",
+    GG: "https://arcanestore.mycartpanda.com/ckt/jrVwxn",
+    XGG: "https://arcanestore.mycartpanda.com/ckt/gYkgLQ",
   },
 };
 
-// Normalizador de slug caso venha com nomes como "DROP 001 | THE CRUCIBLE"
-export function normalizeProductSlug(nameOrSlug: string): string {
+// Normalizador de estampa/produto
+export function normalizeProductSlug(nameOrSlug: string): ProductSlug {
   const lower = nameOrSlug.toLowerCase();
-  if (lower.includes("shadow")) return "shadow-creed";
   if (lower.includes("blood")) return "blood-oath";
-  if (lower.includes("crucible")) return "the-crucible";
-  return lower;
+  if (lower.includes("shadow")) return "shadow-creed";
+  return "the-crucible";
+}
+
+// Normalizador de tamanho
+export function normalizeProductSize(size: string): ProductSize {
+  const upper = (size || "M").toUpperCase().trim();
+  if (upper === "P" || upper === "M" || upper === "G" || upper === "GG" || upper === "XGG") {
+    return upper as ProductSize;
+  }
+  return "M";
 }
 
 /**
- * Constrói a URL do checkout da CartPanda a partir dos itens do carrinho
+ * Retorna o link de checkout correto para o produto e aplica o cupom se existir
  */
 export function buildCartpandaCheckoutUrl(
   items: CartItemToCheckout[],
@@ -56,37 +62,22 @@ export function buildCartpandaCheckoutUrl(
     return null;
   }
 
-  const permalinkItems: string[] = [];
+  // Pega o item principal do carrinho
+  const primaryItem = items[0];
+  const slug = normalizeProductSlug(primaryItem.slug);
+  const size = normalizeProductSize(primaryItem.size);
 
-  for (const item of items) {
-    const slug = normalizeProductSlug(item.slug);
-    const size = item.size.toUpperCase().trim();
-    
-    const productVariants = CARTPANDA_VARIANTS[slug];
-    if (!productVariants) {
-      console.error(`[CartPanda] Produto não encontrado: ${item.slug} (${slug})`);
-      continue;
-    }
+  let targetUrl = CARTPANDA_LINKS[slug]?.[size];
 
-    const variantId = productVariants[size];
-    if (!variantId) {
-      console.error(`[CartPanda] Tamanho ${size} inválido para ${slug}`);
-      continue;
-    }
-
-    const quantity = Math.max(1, item.quantity || 1);
-    permalinkItems.push(`${variantId}:${quantity}`);
+  if (!targetUrl) {
+    // Fallback de segurança para Crucible M
+    targetUrl = CARTPANDA_LINKS["the-crucible"]["M"];
   }
 
-  if (permalinkItems.length === 0) {
-    return null;
-  }
-
-  let url = `https://${CARTPANDA_DOMAIN}/cart/${permalinkItems.join(",")}`;
-
+  // Anexa cupom de desconto se houver
   if (couponCode && couponCode.trim() !== "") {
-    url += `?coupon=${encodeURIComponent(couponCode.trim())}`;
+    targetUrl += `?coupon=${encodeURIComponent(couponCode.trim())}`;
   }
 
-  return url;
+  return targetUrl;
 }
