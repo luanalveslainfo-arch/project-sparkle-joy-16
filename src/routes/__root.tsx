@@ -15,7 +15,7 @@ import { useCartStore } from "@/lib/cart-store";
 import { Toaster, toast as sonnerToast } from "sonner";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { TrustBadges } from "@/components/TrustBadges";
-
+import { buildCartpandaCheckoutUrl } from "@/lib/cartpanda";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -47,10 +47,8 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   const router = useRouter();
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
-    // Log error to console for quick detection
     console.error("[ARCANE_RUNTIME_ERROR]", error);
   }, [error]);
-
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -153,22 +151,33 @@ function GlobalCartDrawer() {
     return acc + (price * item.quantity);
   }, 0);
   
-  // totalDiscountValue is 10% of the UN-DISCOUNTED subtotal.
-  // If currentCartSubtotal is already discounted by 10%, then currentCartSubtotal = 0.9 * Undiscounted.
-  // Undiscounted = currentCartSubtotal / 0.9.
-  // Discount = Undiscounted * 0.1 = currentCartSubtotal * (0.1 / 0.9) = currentCartSubtotal * 0.1111...
-  
   const totalDiscountValue = cartItemsCount >= 2 ? currentCartSubtotal * (0.1 / 0.9) : 0;
   const subtotalBeforeDiscounts = currentCartSubtotal + totalDiscountValue;
-  
-  
-  
   
   const [couponInput, setCouponInput] = useState("");
   const [couponStatus, setCouponStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [couponMessage, setCouponMessage] = useState("");
   const [cepError, setCepError] = useState<string | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
+
+  // Função que conecta o clique ao Checkout da Cartpanda
+  const handleCheckout = () => {
+    if (cart.length === 0) return;
+
+    const itemsToCheckout = cart.map(item => ({
+      slug: item.name || item.id,
+      size: item.selectedSize || "M",
+      quantity: item.quantity
+    }));
+
+    const checkoutUrl = buildCartpandaCheckoutUrl(itemsToCheckout, activeCoupon || undefined);
+
+    if (checkoutUrl) {
+      window.location.href = checkoutUrl;
+    } else {
+      sonnerToast.error("Erro ao processar o carrinho. Verifique os itens selecionados.");
+    }
+  };
 
   const handleApplyCoupon = async () => {
     const normalizedCoupon = couponInput.trim().toUpperCase();
@@ -203,7 +212,6 @@ function GlobalCartDrawer() {
       setIsCalculating(true);
       setCepError(null);
       
-      // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 800));
 
       if (cleanCep.startsWith('000')) {
@@ -234,7 +242,7 @@ function GlobalCartDrawer() {
     return () => clearTimeout(timer);
   }, [savedCep, freeShippingProgress]);
 
-  const isCheckoutDisabled = isCalculating || !!cepError || savedShippingCost === null;
+  const isCheckoutDisabled = isCalculating || !!cepError;
 
   return (
     <>
@@ -304,24 +312,21 @@ function GlobalCartDrawer() {
           ) : (
             cart.map((item, idx) => (
               <div key={`${item.id}-${item.selectedSize}-${idx}`} className="flex gap-4 group">
-                {/* Product Image Placeholder */}
                 <div className="w-20 h-24 bg-zinc-950 border border-zinc-900 overflow-hidden rounded-sm flex items-center justify-center">
                   <img src={item.image} alt={item.name} className="w-full h-full object-cover grayscale brightness-75" />
                 </div>
                 
-                {/* Product Info */}
                 <div className="flex-1 flex flex-col justify-between py-1">
-                    <div>
-                      <h3 className="text-xs font-bold text-white uppercase tracking-wider">{item.name}</h3>
-                      {item.selectedSize && (
-                        <p className="text-[10px] text-zinc-400 uppercase tracking-tighter mt-1">
-                          Tamanho: {item.selectedSize}
-                        </p>
-                      )}
-                      <p className="text-xs font-bold text-white mt-1">{item.price}</p>
-                    </div>
+                  <div>
+                    <h3 className="text-xs font-bold text-white uppercase tracking-wider">{item.name}</h3>
+                    {item.selectedSize && (
+                      <p className="text-[10px] text-zinc-400 uppercase tracking-tighter mt-1">
+                        Tamanho: {item.selectedSize}
+                      </p>
+                    )}
+                    <p className="text-xs font-bold text-white mt-1">{item.price}</p>
+                  </div>
                   
-                  {/* Controls */}
                   <div className="flex items-center justify-between mt-2">
                     <div className="flex items-center border border-zinc-800 rounded-sm">
                       <button 
@@ -350,144 +355,145 @@ function GlobalCartDrawer() {
                     </button>
                   </div>
                 </div>
-                </div>
-              ))
-            )}
+              </div>
+            ))
+          )}
             
-            {cart.length > 0 && (
-              <div className="mt-8 pt-8 border-t border-zinc-900 space-y-4">
-                <div className="flex flex-col gap-2">
-                  <label className="text-[10px] text-zinc-500 uppercase tracking-widest">Cálculo de Frete</label>
-                  <div className="flex gap-2 relative">
-                    <input 
-                      type="text"
-                      value={savedCep}
-                      onChange={e => {
-                        const formatted = formatCep(e.target.value);
-                        setSavedCep(formatted);
-                      }}
-                      placeholder="00000-000"
-                      className={`flex-1 bg-transparent border-b ${cepError ? 'border-red-900' : 'border-zinc-800'} text-white text-xs py-2 focus:outline-none focus:border-zinc-500 transition-colors ${isCalculating ? 'opacity-50' : ''}`}
-                      disabled={isCalculating}
-                    />
-                    {isCalculating && (
-                      <div className="absolute right-0 bottom-2">
-                        <div className="w-3 h-3 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
-                      </div>
-                    )}
-                  </div>
-                  {cepError && (
-                    <span className="text-[8px] text-red-900 uppercase font-bold tracking-widest">{cepError}</span>
+          {cart.length > 0 && (
+            <div className="mt-8 pt-8 border-t border-zinc-900 space-y-4">
+              <div className="flex flex-col gap-2">
+                <label className="text-[10px] text-zinc-500 uppercase tracking-widest">Cálculo de Frete</label>
+                <div className="flex gap-2 relative">
+                  <input 
+                    type="text"
+                    value={savedCep}
+                    onChange={e => {
+                      const formatted = formatCep(e.target.value);
+                      setSavedCep(formatted);
+                    }}
+                    placeholder="00000-000"
+                    className={`flex-1 bg-transparent border-b ${cepError ? 'border-red-900' : 'border-zinc-800'} text-white text-xs py-2 focus:outline-none focus:border-zinc-500 transition-colors ${isCalculating ? 'opacity-50' : ''}`}
+                    disabled={isCalculating}
+                  />
+                  {isCalculating && (
+                    <div className="absolute right-0 bottom-2">
+                      <div className="w-3 h-3 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+                    </div>
                   )}
                 </div>
-                
-                {savedShippingCost !== null && !cepError && !isCalculating && (
-                  <div className="bg-zinc-900/50 p-3 rounded border border-zinc-800/50 flex flex-col gap-1">
-                    <div className="flex justify-between items-center text-[10px] uppercase tracking-widest text-zinc-400">
-                      <span>Frete ({savedCep})</span>
-                      <span className={savedShippingCost === 0 ? "text-[#8B0000] font-bold" : "text-white"}>
+                {cepError && (
+                  <span className="text-[8px] text-red-900 uppercase font-bold tracking-widest">{cepError}</span>
+                )}
+              </div>
+              
+              {savedShippingCost !== null && !cepError && !isCalculating && (
+                <div className="bg-zinc-900/50 p-3 rounded border border-zinc-800/50 flex flex-col gap-1">
+                  <div className="flex justify-between items-center text-[10px] uppercase tracking-widest text-zinc-400">
+                    <span>Frete ({savedCep})</span>
+                    <span className={savedShippingCost === 0 ? "text-[#8B0000] font-bold" : "text-white"}>
+                      {savedShippingCost === 0 ? 'GRÁTIS' : savedShippingCost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </span>
+                  </div>
+                  <p className="text-[8px] text-zinc-600 uppercase tracking-tighter leading-none italic">
+                    {savedShippingCost === 0 
+                      ? "CONDIÇÃO ESPECIAL: VALOR DE CARRINHO SUPERIOR A R$ 299,00" 
+                      : "ENTREGA ESTIMADA EM ATÉ 5 DIAS ÚTEIS APÓS A POSTAGEM"}
+                  </p>
+                </div>
+              )}
+
+              <div data-testid="cart-coupon-summary" className="pt-5 border-t border-zinc-900 space-y-5 scroll-mb-4">
+                <div>
+                  <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3">
+                    <input
+                      type="text"
+                      value={couponInput}
+                      onChange={(event) => {
+                        setCouponInput(event.target.value);
+                        if (couponStatus !== "idle") {
+                          setCouponStatus("idle");
+                          setCouponMessage("");
+                        }
+                      }}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter") void handleApplyCoupon();
+                      }}
+                      placeholder="CUPOM"
+                      aria-label="Cupom de desconto"
+                      className="min-w-0 w-full bg-transparent border-b border-zinc-800 text-white text-xs py-2 uppercase tracking-widest focus:outline-none focus:border-zinc-500 transition-colors"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => void handleApplyCoupon()}
+                      disabled={!couponInput.trim() || couponStatus === "loading"}
+                      className="shrink-0 min-w-16 text-[10px] font-bold uppercase tracking-widest text-zinc-400 hover:text-white disabled:opacity-40 transition-colors py-2"
+                    >
+                      {couponStatus === "loading" ? "..." : "APLICAR"}
+                    </button>
+                  </div>
+                  <p
+                    role="status"
+                    aria-live="polite"
+                    className={`mt-2 min-h-4 text-[8px] font-bold uppercase tracking-widest ${couponStatus === "success" ? "text-emerald-500" : couponStatus === "error" ? "text-red-600" : "text-zinc-600"}`}
+                  >
+                    {couponMessage}
+                  </p>
+                </div>
+
+                <div data-testid="cart-order-summary" className="space-y-3 bg-zinc-900/30 p-4 rounded-sm border border-zinc-900">
+                  <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-zinc-500">
+                    <span>Subtotal</span>
+                    <span>{subtotalBeforeDiscounts.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+                  </div>
+                  {cartItemsCount >= 2 && (
+                    <div className="flex items-center justify-between gap-3 text-[10px] uppercase tracking-widest text-red-600 font-bold">
+                      <span className="min-w-0">Bônus Progressivo (2+ Itens: -10%)</span>
+                      <span className="shrink-0">-{totalDiscountValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+                    </div>
+                  )}
+                  {activeCoupon && (
+                    <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-red-600 font-bold">
+                      <span>Cupom {activeCoupon}</span>
+                      <span>-{(subtotalBeforeDiscounts * discountValue).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+                    </div>
+                  )}
+                  {savedShippingCost !== null && (
+                    <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-zinc-500">
+                      <span>Frete Estimado</span>
+                      <span className={savedShippingCost === 0 ? "text-red-700 font-bold" : ""}>
                         {savedShippingCost === 0 ? 'GRÁTIS' : savedShippingCost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                       </span>
                     </div>
-                    <p className="text-[8px] text-zinc-600 uppercase tracking-tighter leading-none italic">
-                      {savedShippingCost === 0 
-                        ? "CONDIÇÃO ESPECIAL: VALOR DE CARRINHO SUPERIOR A R$ 299,00" 
-                        : "ENTREGA ESTIMADA EM ATÉ 5 DIAS ÚTEIS APÓS A POSTAGEM"}
-                    </p>
-                  </div>
-                )}
-
-                <div data-testid="cart-coupon-summary" className="pt-5 border-t border-zinc-900 space-y-5 scroll-mb-4">
-                  <div>
-                    <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3">
-                      <input
-                        type="text"
-                        value={couponInput}
-                        onChange={(event) => {
-                          setCouponInput(event.target.value);
-                          if (couponStatus !== "idle") {
-                            setCouponStatus("idle");
-                            setCouponMessage("");
-                          }
-                        }}
-                        onKeyDown={(event) => {
-                          if (event.key === "Enter") void handleApplyCoupon();
-                        }}
-                        placeholder="CUPOM"
-                        aria-label="Cupom de desconto"
-                        className="min-w-0 w-full bg-transparent border-b border-zinc-800 text-white text-xs py-2 uppercase tracking-widest focus:outline-none focus:border-zinc-500 transition-colors"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => void handleApplyCoupon()}
-                        disabled={!couponInput.trim() || couponStatus === "loading"}
-                        className="shrink-0 min-w-16 text-[10px] font-bold uppercase tracking-widest text-zinc-400 hover:text-white disabled:opacity-40 transition-colors py-2"
-                      >
-                        {couponStatus === "loading" ? "..." : "APLICAR"}
-                      </button>
-                    </div>
-                    <p
-                      role="status"
-                      aria-live="polite"
-                      className={`mt-2 min-h-4 text-[8px] font-bold uppercase tracking-widest ${couponStatus === "success" ? "text-emerald-500" : couponStatus === "error" ? "text-red-600" : "text-zinc-600"}`}
-                    >
-                      {couponMessage}
-                    </p>
-                  </div>
-
-                  <div data-testid="cart-order-summary" className="space-y-3 bg-zinc-900/30 p-4 rounded-sm border border-zinc-900">
-                    <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-zinc-500">
-                      <span>Subtotal</span>
-                      <span>{subtotalBeforeDiscounts.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
-                    </div>
-                    {cartItemsCount >= 2 && (
-                      <div className="flex items-center justify-between gap-3 text-[10px] uppercase tracking-widest text-red-600 font-bold">
-                        <span className="min-w-0">Bônus Progressivo (2+ Itens: -10%)</span>
-                        <span className="shrink-0">-{totalDiscountValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
-                      </div>
-                    )}
-                    {activeCoupon && (
-                      <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-red-600 font-bold">
-                        <span>Cupom {activeCoupon}</span>
-                        <span>-{(subtotalBeforeDiscounts * discountValue).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
-                      </div>
-                    )}
-                    {savedShippingCost !== null && (
-                      <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-zinc-500">
-                        <span>Frete Estimado</span>
-                        <span className={savedShippingCost === 0 ? "text-red-700 font-bold" : ""}>
-                          {savedShippingCost === 0 ? 'GRÁTIS' : savedShippingCost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </span>
-                      </div>
-                    )}
-                    <div className="pt-3 border-t border-zinc-800 flex items-center justify-between">
-                      <span className="text-xs uppercase tracking-[0.2em] font-bold text-white">Total Final</span>
-                      <span className={`text-lg font-bold ${(activeCoupon || cartItemsCount >= 2) ? 'text-red-700' : 'text-white'}`}>
-                        {(cartTotal + (savedShippingCost || 0)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                      </span>
-                    </div>
-                  </div>
-
-                  {activeCoupon && (
-                    <div className="flex items-center justify-between px-1">
-                      <span className="text-[10px] uppercase tracking-widest text-zinc-500">CUPOM ATIVO: {activeCoupon}</span>
-                      <button onClick={removeCoupon} className="text-[8px] uppercase tracking-widest text-red-900 hover:text-red-700 font-bold">REMOVER</button>
-                    </div>
                   )}
-                  <div className="pt-5 border-t border-zinc-900">
-                    <TrustBadges />
+                  <div className="pt-3 border-t border-zinc-800 flex items-center justify-between">
+                    <span className="text-xs uppercase tracking-[0.2em] font-bold text-white">Total Final</span>
+                    <span className={`text-lg font-bold ${(activeCoupon || cartItemsCount >= 2) ? 'text-red-700' : 'text-white'}`}>
+                      {(cartTotal + (savedShippingCost || 0)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </span>
                   </div>
                 </div>
+
+                {activeCoupon && (
+                  <div className="flex items-center justify-between px-1">
+                    <span className="text-[10px] uppercase tracking-widest text-zinc-500">CUPOM ATIVO: {activeCoupon}</span>
+                    <button onClick={removeCoupon} className="text-[8px] uppercase tracking-widest text-red-900 hover:text-red-700 font-bold">REMOVER</button>
+                  </div>
+                )}
+                <div className="pt-5 border-t border-zinc-900">
+                  <TrustBadges />
+                </div>
               </div>
-            )}
+            </div>
+          )}
         </div>
 
-        {/* CTA remains outside the scroll area, so it never covers order content. */}
+        {/* Botão Finalizar Compra com o redirecionamento para o Cartpanda */}
         {cart.length > 0 && (
           <div data-testid="cart-checkout-footer" className="shrink-0 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] border-t border-zinc-900 bg-zinc-950 shadow-[0_-8px_24px_rgba(0,0,0,0.35)]">
             <button 
+              onClick={handleCheckout}
               disabled={isCheckoutDisabled}
-              className={`w-full ${isCheckoutDisabled ? 'bg-zinc-800 text-zinc-500 grayscale cursor-not-allowed' : 'bg-white text-black hover:bg-zinc-200'} transition-all duration-300 py-4 font-bold tracking-[0.2em] text-xs uppercase shadow-lg`}
+              className={`w-full ${isCheckoutDisabled ? 'bg-zinc-800 text-zinc-500 grayscale cursor-not-allowed' : 'bg-white text-black hover:bg-zinc-200 cursor-pointer'} transition-all duration-300 py-4 font-bold tracking-[0.2em] text-xs uppercase shadow-lg`}
             >
               {isCalculating ? 'CALCULANDO...' : 'FINALIZAR COMPRA'}
             </button>
@@ -509,8 +515,7 @@ function RootComponent() {
   const { cart, setIsCartOpen } = useCartStore();
   const prefersReducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
 
-
-  // Task 1: Intelligent Header/Top Bar behavior
+  // Intelligent Header/Top Bar behavior
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -518,10 +523,8 @@ function RootComponent() {
       if (currentScrollY < 50) {
         setShowTopBar(true);
       } else if (currentScrollY > lastScrollY.current) {
-        // Scrolling down
         setShowTopBar(false);
       } else {
-        // Scrolling up
         setShowTopBar(true);
       }
       
@@ -532,12 +535,12 @@ function RootComponent() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Task 4: Scroll restoration fix using useLocation and window.scrollTo
+  // Scroll restoration fix
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  // Lock body scroll when mobile menu is open for a focused, accessible drawer experience
+  // Lock body scroll when mobile menu is open
   useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -549,7 +552,7 @@ function RootComponent() {
     };
   }, [isMenuOpen]);
 
-  // Welcome Modal Logic - Show after 6s on Home page only, once per session
+  // Welcome Modal Logic
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
     const hasSeenModal = sessionStorage.getItem('arcane_modal_seen');
@@ -669,9 +672,7 @@ function RootComponent() {
           </div>
         </header>
 
-        {/* Padding to prevent content under fixed header */}
         <div className="h-24 md:h-28" />
-
 
         {/* Mobile Menu Overlay */}
         <div 
@@ -717,7 +718,6 @@ function RootComponent() {
               >
                 DROP 001
               </Link>
-
               <Link 
                 to="/manifesto" 
                 onClick={() => setIsMenuOpen(false)}
@@ -736,18 +736,18 @@ function RootComponent() {
               </a>
               <button 
                 onClick={() => {
-                    setIsMenuOpen(false);
-                    setIsCartOpen(true);
-                  }}
-                  className="py-6 text-sm font-bold text-left uppercase tracking-[0.4em] text-white hover:text-red-800 border-b border-zinc-900 transition-colors"
-                >
-                  Carrinho
-                </button>
-              </nav>
+                  setIsMenuOpen(false);
+                  setIsCartOpen(true);
+                }}
+                className="py-6 text-sm font-bold text-left uppercase tracking-[0.4em] text-white hover:text-red-800 border-b border-zinc-900 transition-colors"
+              >
+                Carrinho
+              </button>
+            </nav>
 
-              <div className="mt-auto">
-                <p className="text-[10px] uppercase tracking-widest text-zinc-600">Arcane • Memento Mori</p>
-              </div>
+            <div className="mt-auto">
+              <p className="text-[10px] uppercase tracking-widest text-zinc-600">Arcane • Memento Mori</p>
+            </div>
           </div>
         </div>
 
