@@ -21,7 +21,7 @@ export const mockProducts: Product[] = [
     name: "Ⅰ — SHADOW CREED", 
     subtitle: "Elite Compression",
     price: "R$ 149,90", 
-    priceNumber: 149,90, 
+    priceNumber: 149.90, 
     installments: "12x de R$ 12,49", 
     image: "/images/products/ivory_front.png",
     backImage: "/images/products/ivory_back.png",
@@ -34,7 +34,7 @@ export const mockProducts: Product[] = [
     name: "Ⅱ — BLOOD OATH", 
     subtitle: "Elite Compression",
     price: "R$ 149,90", 
-    priceNumber: 149,90, 
+    priceNumber: 149.90, 
     installments: "12x de R$ 12,49", 
     image: "/images/products/obsidian_front.png",
     backImage: "/images/products/obsidian_back.png",
@@ -47,7 +47,7 @@ export const mockProducts: Product[] = [
     name: "Ⅲ — THE CRUCIBLE", 
     subtitle: "Elite Compression",
     price: "R$ 149,90", 
-    priceNumber: 149,90, 
+    priceNumber: 149.90, 
     installments: "12x de R$ 12,49", 
     image: "/images/products/crimson_front.png",
     backImage: "/images/products/crimson_back.png",
@@ -60,16 +60,16 @@ export const mockProducts: Product[] = [
 export const mockBundle: Product = {
   id: 999,
   name: "THE FORGED SET",
-  price: "R$ 499,90",
-  priceNumber: 499.90,
+  price: "R$ 449,90",
+  priceNumber: 449.90,
   originalPrice: "R$ 539,70",
-  installments: "12x de R$ 41,66",
+  installments: "12x de R$ 37,49",
   image: "/images/products/crimson_front.png",
   category: "Elite Bundle",
   isCombo: true,
   comboItems: [
-    { name: "SHADOW CREED", price: 166.63 },
-    { name: "BLOOD OATH", price: 166.63 },
-    { name: "THE CRUCIBLE", price: 166.64 }
+    { name: "SHADOW CREED", price: 149.90 },
+    { name: "BLOOD OATH", price: 149.90 },
+    { name: "THE CRUCIBLE", price: 149.90 }
   ]
 };
