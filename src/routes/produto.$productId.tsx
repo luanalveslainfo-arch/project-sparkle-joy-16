@@ -113,7 +113,7 @@ function ProductDetail() {
       // The user asked to show two pieces separate in the drawer.
       // To ensure the combo price (R$ 299,90), we'll add them with a custom price property.
       
-      const comboUnitPrice = 149.95; // 299.90 / 2
+      const comboUnitPrice = 149.90; // 299.90 / 2
       
       addToCart({ ...product, price: "R$ 149.90", priceNumber: 149.90, name: `${product.name} (PEÇA 1)` }, selectedSize || undefined, 1);
       addToCart({ ...product2, price: "R$ 149.90", priceNumber: 149.90, name: `${product2.name} (PEÇA 2)` }, selectedSize2 || undefined, 1);
